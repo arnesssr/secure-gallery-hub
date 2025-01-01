@@ -4,9 +4,9 @@ import { ChevronDown } from "lucide-react";
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = [
-    "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-    "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-    "https://images.unsplash.com/photo-1518770660439-4636190af475",
+    "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80", // Professional photography setup
+    "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80", // Artistic camera shot
+    "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80", // Professional camera gear
   ];
 
   useEffect(() => {
@@ -29,11 +29,13 @@ const Hero = () => {
       {images.map((image, index) => (
         <div
           key={image}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentImageIndex ? "opacity-100" : "opacity-0"
+          className={`absolute inset-0 transition-all duration-1000 transform ${
+            index === currentImageIndex 
+              ? "opacity-100 scale-100" 
+              : "opacity-0 scale-105"
           }`}
         >
-          <div className="absolute inset-0 bg-charcoal/50" />
+          <div className="absolute inset-0 bg-gradient-to-b from-charcoal/70 to-charcoal/40" />
           <img
             src={image}
             alt={`Hero ${index + 1}`}
@@ -42,15 +44,15 @@ const Hero = () => {
         </div>
       ))}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-        <h1 className="text-4xl md:text-6xl font-playfair text-offwhite mb-6 animate-fadeIn">
+        <h1 className="text-5xl md:text-7xl font-playfair text-offwhite mb-6 animate-fadeIn">
           Capturing Moments
         </h1>
-        <p className="text-xl md:text-2xl text-offwhite/90 font-roboto max-w-2xl mb-8 animate-fadeIn">
+        <p className="text-xl md:text-2xl text-offwhite/90 font-roboto max-w-2xl mb-8 animate-fadeIn delay-200">
           Professional photography services that tell your story
         </p>
         <button
           onClick={scrollToGallery}
-          className="text-offwhite hover:text-gold transition-colors duration-200 animate-fadeIn"
+          className="text-offwhite hover:text-gold transition-colors duration-300 animate-fadeIn delay-300"
         >
           <ChevronDown className="h-8 w-8 animate-bounce" />
         </button>
