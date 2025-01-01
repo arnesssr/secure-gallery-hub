@@ -1,8 +1,11 @@
-import { Menu } from "lucide-react";
+import { Menu, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useTheme } from "@/components/theme-provider";
 
 const Navbar = () => {
+  const { theme, setTheme } = useTheme();
+  
   const navItems = [
     { name: "Home", href: "/" },
     { name: "Gallery", href: "#gallery" },
@@ -11,14 +14,13 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed w-full bg-charcoal/90 backdrop-blur-sm z-50">
+    <nav className="fixed w-full bg-charcoal/90 dark:bg-charcoal backdrop-blur-sm z-50 transition-colors duration-300">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <a href="/" className="text-2xl font-playfair text-offwhite">
             Washikadau
           </a>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
               <a
@@ -29,9 +31,16 @@ const Navbar = () => {
                 {item.name}
               </a>
             ))}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="text-offwhite hover:text-gold"
+            >
+              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
           </div>
 
-          {/* Mobile Navigation */}
           <Sheet>
             <SheetTrigger asChild className="md:hidden">
               <Button variant="ghost" size="icon" className="text-offwhite">
@@ -49,6 +58,14 @@ const Navbar = () => {
                     {item.name}
                   </a>
                 ))}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  className="text-offwhite hover:text-gold w-fit"
+                >
+                  {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                </Button>
               </div>
             </SheetContent>
           </Sheet>

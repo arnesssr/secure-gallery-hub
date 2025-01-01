@@ -4,9 +4,9 @@ import { ChevronDown } from "lucide-react";
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = [
-    "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80", // Professional photography setup
-    "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80", // Artistic camera shot
-    "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80", // Professional camera gear
+    "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80",
+    "https://images.unsplash.com/photo-1598653222000-6b7b7a552625?q=80",
+    "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80",
   ];
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Hero = () => {
               : "opacity-0 scale-105"
           }`}
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-charcoal/70 to-charcoal/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-charcoal/70 to-charcoal/40 dark:from-charcoal/80 dark:to-charcoal/50" />
           <img
             src={image}
             alt={`Hero ${index + 1}`}
@@ -48,7 +48,7 @@ const Hero = () => {
           Capturing Moments
         </h1>
         <p className="text-xl md:text-2xl text-offwhite/90 font-roboto max-w-2xl mb-8 animate-fadeIn delay-200">
-          Professional photography services that tell your story
+          Professional multimedia services for all your needs
         </p>
         <button
           onClick={scrollToGallery}
