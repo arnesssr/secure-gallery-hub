@@ -38,6 +38,13 @@ const Gallery = () => {
       link: "/video-services",
       action: "Get Started"
     },
+    {
+      url: "https://images.unsplash.com/photo-1589903308904-1010c2294adc?q=80",
+      title: "Equipment Sales",
+      description: "Professional photography and audio equipment",
+      link: "/equipment-sales",
+      action: "Shop Now"
+    }
   ];
 
   const photographyTypes = [
