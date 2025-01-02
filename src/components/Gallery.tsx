@@ -15,19 +15,36 @@ const Gallery = () => {
       url: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80",
       title: "Professional Photography",
       description: "Events, portraits, and commercial photography",
-      link: "/photography-services"
+      link: "/photography-services",
+      action: "Learn More"
     },
     {
       url: "https://images.unsplash.com/photo-1598653222000-6b7b7a552625?q=80",
       title: "Stereo Systems Rental",
       description: "High-end audio equipment for events",
-      link: "/sound-services"
+      link: "/sound-services",
+      action: "Rent Now"
     },
     {
       url: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80",
       title: "Sound Engineering",
       description: "Professional sound mixing and setup",
-      link: "/sound-services"
+      link: "/sound-services",
+      action: "Book Now"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80",
+      title: "Photography School",
+      description: "Learn from professional photographers",
+      link: "/photography-services",
+      action: "Join Now"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80",
+      title: "Video Editing",
+      description: "Professional video editing services",
+      link: "/video-services",
+      action: "Get Started"
     },
   ];
 
@@ -44,6 +61,20 @@ const Gallery = () => {
       url: "https://images.unsplash.com/photo-1604881988758-f76ad2f7aac1",
       title: "Tech Corp Event",
       description: "February 2024 - 300 photos",
+      password: "demo123"
+    },
+    {
+      id: "portrait-2024",
+      url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
+      title: "Portrait Collection",
+      description: "January 2024 - 200 photos",
+      password: "demo123"
+    },
+    {
+      id: "fashion-2024",
+      url: "https://images.unsplash.com/photo-1469334031218-e382a71b716b",
+      title: "Fashion Photoshoot",
+      description: "March 2024 - 150 photos",
       password: "demo123"
     },
   ];
@@ -87,9 +118,12 @@ const Gallery = () => {
                 <span className="text-xl text-offwhite font-playfair tracking-wider mb-2">
                   {service.title}
                 </span>
-                <p className="text-sm text-offwhite/90 font-roboto">
+                <p className="text-sm text-offwhite/90 font-roboto mb-4">
                   {service.description}
                 </p>
+                <Button variant="outline" className="bg-gold hover:bg-gold/80 text-charcoal border-none">
+                  {service.action}
+                </Button>
               </div>
             </Link>
           ))}
