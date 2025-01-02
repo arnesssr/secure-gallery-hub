@@ -1,15 +1,7 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Lock } from "lucide-react";
 
 const Gallery = () => {
-  const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [password, setPassword] = useState("");
-
   const services = [
     {
       url: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80",
@@ -48,53 +40,56 @@ const Gallery = () => {
     },
   ];
 
-  const collections = [
+  const photographyTypes = [
     {
-      id: "wedding-2024",
       url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc",
-      title: "Smith Wedding Collection",
-      description: "March 2024 - 500 photos",
-      password: "demo123"
+      title: "Wedding Photography",
+      description: "Capturing your special moments",
+      category: "wedding"
     },
     {
-      id: "corporate-2024",
       url: "https://images.unsplash.com/photo-1604881988758-f76ad2f7aac1",
-      title: "Tech Corp Event",
-      description: "February 2024 - 300 photos",
-      password: "demo123"
+      title: "Corporate Events",
+      description: "Professional business photography",
+      category: "corporate"
     },
     {
-      id: "portrait-2024",
       url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-      title: "Portrait Collection",
-      description: "January 2024 - 200 photos",
-      password: "demo123"
+      title: "Portrait Photography",
+      description: "Professional portraits and headshots",
+      category: "portrait"
     },
     {
-      id: "fashion-2024",
       url: "https://images.unsplash.com/photo-1469334031218-e382a71b716b",
-      title: "Fashion Photoshoot",
-      description: "March 2024 - 150 photos",
-      password: "demo123"
+      title: "Fashion Photography",
+      description: "Fashion and model photography",
+      category: "fashion"
     },
-  ];
-
-  const handleCollectionClick = (collectionId: string) => {
-    setSelectedCollection(collectionId);
-    setIsDialogOpen(true);
-  };
-
-  const handlePasswordSubmit = () => {
-    const collection = collections.find(c => c.id === selectedCollection);
-    if (collection?.password === password) {
-      // Here you would typically redirect to the full collection
-      alert("Access granted! Redirecting to collection...");
-      setIsDialogOpen(false);
-      setPassword("");
-    } else {
-      alert("Incorrect password");
+    {
+      url: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e",
+      title: "Product Photography",
+      description: "Showcase your products professionally",
+      category: "product"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1551632436-cbf8dd35adfa",
+      title: "Food Photography",
+      description: "Appetizing food photography",
+      category: "food"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1518998053901-5348d3961a04",
+      title: "Sports Photography",
+      description: "Action-packed sports moments",
+      category: "sports"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99",
+      title: "Landscape Photography",
+      description: "Breathtaking landscape shots",
+      category: "landscape"
     }
-  };
+  ];
 
   return (
     <section id="gallery" className="py-20 bg-offwhite dark:bg-charcoal transition-colors duration-300">
@@ -130,53 +125,31 @@ const Gallery = () => {
         </div>
 
         <h2 className="text-3xl md:text-4xl font-playfair text-charcoal dark:text-offwhite text-center mt-20 mb-12">
-          Client Collections
+          Photography Portfolio
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-          {collections.map((collection) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {photographyTypes.map((type, index) => (
             <div
-              key={collection.id}
-              onClick={() => handleCollectionClick(collection.id)}
-              className="relative group overflow-hidden rounded-lg aspect-video cursor-pointer transform transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
+              key={index}
+              className="relative group overflow-hidden rounded-lg aspect-square cursor-pointer transform transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
             >
               <img
-                src={collection.url}
-                alt={collection.title}
+                src={type.url}
+                alt={type.title}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent opacity-100 flex flex-col items-center justify-end pb-8 px-4 text-center">
-                <Lock className="w-6 h-6 text-gold mb-2" />
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-end pb-8 px-4 text-center">
                 <span className="text-xl text-offwhite font-playfair tracking-wider mb-2">
-                  {collection.title}
+                  {type.title}
                 </span>
                 <p className="text-sm text-offwhite/90 font-roboto">
-                  {collection.description}
+                  {type.description}
                 </p>
               </div>
             </div>
           ))}
         </div>
       </div>
-
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Protected Collection</DialogTitle>
-            <DialogDescription>
-              Please enter the password to view this collection
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex flex-col gap-4">
-            <Input
-              type="password"
-              placeholder="Enter collection password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Button onClick={handlePasswordSubmit}>Access Collection</Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </section>
   );
 };
