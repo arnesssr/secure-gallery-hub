@@ -13,6 +13,16 @@ const Navbar = () => {
     { name: "Contact", href: "#contact" },
   ];
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const element = document.getElementById(href.substring(1));
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <nav className="fixed w-full bg-charcoal/90 dark:bg-charcoal backdrop-blur-sm z-50 transition-colors duration-300">
       <div className="container mx-auto px-4 py-4">
@@ -26,6 +36,7 @@ const Navbar = () => {
               <a
                 key={item.name}
                 href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
                 className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto"
               >
                 {item.name}
@@ -53,6 +64,7 @@ const Navbar = () => {
                   <a
                     key={item.name}
                     href={item.href}
+                    onClick={(e) => handleNavClick(e, item.href)}
                     className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto text-lg"
                   >
                     {item.name}
