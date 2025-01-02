@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 import Index from "./pages/Index";
+import PhotographyServices from "./pages/photography-services";
+import SoundServices from "./pages/sound-services";
 
 const queryClient = new QueryClient();
 
@@ -15,6 +17,8 @@ const App = () => (
         <TooltipProvider>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/photography-services" element={<PhotographyServices />} />
+            <Route path="/sound-services" element={<SoundServices />} />
           </Routes>
           <Toaster />
           <Sonner />
