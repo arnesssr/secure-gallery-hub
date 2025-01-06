@@ -4,6 +4,7 @@ import { GalleryHorizontal, Lock, Camera, Shield } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import EncryptedGallery from "@/components/EncryptedGallery";
 
 const GalleriesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("general");
@@ -33,17 +34,17 @@ const GalleriesPage = () => {
     {
       title: "Events",
       image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc",
-      link: "/photography-services",
+      link: "/services/events",
     },
     {
       title: "Portraits",
       image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-      link: "/photography-services",
+      link: "/services/portraits",
     },
     {
       title: "Commercial",
       image: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e",
-      link: "/photography-services",
+      link: "/services/commercial",
     },
   ];
 
@@ -51,19 +52,19 @@ const GalleriesPage = () => {
     {
       title: "Wedding Photography",
       image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc",
-      price: "From $1,999",
+      price: "From KES 89,999",
       link: "/services/wedding-photography",
     },
     {
       title: "Portrait Photography",
       image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-      price: "From $299",
+      price: "From KES 29,999",
       link: "/services/portrait-photography",
     },
     {
       title: "Commercial Photography",
       image: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e",
-      price: "From $599",
+      price: "From KES 49,999",
       link: "/services/commercial-photography",
     },
   ];
@@ -96,69 +97,61 @@ const GalleriesPage = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {selectedCategory === "general" &&
-            generalGalleries.map((gallery, index) => (
-              <Link
-                key={index}
-                to={gallery.link}
-                className="group relative overflow-hidden rounded-lg aspect-square"
-              >
-                <img
-                  src={gallery.image}
-                  alt={gallery.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-end p-6">
-                  <h3 className="text-xl text-offwhite font-playfair mb-4">
-                    {gallery.title}
-                  </h3>
-                  <Button variant="outline" className="bg-gold hover:bg-gold/80 text-charcoal border-none">
-                    View Gallery
-                  </Button>
-                </div>
-              </Link>
-            ))}
+        <div className="mt-8">
+          {selectedCategory === "encrypted" && <EncryptedGallery />}
 
-          {selectedCategory === "encrypted" && (
-            <div className="col-span-full flex flex-col items-center justify-center py-12 space-y-4">
-              <Shield className="w-16 h-16 text-gold" />
-              <h3 className="text-2xl font-playfair text-charcoal dark:text-offwhite">
-                Private Galleries
-              </h3>
-              <p className="text-center max-w-md text-charcoal/80 dark:text-offwhite/80">
-                Access to encrypted galleries requires a password. Please contact us
-                to receive access to your private gallery.
-              </p>
-              <Button variant="outline" className="mt-4">
-                Request Access
-              </Button>
+          {selectedCategory === "general" && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {generalGalleries.map((gallery, index) => (
+                <Link
+                  key={index}
+                  to={gallery.link}
+                  className="group relative overflow-hidden rounded-lg aspect-square"
+                >
+                  <img
+                    src={gallery.image}
+                    alt={gallery.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-end p-6">
+                    <h3 className="text-xl text-offwhite font-playfair mb-4">
+                      {gallery.title}
+                    </h3>
+                    <Button variant="outline" className="bg-gold hover:bg-gold/80 text-charcoal border-none">
+                      View Gallery
+                    </Button>
+                  </div>
+                </Link>
+              ))}
             </div>
           )}
 
-          {selectedCategory === "photography" &&
-            photographyTypes.map((type, index) => (
-              <Link
-                key={index}
-                to={type.link}
-                className="group relative overflow-hidden rounded-lg aspect-square"
-              >
-                <img
-                  src={type.image}
-                  alt={type.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-end p-6">
-                  <h3 className="text-xl text-offwhite font-playfair mb-2">
-                    {type.title}
-                  </h3>
-                  <p className="text-gold font-semibold mb-4">{type.price}</p>
-                  <Button variant="outline" className="bg-gold hover:bg-gold/80 text-charcoal border-none">
-                    Learn More
-                  </Button>
-                </div>
-              </Link>
-            ))}
+          {selectedCategory === "photography" && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {photographyTypes.map((type, index) => (
+                <Link
+                  key={index}
+                  to={type.link}
+                  className="group relative overflow-hidden rounded-lg aspect-square"
+                >
+                  <img
+                    src={type.image}
+                    alt={type.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-end p-6">
+                    <h3 className="text-xl text-offwhite font-playfair mb-2">
+                      {type.title}
+                    </h3>
+                    <p className="text-gold font-semibold mb-4">{type.price}</p>
+                    <Button variant="outline" className="bg-gold hover:bg-gold/80 text-charcoal border-none">
+                      Learn More
+                    </Button>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </main>
       <Footer />

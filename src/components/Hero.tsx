@@ -4,9 +4,9 @@ import { ChevronDown } from "lucide-react";
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = [
-    "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80",
-    "https://images.unsplash.com/photo-1598653222000-6b7b7a552625?q=80",
-    "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80",
+    "https://images.unsplash.com/photo-1504893524553-b855bce32c67",
+    "https://images.unsplash.com/photo-1500673922987-e212871fec22",
+    "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
   ];
 
   useEffect(() => {
