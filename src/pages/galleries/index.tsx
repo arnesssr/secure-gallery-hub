@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Gallery, Lock, Camera, Shield } from "lucide-react";
+import { GalleryHorizontal, Lock, Camera, Shield } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,7 @@ const GalleriesPage = () => {
     {
       id: "general",
       title: "General Galleries",
-      icon: <Gallery className="w-6 h-6" />,
+      icon: <GalleryHorizontal className="w-6 h-6" />,
       description: "Browse our collection of public galleries",
     },
     {
