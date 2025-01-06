@@ -8,6 +8,22 @@ import Index from "./pages/Index";
 import PhotographyServices from "./pages/photography-services";
 import SoundServices from "./pages/sound-services";
 import GalleriesPage from "./pages/galleries";
+import PhotographySchool from "./pages/photography-school";
+import VideoServices from "./pages/video-services";
+import EquipmentSales from "./pages/equipment-sales";
+
+// Photography service pages
+import WeddingPhotography from "./pages/services/wedding-photography";
+import CorporatePhotography from "./pages/services/corporate-photography";
+import PortraitPhotography from "./pages/services/portrait-photography";
+import FashionPhotography from "./pages/services/fashion-photography";
+import ProductPhotography from "./pages/services/product-photography";
+import FoodPhotography from "./pages/services/food-photography";
+import SportsPhotography from "./pages/services/sports-photography";
+import LandscapePhotography from "./pages/services/landscape-photography";
+
+// Payment pages
+import PaymentPage from "./pages/services/payment";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +37,22 @@ const App = () => (
             <Route path="/galleries" element={<GalleriesPage />} />
             <Route path="/photography-services" element={<PhotographyServices />} />
             <Route path="/sound-services" element={<SoundServices />} />
+            <Route path="/photography-school" element={<PhotographySchool />} />
+            <Route path="/video-services" element={<VideoServices />} />
+            <Route path="/equipment-sales" element={<EquipmentSales />} />
+            
+            {/* Photography service routes */}
+            <Route path="/services/wedding-photography" element={<WeddingPhotography />} />
+            <Route path="/services/corporate-photography" element={<CorporatePhotography />} />
+            <Route path="/services/portrait-photography" element={<PortraitPhotography />} />
+            <Route path="/services/fashion-photography" element={<FashionPhotography />} />
+            <Route path="/services/product-photography" element={<ProductPhotography />} />
+            <Route path="/services/food-photography" element={<FoodPhotography />} />
+            <Route path="/services/sports-photography" element={<SportsPhotography />} />
+            <Route path="/services/landscape-photography" element={<LandscapePhotography />} />
+            
+            {/* Payment routes */}
+            <Route path="/services/:service/payment" element={<PaymentPage />} />
           </Routes>
           <Toaster />
           <Sonner />

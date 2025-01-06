@@ -32,7 +32,7 @@ const Gallery = () => {
       url: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80",
       title: "Photography School",
       description: "Learn from professional photographers",
-      link: "/photography-services",
+      link: "/photography-school",
       action: "Join Now",
       icon: <School className="w-6 h-6" />
     },
@@ -60,56 +60,64 @@ const Gallery = () => {
       title: "Wedding Photography",
       description: "Capturing your special moments",
       category: "wedding",
-      price: "From $1,999"
+      price: "From KES 199,999",
+      link: "/services/wedding-photography"
     },
     {
       url: "https://images.unsplash.com/photo-1604881988758-f76ad2f7aac1",
       title: "Corporate Events",
       description: "Professional business photography",
       category: "corporate",
-      price: "From $899"
+      price: "From KES 89,999",
+      link: "/services/corporate-photography"
     },
     {
       url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
       title: "Portrait Photography",
       description: "Professional portraits and headshots",
       category: "portrait",
-      price: "From $299"
+      price: "From KES 29,999",
+      link: "/services/portrait-photography"
     },
     {
       url: "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
       title: "Fashion Photography",
       description: "Fashion and model photography",
       category: "fashion",
-      price: "From $599"
+      price: "From KES 59,999",
+      link: "/services/fashion-photography"
     },
     {
       url: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e",
       title: "Product Photography",
       description: "Showcase your products professionally",
       category: "product",
-      price: "From $399"
+      price: "From KES 39,999",
+      link: "/services/product-photography"
     },
     {
       url: "https://images.unsplash.com/photo-1551632436-cbf8dd35adfa",
       title: "Food Photography",
       description: "Appetizing food photography",
       category: "food",
-      price: "From $499"
+      price: "From KES 49,999",
+      link: "/services/food-photography"
     },
     {
       url: "https://images.unsplash.com/photo-1518005020951-eccb494ad742",
       title: "Sports Photography",
       description: "Action-packed sports moments",
       category: "sports",
-      price: "From $699"
+      price: "From KES 69,999",
+      link: "/services/sports-photography"
     },
     {
       url: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99",
       title: "Landscape Photography",
       description: "Breathtaking landscape shots",
       category: "landscape",
-      price: "From $799"
+      price: "From KES 79,999",
+      link: "/services/landscape-photography"
     }
   ];
 
@@ -154,8 +162,9 @@ const Gallery = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {photographyTypes.map((type, index) => (
-            <div
+            <Link
               key={index}
+              to={`${type.link}/payment`}
               className="relative group overflow-hidden rounded-lg aspect-square cursor-pointer transform transition-all duration-500 hover:-translate-y-2 hover:shadow-xl bg-white dark:bg-charcoal/50"
             >
               <img
@@ -177,7 +186,7 @@ const Gallery = () => {
                   Book Now
                 </Button>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
