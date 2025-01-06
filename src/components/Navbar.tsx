@@ -2,13 +2,15 @@ import { Menu, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useTheme } from "@/components/theme-provider";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
+  const location = useLocation();
   
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "Gallery", href: "#gallery" },
+    { name: "Gallery", href: "/galleries" },
     { name: "About", href: "#about" },
     { name: "Contact", href: "#contact" },
   ];
@@ -27,20 +29,30 @@ const Navbar = () => {
     <nav className="fixed w-full bg-charcoal/90 dark:bg-charcoal backdrop-blur-sm z-50 transition-colors duration-300">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <a href="/" className="text-2xl font-playfair text-offwhite">
+          <Link to="/" className="text-2xl font-playfair text-offwhite">
             Washikadau
-          </a>
+          </Link>
 
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
-                className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto"
-              >
-                {item.name}
-              </a>
+              item.href.startsWith('#') && location.pathname === '/' ? (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto"
+                >
+                  {item.name}
+                </a>
+              ) : (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto"
+                >
+                  {item.name}
+                </Link>
+              )
             ))}
             <Button
               variant="ghost"
@@ -61,14 +73,24 @@ const Navbar = () => {
             <SheetContent className="bg-charcoal">
               <div className="flex flex-col space-y-4 mt-8">
                 {navItems.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    onClick={(e) => handleNavClick(e, item.href)}
-                    className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto text-lg"
-                  >
-                    {item.name}
-                  </a>
+                  item.href.startsWith('#') && location.pathname === '/' ? (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      onClick={(e) => handleNavClick(e, item.href)}
+                      className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto text-lg"
+                    >
+                      {item.name}
+                    </a>
+                  ) : (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto text-lg"
+                    >
+                      {item.name}
+                    </Link>
+                  )
                 ))}
                 <Button
                   variant="ghost"
