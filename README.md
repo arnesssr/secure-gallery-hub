@@ -108,7 +108,7 @@ For optimal development experiences, the following IDEs and extensions are recom
 
 ## Licensing Information
 
-This software is distributed under a [Proprietary License](https://example.com/proprietary-license). Unauthorized access, distribution, or modification is strictly prohibited.
+This software is distributed under a [Proprietary License](https://github.com/arnesssr/secure-gallery-hub/blob/main/LICENSE.). Unauthorized access, distribution, or modification is strictly prohibited.
 
 ## Authorship
 
