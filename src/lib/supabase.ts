@@ -1,15 +1,15 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Using Vite's environment variables
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
+// Using the values from the connected Supabase project
+const supabaseUrl = "https://blcgyyhkdwwtcojnldmi.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsY2d5eWhrZHd3dGNvam5sZG1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU3MzI4OTcsImV4cCI6MjA1MTMwODg5N30.jdSwpeVLq6qM39PJTCyO-ZqIt-m59G_xOj2cYJTF5kU";
 
 if (!supabaseUrl) {
-  throw new Error('VITE_SUPABASE_URL is not defined. Please ensure you are connected to Supabase in the Lovable interface.');
+  throw new Error('Supabase URL is not defined');
 }
 
 if (!supabaseKey) {
-  throw new Error('VITE_SUPABASE_KEY is not defined. Please ensure you are connected to Supabase in the Lovable interface.');
+  throw new Error('Supabase Key is not defined');
 }
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
