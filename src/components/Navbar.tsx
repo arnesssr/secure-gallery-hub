@@ -26,10 +26,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed w-full bg-charcoal/90 dark:bg-charcoal backdrop-blur-sm z-50 transition-colors duration-300">
-      <div className="container mx-auto px-4 py-4">
+    <nav className="fixed w-full bg-charcoal/90 dark:bg-charcoal/95 backdrop-blur-md z-50 transition-all duration-300 border-b border-gold/10">
+      <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-2xl font-playfair text-offwhite">
+          <Link to="/" className="text-2xl font-playfair text-offwhite hover:text-gold transition-colors duration-200">
             Washikadau
           </Link>
 
@@ -40,7 +40,7 @@ const Navbar = () => {
                   key={item.name}
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto"
+                  className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto relative after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold after:left-0 after:-bottom-1 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
                 >
                   {item.name}
                 </a>
@@ -48,7 +48,7 @@ const Navbar = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto"
+                  className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto relative after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold after:left-0 after:-bottom-1 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
                 >
                   {item.name}
                 </Link>
@@ -66,12 +66,12 @@ const Navbar = () => {
 
           <Sheet>
             <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon" className="text-offwhite">
+              <Button variant="ghost" size="icon" className="text-offwhite hover:text-gold">
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent className="bg-charcoal">
-              <div className="flex flex-col space-y-4 mt-8">
+            <SheetContent className="bg-charcoal/95 backdrop-blur-md border-gold/10">
+              <div className="flex flex-col space-y-6 mt-8">
                 {navItems.map((item) => (
                   item.href.startsWith('#') && location.pathname === '/' ? (
                     <a

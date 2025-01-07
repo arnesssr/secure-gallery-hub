@@ -5,16 +5,15 @@ const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const images = [
-    "https://images.unsplash.com/photo-1504893524553-b855bce32c67",
-    "https://images.unsplash.com/photo-1500673922987-e212871fec22",
-    "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
+    "https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1500673922987-e212871fec22?auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80",
   ];
 
   useEffect(() => {
-    // Preload images for smoother transitions
     const preloadImages = images.map((src) => {
       const img = new Image();
-      img.src = src;
+      img.src = src + '&w=1920'; // Optimize image size
       return img;
     });
 
@@ -38,7 +37,7 @@ const Hero = () => {
 
   return (
     <div className="relative h-screen overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-charcoal/70 via-charcoal/40 to-transparent transition-opacity duration-500" />
+      <div className="absolute inset-0 bg-gradient-to-b from-charcoal/70 via-charcoal/40 to-transparent z-10 transition-opacity duration-500" />
       
       {images.map((image, index) => (
         <div
@@ -50,10 +49,10 @@ const Hero = () => {
           }`}
         >
           <img
-            src={image}
+            src={`${image}&w=1920`}
             alt={`Hero ${index + 1}`}
             className="w-full h-full object-cover"
-            loading="eager"
+            loading={index === 0 ? "eager" : "lazy"}
             onLoad={() => {
               if (index === 0) setIsLoaded(true);
             }}
@@ -62,19 +61,19 @@ const Hero = () => {
       ))}
       
       <div 
-        className={`absolute inset-0 flex flex-col items-center justify-center text-center px-4 transition-opacity duration-700 ${
+        className={`absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-20 transition-opacity duration-700 ${
           isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
       >
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-playfair text-offwhite mb-6 animate-fadeIn">
           Capturing Moments
         </h1>
-        <p className="text-lg sm:text-xl md:text-2xl text-offwhite/90 font-roboto max-w-2xl mb-8 animate-fadeIn delay-200">
+        <p className="text-lg sm:text-xl md:text-2xl text-offwhite/90 font-roboto max-w-2xl mb-8 animate-fadeIn">
           Professional multimedia services for all your needs
         </p>
         <button
           onClick={scrollToGallery}
-          className="text-offwhite hover:text-gold transition-colors duration-300 animate-fadeIn delay-300"
+          className="text-offwhite hover:text-gold transition-colors duration-300 animate-fadeIn"
           aria-label="Scroll to gallery section"
         >
           <ChevronDown className="h-8 w-8 animate-bounce" />
