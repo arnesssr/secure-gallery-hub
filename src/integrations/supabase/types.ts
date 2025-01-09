@@ -9,7 +9,74 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      galleries: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          image_url: string
+          is_private: boolean | null
+          password: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url: string
+          is_private?: boolean | null
+          password?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string
+          is_private?: boolean | null
+          password?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      gallery_password_requests: {
+        Row: {
+          created_at: string | null
+          gallery_id: string | null
+          id: string
+          request_message: string | null
+          requester_email: string
+          requester_name: string
+          status: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          gallery_id?: string | null
+          id?: string
+          request_message?: string | null
+          requester_email: string
+          requester_name: string
+          status?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          gallery_id?: string | null
+          id?: string
+          request_message?: string | null
+          requester_email?: string
+          requester_name?: string
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gallery_password_requests_gallery_id_fkey"
+            columns: ["gallery_id"]
+            isOneToOne: false
+            referencedRelation: "galleries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
