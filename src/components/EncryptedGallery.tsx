@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { Lock } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Lock, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import PasswordRequestModal from "./PasswordRequestModal";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Dialog,
   DialogContent,
@@ -13,38 +15,49 @@ import {
 } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
 
+interface Gallery {
+  id: string;
+  title: string;
+  image_url: string;
+  password: string | null;
+  is_private: boolean;
+}
+
 const EncryptedGallery = () => {
+  const [galleries, setGalleries] = useState<Gallery[]>([]);
   const [password, setPassword] = useState("");
-  const [isUnlocked, setIsUnlocked] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const encryptedImages = [
-    {
-      url: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-      title: "Private Event 1",
-      password: "demo123"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-      title: "Private Event 2",
-      password: "demo123"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-      title: "Private Event 3",
-      password: "demo123"
-    }
-  ];
+  useEffect(() => {
+    fetchGalleries();
+  }, []);
 
-  const handleUnlock = (imageIndex: number) => {
-    const image = encryptedImages[imageIndex];
-    if (password === image.password) {
-      setSelectedImage(imageIndex);
+  const fetchGalleries = async () => {
+    const { data, error } = await supabase
+      .from("galleries")
+      .select("*")
+      .eq("is_private", true);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to fetch galleries",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setGalleries(data || []);
+  };
+
+  const handleUnlock = (gallery: Gallery) => {
+    if (password === gallery.password) {
+      setSelectedImage(gallery.id);
       setPassword("");
       toast({
-        title: "Image Unlocked",
-        description: "You now have access to view this image.",
+        title: "Gallery Unlocked",
+        description: "You now have access to view this gallery.",
       });
     } else {
       toast({
@@ -55,45 +68,25 @@ const EncryptedGallery = () => {
     }
   };
 
-  if (!isUnlocked) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-6 p-8">
-        <Lock className="w-16 h-16 text-gold" />
-        <h2 className="text-2xl font-playfair text-charcoal dark:text-offwhite">
-          This Gallery is Password Protected
-        </h2>
-        <p className="text-center max-w-md text-charcoal/80 dark:text-offwhite/80">
-          Please enter the password provided to you to access this private gallery.
-        </p>
-        <div className="flex space-x-4 w-full max-w-md">
-          <Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter password"
-            className="flex-1"
-          />
-          <Button onClick={() => setIsUnlocked(true)}>Unlock Gallery</Button>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-8">
-      {encryptedImages.map((image, index) => (
-        <Dialog key={index}>
+      {galleries.map((gallery) => (
+        <Dialog key={gallery.id}>
           <DialogTrigger asChild>
             <Card className="group relative overflow-hidden rounded-lg cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
               <CardContent className="p-0">
                 <div className="aspect-square relative">
                   <div className="absolute inset-0 bg-charcoal/60 flex items-center justify-center">
-                    <Lock className="w-8 h-8 text-gold" />
+                    {selectedImage === gallery.id ? (
+                      <Key className="w-8 h-8 text-gold" />
+                    ) : (
+                      <Lock className="w-8 h-8 text-gold" />
+                    )}
                   </div>
-                  {selectedImage === index ? (
+                  {selectedImage === gallery.id ? (
                     <img
-                      src={image.url}
-                      alt={image.title}
+                      src={gallery.image_url}
+                      alt={gallery.title}
                       className="w-full h-full object-cover"
                       loading="lazy"
                     />
@@ -106,19 +99,30 @@ const EncryptedGallery = () => {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{image.title}</DialogTitle>
+              <DialogTitle>{gallery.title}</DialogTitle>
               <DialogDescription>
-                Enter the password to view this image
+                Enter the password to view this gallery
               </DialogDescription>
             </DialogHeader>
-            <div className="flex space-x-4">
-              <Input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password"
-              />
-              <Button onClick={() => handleUnlock(index)}>Unlock</Button>
+            <div className="space-y-4">
+              <div className="flex space-x-4">
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter password"
+                />
+                <Button onClick={() => handleUnlock(gallery)}>Unlock</Button>
+              </div>
+              <div className="text-center">
+                <p className="text-sm text-charcoal/80 dark:text-offwhite/80 mb-2">
+                  Don't have the password?
+                </p>
+                <PasswordRequestModal
+                  galleryId={gallery.id}
+                  galleryTitle={gallery.title}
+                />
+              </div>
             </div>
           </DialogContent>
         </Dialog>

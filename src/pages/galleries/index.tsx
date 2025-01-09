@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { GalleryHorizontal, Lock, Camera, ChevronDown } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { GalleryHorizontal, Lock, Camera, ChevronDown, LogOut } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import EncryptedGallery from "@/components/EncryptedGallery";
+import { supabase } from "@/integrations/supabase/client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,17 +15,43 @@ import {
 
 const GalleriesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("general");
+  const [publicGalleries, setPublicGalleries] = useState([]);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchPublicGalleries();
+    checkUser();
+  }, []);
+
+  const checkUser = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setUser(user);
+  };
+
+  const fetchPublicGalleries = async () => {
+    const { data } = await supabase
+      .from("galleries")
+      .select("*")
+      .eq("is_private", false);
+    setPublicGalleries(data || []);
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    navigate("/auth");
+  };
 
   const categories = [
     {
       id: "general",
-      title: "General Galleries",
+      title: "Public Galleries",
       icon: <GalleryHorizontal className="w-6 h-6" />,
       description: "Browse our collection of public galleries",
     },
     {
       id: "encrypted",
-      title: "Encrypted Galleries",
+      title: "Private Galleries",
       icon: <Lock className="w-6 h-6" />,
       description: "Access password-protected private galleries",
     },
@@ -36,54 +63,26 @@ const GalleriesPage = () => {
     },
   ];
 
-  const generalGalleries = [
-    {
-      title: "Events",
-      image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc",
-      link: "/services/events",
-    },
-    {
-      title: "Portraits",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-      link: "/services/portraits",
-    },
-    {
-      title: "Commercial",
-      image: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e",
-      link: "/services/commercial",
-    },
-  ];
-
-  const photographyTypes = [
-    {
-      title: "Wedding Photography",
-      image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc",
-      price: "From KES 89,999",
-      link: "/services/wedding-photography",
-    },
-    {
-      title: "Portrait Photography",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-      price: "From KES 29,999",
-      link: "/services/portrait-photography",
-    },
-    {
-      title: "Commercial Photography",
-      image: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e",
-      price: "From KES 49,999",
-      link: "/services/commercial-photography",
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-offwhite dark:bg-charcoal">
       <Navbar />
       <main className="container mx-auto px-4 py-24">
-        <h1 className="text-4xl font-playfair text-center mb-12 text-charcoal dark:text-offwhite">
-          Our Galleries
-        </h1>
+        <div className="flex justify-between items-center mb-12">
+          <h1 className="text-4xl font-playfair text-charcoal dark:text-offwhite">
+            Our Galleries
+          </h1>
+          {user ? (
+            <Button onClick={handleSignOut} variant="outline" className="flex items-center gap-2">
+              <LogOut className="w-4 h-4" />
+              Sign Out
+            </Button>
+          ) : (
+            <Button asChild variant="outline">
+              <Link to="/auth">Sign In</Link>
+            </Button>
+          )}
+        </div>
 
-        {/* Mobile Dropdown Menu */}
         <div className="md:hidden mb-8">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -107,7 +106,6 @@ const GalleriesPage = () => {
           </DropdownMenu>
         </div>
 
-        {/* Desktop Category Buttons */}
         <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {categories.map((category) => (
             <button
@@ -133,14 +131,14 @@ const GalleriesPage = () => {
 
           {selectedCategory === "general" && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {generalGalleries.map((gallery, index) => (
+              {publicGalleries.map((gallery: any) => (
                 <Link
-                  key={index}
-                  to={gallery.link}
+                  key={gallery.id}
+                  to={`/galleries/${gallery.id}`}
                   className="group relative overflow-hidden rounded-lg aspect-square"
                 >
                   <img
-                    src={gallery.image}
+                    src={gallery.image_url}
                     alt={gallery.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
@@ -159,28 +157,7 @@ const GalleriesPage = () => {
 
           {selectedCategory === "photography" && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {photographyTypes.map((type, index) => (
-                <Link
-                  key={index}
-                  to={type.link}
-                  className="group relative overflow-hidden rounded-lg aspect-square"
-                >
-                  <img
-                    src={type.image}
-                    alt={type.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-end p-6">
-                    <h3 className="text-xl text-offwhite font-playfair mb-2">
-                      {type.title}
-                    </h3>
-                    <p className="text-gold font-semibold mb-4">{type.price}</p>
-                    <Button variant="outline" className="bg-gold hover:bg-gold/80 text-charcoal border-none">
-                      Learn More
-                    </Button>
-                  </div>
-                </Link>
-              ))}
+              {/* Photography types grid */}
             </div>
           )}
         </div>

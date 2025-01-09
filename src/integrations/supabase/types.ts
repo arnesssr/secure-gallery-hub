@@ -16,6 +16,7 @@ export type Database = {
           id: string
           image_url: string
           is_private: boolean | null
+          owner_id: string | null
           password: string | null
           title: string
         }
@@ -25,6 +26,7 @@ export type Database = {
           id?: string
           image_url: string
           is_private?: boolean | null
+          owner_id?: string | null
           password?: string | null
           title: string
         }
@@ -34,10 +36,40 @@ export type Database = {
           id?: string
           image_url?: string
           is_private?: boolean | null
+          owner_id?: string | null
           password?: string | null
           title?: string
         }
         Relationships: []
+      }
+      gallery_access: {
+        Row: {
+          gallery_id: string
+          granted_at: string | null
+          id: string
+          user_id: string
+        }
+        Insert: {
+          gallery_id: string
+          granted_at?: string | null
+          id?: string
+          user_id: string
+        }
+        Update: {
+          gallery_id?: string
+          granted_at?: string | null
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gallery_access_gallery_id_fkey"
+            columns: ["gallery_id"]
+            isOneToOne: false
+            referencedRelation: "galleries"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       gallery_password_requests: {
         Row: {
