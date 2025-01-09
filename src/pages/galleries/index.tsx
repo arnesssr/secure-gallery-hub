@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { GalleryHorizontal, Lock, Camera, Shield } from "lucide-react";
+import { GalleryHorizontal, Lock, Camera, ChevronDown } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import EncryptedGallery from "@/components/EncryptedGallery";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const GalleriesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("general");
@@ -77,7 +83,32 @@ const GalleriesPage = () => {
           Our Galleries
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        {/* Mobile Dropdown Menu */}
+        <div className="md:hidden mb-8">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="w-full justify-between">
+                {categories.find(cat => cat.id === selectedCategory)?.title || "Select Gallery"}
+                <ChevronDown className="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-full">
+              {categories.map((category) => (
+                <DropdownMenuItem
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className="flex items-center gap-2"
+                >
+                  {category.icon}
+                  <span>{category.title}</span>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        {/* Desktop Category Buttons */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {categories.map((category) => (
             <button
               key={category.id}
