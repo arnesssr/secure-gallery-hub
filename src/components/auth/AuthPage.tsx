@@ -32,7 +32,7 @@ const AuthPage = () => {
           <Auth
             supabaseClient={supabase}
             appearance={{
-              theme: 'default',
+              theme: 'default' as const,
               variables: {
                 default: {
                   colors: {
