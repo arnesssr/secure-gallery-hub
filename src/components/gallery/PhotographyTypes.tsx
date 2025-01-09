@@ -1,5 +1,6 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import BookingModal from "@/components/booking/BookingModal";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const photographyTypes = [
   {
@@ -69,6 +70,8 @@ const photographyTypes = [
 ];
 
 const PhotographyTypes = () => {
+  const isMobile = useIsMobile();
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
       {photographyTypes.map((type, index) => (
@@ -80,6 +83,15 @@ const PhotographyTypes = () => {
               className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
               loading="lazy"
             />
+            {!isMobile && (
+              <div className="absolute inset-0 bg-black/60 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <BookingModal
+                  serviceType={type.serviceType}
+                  serviceName={type.title}
+                  className="bg-gold hover:bg-gold/80 text-charcoal"
+                />
+              </div>
+            )}
           </div>
           <CardContent className="text-center p-4">
             <h3 className="text-lg font-playfair text-charcoal dark:text-offwhite mb-1">
@@ -92,12 +104,15 @@ const PhotographyTypes = () => {
               {type.price}
             </p>
           </CardContent>
-          <CardFooter className="justify-center pb-4">
-            <BookingModal
-              serviceType={type.serviceType}
-              serviceName={type.title}
-            />
-          </CardFooter>
+          {isMobile && (
+            <CardFooter className="justify-center pb-4">
+              <BookingModal
+                serviceType={type.serviceType}
+                serviceName={type.title}
+                className="bg-gold hover:bg-gold/80 text-charcoal w-full"
+              />
+            </CardFooter>
+          )}
         </Card>
       ))}
     </div>
