@@ -12,6 +12,7 @@ import PhotographySchool from "./pages/photography-school";
 import VideoServices from "./pages/video-services";
 import EquipmentSales from "./pages/equipment-sales";
 import AboutPage from "./pages/about";
+import GalleryView from "./pages/galleries/[id]";
 
 // Photography service pages
 import WeddingPhotography from "./pages/services/wedding-photography";
@@ -36,6 +37,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/galleries" element={<GalleriesPage />} />
+            <Route path="/galleries/:id" element={<GalleryView />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/photography-services" element={<PhotographyServices />} />
             <Route path="/sound-services" element={<SoundServices />} />
