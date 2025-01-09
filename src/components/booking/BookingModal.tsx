@@ -18,9 +18,10 @@ import type { BookingType } from "@/lib/supabase";
 interface BookingModalProps {
   serviceType: BookingType;
   serviceName: string;
+  className?: string;
 }
 
-const BookingModal = ({ serviceType, serviceName }: BookingModalProps) => {
+const BookingModal = ({ serviceType, serviceName, className }: BookingModalProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -63,7 +64,7 @@ const BookingModal = ({ serviceType, serviceName }: BookingModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-gold hover:bg-gold/80 text-charcoal">
+        <Button className={className}>
           Book Now
         </Button>
       </DialogTrigger>
