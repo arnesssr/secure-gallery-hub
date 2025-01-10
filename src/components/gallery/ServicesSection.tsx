@@ -35,7 +35,7 @@ const services = [
   {
     title: "Video Editing",
     description: "Professional video editing services",
-    link: "/video-services", // Updated this path to match the route in App.tsx
+    link: "/services/video-services",
     action: "Get a Quote",
     icon: <Video className="w-8 h-8 text-gold" />
   }

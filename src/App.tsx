@@ -43,7 +43,7 @@ const App = () => (
             <Route path="/sound-services" element={<SoundServices />} />
             <Route path="/podcast-services" element={<PodcastServices />} />
             <Route path="/photography-school" element={<PhotographySchool />} />
-            <Route path="/video-services" element={<VideoServices />} />
+            <Route path="/services/video-services" element={<VideoServices />} />
             
             {/* Photography service routes */}
             <Route path="/services/wedding-photography" element={<WeddingPhotography />} />
