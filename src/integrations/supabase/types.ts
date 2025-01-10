@@ -9,6 +9,75 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      course_enrollments: {
+        Row: {
+          course_id: string | null
+          enrolled_at: string | null
+          id: string
+          status: string | null
+          student_id: string | null
+        }
+        Insert: {
+          course_id?: string | null
+          enrolled_at?: string | null
+          id?: string
+          status?: string | null
+          student_id?: string | null
+        }
+        Update: {
+          course_id?: string | null
+          enrolled_at?: string | null
+          id?: string
+          status?: string | null
+          student_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_enrollments_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "course_enrollments_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      courses: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          duration: string | null
+          id: string
+          skill_level: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          duration?: string | null
+          id?: string
+          skill_level?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          duration?: string | null
+          id?: string
+          skill_level?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       galleries: {
         Row: {
           created_at: string | null
@@ -108,6 +177,72 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      service_bookings: {
+        Row: {
+          client_email: string
+          client_name: string
+          client_phone: string | null
+          created_at: string | null
+          id: string
+          preferred_date: string | null
+          requirements: string | null
+          service_type: string
+          status: string | null
+        }
+        Insert: {
+          client_email: string
+          client_name: string
+          client_phone?: string | null
+          created_at?: string | null
+          id?: string
+          preferred_date?: string | null
+          requirements?: string | null
+          service_type: string
+          status?: string | null
+        }
+        Update: {
+          client_email?: string
+          client_name?: string
+          client_phone?: string | null
+          created_at?: string | null
+          id?: string
+          preferred_date?: string | null
+          requirements?: string | null
+          service_type?: string
+          status?: string | null
+        }
+        Relationships: []
+      }
+      students: {
+        Row: {
+          created_at: string | null
+          email: string
+          experience_level: string | null
+          full_name: string
+          id: string
+          phone: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          experience_level?: string | null
+          full_name: string
+          id?: string
+          phone?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          experience_level?: string | null
+          full_name?: string
+          id?: string
+          phone?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
       }
     }
     Views: {
