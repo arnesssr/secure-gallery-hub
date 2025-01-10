@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Camera, Music2, Video, School, ShoppingBag, Wrench } from "lucide-react";
+import { Camera, Music2, Video, School, Mic2, Wrench } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 const services = [
@@ -12,18 +12,18 @@ const services = [
     icon: <Camera className="w-8 h-8 text-gold" />
   },
   {
-    title: "Stereo Systems Rental",
-    description: "High-end audio equipment for events",
+    title: "Sound Services",
+    description: "Professional sound engineering and stereo rentals",
     link: "/sound-services",
-    action: "Rent Now",
+    action: "Learn More",
     icon: <Music2 className="w-8 h-8 text-gold" />
   },
   {
-    title: "Sound Engineering",
-    description: "Professional sound mixing and setup",
-    link: "/sound-services",
+    title: "Podcast Studio",
+    description: "Professional podcast recording at affordable rates",
+    link: "/podcast-services",
     action: "Book Now",
-    icon: <Wrench className="w-8 h-8 text-gold" />
+    icon: <Mic2 className="w-8 h-8 text-gold" />
   },
   {
     title: "Photography School",
@@ -38,13 +38,6 @@ const services = [
     link: "/video-services",
     action: "Get Started",
     icon: <Video className="w-8 h-8 text-gold" />
-  },
-  {
-    title: "Equipment Sales",
-    description: "Professional photography and audio equipment",
-    link: "/equipment-sales",
-    action: "Shop Now",
-    icon: <ShoppingBag className="w-8 h-8 text-gold" />
   }
 ];
 

@@ -7,10 +7,10 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Index from "./pages/Index";
 import PhotographyServices from "./pages/photography-services";
 import SoundServices from "./pages/sound-services";
+import PodcastServices from "./pages/podcast-services";
 import GalleriesPage from "./pages/galleries";
 import PhotographySchool from "./pages/photography-school";
 import VideoServices from "./pages/video-services";
-import EquipmentSales from "./pages/equipment-sales";
 import AboutPage from "./pages/about";
 import GalleryView from "./pages/galleries/[id]";
 
@@ -41,9 +41,9 @@ const App = () => (
             <Route path="/about" element={<AboutPage />} />
             <Route path="/photography-services" element={<PhotographyServices />} />
             <Route path="/sound-services" element={<SoundServices />} />
+            <Route path="/podcast-services" element={<PodcastServices />} />
             <Route path="/photography-school" element={<PhotographySchool />} />
             <Route path="/video-services" element={<VideoServices />} />
-            <Route path="/equipment-sales" element={<EquipmentSales />} />
             
             {/* Photography service routes */}
             <Route path="/services/wedding-photography" element={<WeddingPhotography />} />
