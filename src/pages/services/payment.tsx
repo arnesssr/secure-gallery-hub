@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { ArrowLeft, CreditCard, Wallet } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -20,9 +21,9 @@ const PaymentPage = () => {
 
   const formatServiceName = (service: string) => {
     return service
-      .split('-')
+      ?.split('-')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+      .join(' ') || '';
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +39,6 @@ const PaymentPage = () => {
     setLoading(true);
 
     try {
-      // First create a service booking
       const { data: booking, error: bookingError } = await supabase
         .from('service_bookings')
         .insert({
@@ -53,10 +53,9 @@ const PaymentPage = () => {
       if (bookingError) throw bookingError;
 
       if (paymentMethod === 'mpesa') {
-        // Initiate M-Pesa payment
         const response = await supabase.functions.invoke('initiate-mpesa', {
           body: {
-            amount: 1000, // Replace with actual amount
+            amount: 1000,
             phone: formData.mpesaNumber,
             bookingId: booking.id,
           },
@@ -71,12 +70,11 @@ const PaymentPage = () => {
           description: "Please check your phone for the M-Pesa prompt",
         });
       } else {
-        // Handle alternative payment methods
         const { error: paymentError } = await supabase
           .from('payments')
           .insert({
             booking_id: booking.id,
-            amount: 1000, // Replace with actual amount
+            amount: 1000,
             payment_method: paymentMethod,
             status: 'pending',
           });
@@ -101,106 +99,146 @@ const PaymentPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-offwhite dark:bg-charcoal transition-colors duration-300">
-      <div className="container mx-auto px-4 py-20">
-        <Link to={`/services/${service}`} className="inline-flex items-center text-charcoal dark:text-offwhite mb-8 hover:text-gold transition-colors">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+      <div className="container mx-auto px-4 py-12">
+        <Link 
+          to={`/services/${service}`} 
+          className="inline-flex items-center text-gray-600 dark:text-gray-300 mb-8 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+        >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to {formatServiceName(service || '')}
+          Back to {formatServiceName(service)}
         </Link>
-        <h1 className="text-4xl md:text-5xl font-playfair text-charcoal dark:text-offwhite mb-8">Payment Details</h1>
-        <div className="max-w-2xl mx-auto">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-semibold mb-6">Complete Your Booking</h2>
+        
+        <div className="max-w-3xl mx-auto">
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl p-8">
+            <h1 className="text-4xl font-playfair font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+              Complete Your Booking
+            </h1>
+            <p className="text-gray-600 dark:text-gray-300 mb-8">
+              Choose your preferred payment method and enter your details below
+            </p>
             
-            <div className="mb-6">
-              <h3 className="text-lg font-medium mb-4">Select Payment Method</h3>
-              <div className="grid grid-cols-3 gap-4">
+            <div className="mb-8">
+              <h3 className="text-lg font-medium mb-4">Payment Method</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <button
                   onClick={() => setPaymentMethod('mpesa')}
-                  className={`p-4 border rounded-lg text-center ${
-                    paymentMethod === 'mpesa' ? 'border-primary bg-primary/10' : 'border-gray-200'
+                  className={`p-6 border rounded-xl text-center transition-all ${
+                    paymentMethod === 'mpesa' 
+                      ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20' 
+                      : 'border-gray-200 dark:border-gray-700 hover:border-purple-300'
                   }`}
                 >
+                  <Wallet className="h-6 w-6 mx-auto mb-2" />
                   M-Pesa
                 </button>
                 <button
                   onClick={() => setPaymentMethod('card')}
-                  className={`p-4 border rounded-lg text-center ${
-                    paymentMethod === 'card' ? 'border-primary bg-primary/10' : 'border-gray-200'
+                  className={`p-6 border rounded-xl text-center transition-all ${
+                    paymentMethod === 'card' 
+                      ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20' 
+                      : 'border-gray-200 dark:border-gray-700 hover:border-purple-300'
                   }`}
                 >
+                  <CreditCard className="h-6 w-6 mx-auto mb-2" />
                   Card
                 </button>
                 <button
                   onClick={() => setPaymentMethod('bank_transfer')}
-                  className={`p-4 border rounded-lg text-center ${
-                    paymentMethod === 'bank_transfer' ? 'border-primary bg-primary/10' : 'border-gray-200'
+                  className={`p-6 border rounded-xl text-center transition-all ${
+                    paymentMethod === 'bank_transfer' 
+                      ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20' 
+                      : 'border-gray-200 dark:border-gray-700 hover:border-purple-300'
                   }`}
                 >
+                  <svg 
+                    className="h-6 w-6 mx-auto mb-2" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2"
+                  >
+                    <rect x="2" y="5" width="20" height="14" rx="2" />
+                    <line x1="2" y1="10" x2="22" y2="10" />
+                  </svg>
                   Bank Transfer
                 </button>
               </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium mb-2">Service</label>
-                <input
-                  type="text"
-                  value={formatServiceName(service || '')}
-                  disabled
-                  className="w-full p-3 border rounded-md bg-gray-100"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Full Name</label>
-                <input
-                  type="text"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full p-3 border rounded-md"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full p-3 border rounded-md"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Phone Number</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full p-3 border rounded-md"
-                />
-              </div>
-              {paymentMethod === 'mpesa' && (
-                <div>
-                  <label className="block text-sm font-medium mb-2">M-PESA Number</label>
-                  <input
-                    type="tel"
-                    name="mpesaNumber"
-                    value={formData.mpesaNumber}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Full Name</label>
+                  <Input
+                    type="text"
+                    name="fullName"
+                    value={formData.fullName}
                     onChange={handleInputChange}
                     required
-                    placeholder="254..."
-                    className="w-full p-3 border rounded-md"
+                    className="w-full"
+                    placeholder="John Doe"
                   />
                 </div>
-              )}
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Processing..." : `Pay with ${paymentMethod === 'bank_transfer' ? 'Bank Transfer' : paymentMethod.toUpperCase()}`}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Email</label>
+                  <Input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full"
+                    placeholder="john@example.com"
+                  />
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Phone Number</label>
+                  <Input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full"
+                    placeholder="+254..."
+                  />
+                </div>
+                {paymentMethod === 'mpesa' && (
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">M-PESA Number</label>
+                    <Input
+                      type="tel"
+                      name="mpesaNumber"
+                      value={formData.mpesaNumber}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full"
+                      placeholder="254..."
+                    />
+                  </div>
+                )}
+              </div>
+
+              <Button 
+                type="submit" 
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-6 rounded-xl transition-all"
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="flex items-center justify-center">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Processing...
+                  </span>
+                ) : (
+                  `Pay with ${paymentMethod === 'bank_transfer' ? 'Bank Transfer' : paymentMethod.toUpperCase()}`
+                )}
               </Button>
             </form>
           </div>
