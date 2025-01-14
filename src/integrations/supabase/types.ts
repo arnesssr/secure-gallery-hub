@@ -9,45 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      quote_requests: {
-        Row: {
-          id: string
-          client_name: string
-          client_email: string
-          client_phone: string | null
-          project_details: string | null
-          budget: string | null
-          timeline: string | null
-          service_type: string
-          status: string | null
-          created_at: string | null
-        }
-        Insert: {
-          id?: string
-          client_name: string
-          client_email: string
-          client_phone?: string | null
-          project_details?: string | null
-          budget?: string | null
-          timeline?: string | null
-          service_type: string
-          status?: string | null
-          created_at?: string | null
-        }
-        Update: {
-          id?: string
-          client_name?: string
-          client_email?: string
-          client_phone?: string | null
-          project_details?: string | null
-          budget?: string | null
-          timeline?: string | null
-          service_type?: string
-          status?: string | null
-          created_at?: string | null
-        }
-        Relationships: []
-      }
       course_enrollments: {
         Row: {
           course_id: string | null
@@ -263,6 +224,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      quote_requests: {
+        Row: {
+          budget: string | null
+          client_email: string
+          client_name: string
+          client_phone: string | null
+          created_at: string | null
+          id: string
+          project_details: string | null
+          service_type: string
+          status: string | null
+          timeline: string | null
+        }
+        Insert: {
+          budget?: string | null
+          client_email: string
+          client_name: string
+          client_phone?: string | null
+          created_at?: string | null
+          id?: string
+          project_details?: string | null
+          service_type: string
+          status?: string | null
+          timeline?: string | null
+        }
+        Update: {
+          budget?: string | null
+          client_email?: string
+          client_name?: string
+          client_phone?: string | null
+          created_at?: string | null
+          id?: string
+          project_details?: string | null
+          service_type?: string
+          status?: string | null
+          timeline?: string | null
+        }
+        Relationships: []
       }
       service_bookings: {
         Row: {
