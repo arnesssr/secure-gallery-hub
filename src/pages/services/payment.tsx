@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import QuoteRequestForm from "@/components/QuoteRequestForm";
 
 const PaymentPage = () => {
   const { service } = useParams();
@@ -109,7 +110,7 @@ const PaymentPage = () => {
           Back to {formatServiceName(service)}
         </Link>
         
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto space-y-12">
           <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl p-8">
             <h1 className="text-4xl font-playfair font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
               Complete Your Booking
@@ -242,6 +243,19 @@ const PaymentPage = () => {
               </Button>
             </form>
           </div>
+
+          <div className="relative py-8">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300 dark:border-gray-700"></div>
+            </div>
+            <div className="relative flex justify-center">
+              <span className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 px-4 text-sm text-gray-500 dark:text-gray-400">
+                Or
+              </span>
+            </div>
+          </div>
+
+          <QuoteRequestForm />
         </div>
       </div>
     </div>
