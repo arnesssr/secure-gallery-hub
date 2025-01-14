@@ -13,7 +13,7 @@ const Hero = () => {
   useEffect(() => {
     const preloadImages = images.map((src) => {
       const img = new Image();
-      img.src = src + '&w=1920'; // Optimize image size
+      img.src = src + '&w=1920';
       return img;
     });
 
@@ -37,15 +37,26 @@ const Hero = () => {
 
   return (
     <div className="relative h-screen overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-charcoal/70 via-charcoal/40 to-transparent z-10 transition-opacity duration-500" />
+      {/* Gradient overlay with new colors */}
+      <div 
+        className="absolute inset-0 bg-gradient-to-br from-[#1A1F2C]/80 via-[#9b87f5]/40 to-transparent z-10"
+        style={{
+          background: `
+            linear-gradient(
+              135deg,
+              rgba(26, 31, 44, 0.9) 0%,
+              rgba(155, 135, 245, 0.4) 50%,
+              rgba(217, 70, 239, 0.2) 100%
+            )
+          `
+        }}
+      />
       
       {images.map((image, index) => (
         <div
           key={image}
-          className={`absolute inset-0 transition-all duration-1000 transform ${
-            index === currentImageIndex 
-              ? "opacity-100 scale-100" 
-              : "opacity-0 scale-105"
+          className={`absolute inset-0 transition-opacity duration-1000 ${
+            index === currentImageIndex ? "opacity-100" : "opacity-0"
           }`}
         >
           <img
@@ -65,19 +76,34 @@ const Hero = () => {
           isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        <h1 className="text-4xl sm:text-5xl md:text-7xl font-playfair text-offwhite mb-6 animate-fadeIn">
-          Capturing Moments
-        </h1>
-        <p className="text-lg sm:text-xl md:text-2xl text-offwhite/90 font-roboto max-w-2xl mb-8 animate-fadeIn">
-          Professional multimedia services for all your needs
-        </p>
-        <button
-          onClick={scrollToGallery}
-          className="text-offwhite hover:text-gold transition-colors duration-300 animate-fadeIn"
-          aria-label="Scroll to gallery section"
-        >
-          <ChevronDown className="h-8 w-8 animate-bounce" />
-        </button>
+        <div className="max-w-4xl mx-auto space-y-8">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-playfair text-white mb-6 leading-tight">
+            Capturing Life's
+            <span className="block bg-gradient-to-r from-[#D946EF] to-[#9b87f5] bg-clip-text text-transparent">
+              Precious Moments
+            </span>
+          </h1>
+          <p className="text-xl sm:text-2xl text-white/90 font-roboto max-w-2xl mx-auto leading-relaxed">
+            Professional photography and multimedia services that bring your vision to life
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-8">
+            <button
+              onClick={scrollToGallery}
+              className="px-8 py-3 bg-gradient-to-r from-[#9b87f5] to-[#D946EF] text-white rounded-full 
+                       hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 
+                       transform hover:-translate-y-1"
+            >
+              Explore Our Work
+            </button>
+            <button
+              onClick={scrollToGallery}
+              className="text-white/90 hover:text-white flex items-center gap-2 transition-colors duration-300"
+            >
+              <span>View Gallery</span>
+              <ChevronDown className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
