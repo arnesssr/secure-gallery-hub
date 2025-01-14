@@ -13,6 +13,7 @@ import PhotographySchool from "./pages/photography-school";
 import VideoServices from "./pages/video-services";
 import AboutPage from "./pages/about";
 import GalleryView from "./pages/galleries/[id]";
+import PaymentPage from "./pages/services/payment";
 
 // Photography service pages
 import WeddingPhotography from "./pages/services/wedding-photography";
@@ -23,9 +24,6 @@ import ProductPhotography from "./pages/services/product-photography";
 import FoodPhotography from "./pages/services/food-photography";
 import SportsPhotography from "./pages/services/sports-photography";
 import LandscapePhotography from "./pages/services/landscape-photography";
-
-// Payment pages
-import PaymentPage from "./pages/services/payment";
 
 const queryClient = new QueryClient();
 
@@ -55,7 +53,7 @@ const App = () => (
             <Route path="/services/sports-photography" element={<SportsPhotography />} />
             <Route path="/services/landscape-photography" element={<LandscapePhotography />} />
             
-            {/* Payment routes */}
+            {/* Payment routes - Updated to handle all service types */}
             <Route path="/services/:service/payment" element={<PaymentPage />} />
           </Routes>
           <Toaster />
