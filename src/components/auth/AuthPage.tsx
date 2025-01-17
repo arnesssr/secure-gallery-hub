@@ -59,41 +59,34 @@ const AuthPage = () => {
                   },
                 },
               },
-              className: {
-                container: 'auth-container',
-                button: 'auth-button',
-                input: 'auth-input',
-              },
+              style: {
+                container: {
+                  width: '100%'
+                },
+                button: {
+                  width: '100%',
+                  padding: '8px 16px',
+                  borderRadius: '6px',
+                  fontWeight: 500
+                },
+                input: {
+                  width: '100%',
+                  padding: '8px 12px',
+                  borderRadius: '6px',
+                  border: '1px solid #e2e8f0',
+                  backgroundColor: 'white'
+                },
+                anchor: {
+                  color: '#B8860B',
+                  textDecoration: 'none'
+                }
+              }
             }}
             theme="default"
             providers={['google']}
           />
         </div>
       </div>
-
-      <style jsx global>{`
-        .auth-container {
-          width: 100%;
-        }
-        .auth-button {
-          width: 100%;
-          padding: 8px 16px;
-          border-radius: 6px;
-          font-weight: 500;
-        }
-        .auth-input {
-          width: 100%;
-          padding: 8px 12px;
-          border-radius: 6px;
-          border: 1px solid #e2e8f0;
-          background-color: white;
-        }
-        .dark .auth-input {
-          background-color: rgba(255, 255, 255, 0.05);
-          border-color: rgba(255, 255, 255, 0.1);
-          color: white;
-        }
-      `}</style>
     </div>
   );
 };
