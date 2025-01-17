@@ -14,6 +14,7 @@ import VideoServices from "./pages/video-services";
 import AboutPage from "./pages/about";
 import GalleryView from "./pages/galleries/[id]";
 import PaymentPage from "./pages/services/payment";
+import ExhibitionsPage from "./pages/exhibitions";
 
 // Photography service pages
 import WeddingPhotography from "./pages/services/wedding-photography";
@@ -37,6 +38,7 @@ const App = () => (
             <Route path="/galleries" element={<GalleriesPage />} />
             <Route path="/galleries/:id" element={<GalleryView />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/exhibitions" element={<ExhibitionsPage />} />
             <Route path="/photography-services" element={<PhotographyServices />} />
             <Route path="/sound-services" element={<SoundServices />} />
             <Route path="/podcast-services" element={<PodcastServices />} />
@@ -53,7 +55,7 @@ const App = () => (
             <Route path="/services/sports-photography" element={<SportsPhotography />} />
             <Route path="/services/landscape-photography" element={<LandscapePhotography />} />
             
-            {/* Payment routes - Updated to handle all service types */}
+            {/* Payment routes */}
             <Route path="/services/:service/payment" element={<PaymentPage />} />
           </Routes>
           <Toaster />
