@@ -7,28 +7,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
-const exhibitions = [
-  {
-    id: 1,
-    title: "Urban Landscapes",
-    description: "A journey through city architecture",
-    image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80",
-  },
-  {
-    id: 2,
-    title: "Natural Wonders",
-    description: "Capturing Earth's breathtaking moments",
-    image: "https://images.unsplash.com/photo-1497604401993-f2e922e5cb0a?auto=format&fit=crop&q=80",
-  },
-  {
-    id: 3,
-    title: "Cultural Heritage",
-    description: "Preserving traditions through photography",
-    image: "https://images.unsplash.com/photo-1466442929976-97f336a657be?auto=format&fit=crop&q=80",
-  },
-];
+interface Exhibition {
+  id: string;
+  title: string;
+  description: string;
+  image_url: string;
+}
 
-const ExhibitionHeader = () => {
+interface ExhibitionHeaderProps {
+  exhibitions: Exhibition[];
+}
+
+const ExhibitionHeader = ({ exhibitions }: ExhibitionHeaderProps) => {
   return (
     <div className="w-full h-[600px] relative">
       <Swiper
@@ -47,7 +37,7 @@ const ExhibitionHeader = () => {
           <SwiperSlide key={exhibition.id}>
             <div className="relative w-full h-full">
               <img
-                src={exhibition.image}
+                src={exhibition.image_url}
                 alt={exhibition.title}
                 className="w-full h-full object-cover"
               />

@@ -78,6 +78,83 @@ export type Database = {
         }
         Relationships: []
       }
+      exhibition_posts: {
+        Row: {
+          author_id: string | null
+          comments: number | null
+          content: string
+          created_at: string | null
+          exhibition_id: string | null
+          id: string
+          likes: number | null
+          shares: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          author_id?: string | null
+          comments?: number | null
+          content: string
+          created_at?: string | null
+          exhibition_id?: string | null
+          id?: string
+          likes?: number | null
+          shares?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          author_id?: string | null
+          comments?: number | null
+          content?: string
+          created_at?: string | null
+          exhibition_id?: string | null
+          id?: string
+          likes?: number | null
+          shares?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exhibition_posts_exhibition_id_fkey"
+            columns: ["exhibition_id"]
+            isOneToOne: false
+            referencedRelation: "exhibitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      exhibitions: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          end_date: string | null
+          id: string
+          image_url: string
+          start_date: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          image_url: string
+          start_date?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          image_url?: string
+          start_date?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       galleries: {
         Row: {
           created_at: string | null

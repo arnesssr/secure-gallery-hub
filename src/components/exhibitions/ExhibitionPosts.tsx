@@ -4,42 +4,70 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Heart, MessageCircle, Share2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-interface Post {
+interface Exhibition {
   id: string;
-  author: string;
-  content: string;
-  likes: number;
-  comments: number;
-  shares: number;
-  createdAt: string;
+  title: string;
 }
 
-const mockPosts: Post[] = [
-  {
-    id: "1",
-    author: "John Doe",
-    content: "Amazing exhibition! The urban landscapes were breathtaking.",
-    likes: 24,
-    comments: 5,
-    shares: 3,
-    createdAt: "2024-01-17",
-  },
-  {
-    id: "2",
-    author: "Jane Smith",
-    content: "The cultural heritage section really moved me. Beautiful work!",
-    likes: 18,
-    comments: 3,
-    shares: 2,
-    createdAt: "2024-01-16",
-  },
-];
+interface ExhibitionPostsProps {
+  user: any;
+  exhibitions: Exhibition[];
+}
 
-const ExhibitionPosts = ({ user }: { user: any }) => {
-  const [posts, setPosts] = useState<Post[]>(mockPosts);
+const ExhibitionPosts = ({ user, exhibitions }: ExhibitionPostsProps) => {
   const [newPost, setNewPost] = useState("");
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const { data: posts = [], isLoading } = useQuery({
+    queryKey: ['exhibition_posts'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('exhibition_posts')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      return data;
+    }
+  });
+
+  const createPostMutation = useMutation({
+    mutationFn: async (content: string) => {
+      const { data, error } = await supabase
+        .from('exhibition_posts')
+        .insert([
+          {
+            content,
+            author_id: user?.id,
+            exhibition_id: exhibitions[0]?.id // Default to first exhibition for now
+          }
+        ])
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['exhibition_posts'] });
+      toast({
+        title: "Success",
+        description: "Your post has been published!",
+      });
+      setNewPost("");
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to create post. Please try again.",
+      });
+    }
+  });
 
   const handlePostSubmit = () => {
     if (!user) {
@@ -60,22 +88,7 @@ const ExhibitionPosts = ({ user }: { user: any }) => {
       return;
     }
 
-    const post: Post = {
-      id: String(Date.now()),
-      author: user.email,
-      content: newPost,
-      likes: 0,
-      comments: 0,
-      shares: 0,
-      createdAt: new Date().toISOString().split("T")[0],
-    };
-
-    setPosts([post, ...posts]);
-    setNewPost("");
-    toast({
-      title: "Success",
-      description: "Your post has been published!",
-    });
+    createPostMutation.mutate(newPost);
   };
 
   const handleInteraction = (type: "like" | "comment" | "share", postId: string) => {
@@ -88,27 +101,21 @@ const ExhibitionPosts = ({ user }: { user: any }) => {
       return;
     }
 
-    setPosts(posts.map(post => {
-      if (post.id === postId) {
-        switch (type) {
-          case "like":
-            return { ...post, likes: post.likes + 1 };
-          case "comment":
-            return { ...post, comments: post.comments + 1 };
-          case "share":
-            return { ...post, shares: post.shares + 1 };
-          default:
-            return post;
-        }
-      }
-      return post;
-    }));
-
+    // Implement interactions here
     toast({
       title: "Success",
       description: `Post ${type}d successfully!`,
     });
   };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4 animate-pulse">
+        <div className="h-32 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+        <div className="h-48 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -136,9 +143,11 @@ const ExhibitionPosts = ({ user }: { user: any }) => {
           <Card key={post.id} className="border-gold/20">
             <CardHeader>
               <div className="flex justify-between items-center">
-                <h3 className="font-playfair text-lg">{post.author}</h3>
+                <h3 className="font-playfair text-lg">
+                  {post.author_id === user?.id ? "You" : "Anonymous"}
+                </h3>
                 <span className="text-sm text-muted-foreground">
-                  {post.createdAt}
+                  {new Date(post.created_at).toLocaleDateString()}
                 </span>
               </div>
             </CardHeader>
