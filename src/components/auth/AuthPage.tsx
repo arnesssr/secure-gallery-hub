@@ -18,9 +18,25 @@ const AuthPage = () => {
       if (event === 'SIGNED_OUT') {
         setError(""); // Clear any errors on sign out
       }
+      if (event === 'USER_DELETED') {
+        setError("Account not found. Please check your credentials.");
+      }
+      if (event === 'PASSWORD_RECOVERY') {
+        setError(""); // Clear errors when starting password recovery
+      }
     });
 
-    return () => subscription.unsubscribe();
+    // Set up error listener
+    const authListener = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'AUTH_ERROR') {
+        setError("Invalid login credentials. Please try again.");
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+      authListener.data.subscription.unsubscribe();
+    };
   }, [navigate]);
 
   return (
