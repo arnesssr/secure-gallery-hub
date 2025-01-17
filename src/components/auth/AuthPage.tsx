@@ -22,8 +22,21 @@ const AuthPage = () => {
 
     // Set up error listener
     const authListener = supabase.auth.onAuthStateChange((event, session) => {
-      if (!session && error === "") {
-        setError("Invalid login credentials. Please try again.");
+      if (!session) {
+        try {
+          // Try to parse the error message if it's in JSON format
+          const errorBody = JSON.parse(error);
+          if (errorBody.code === "weak_password") {
+            setError("Password should be at least 6 characters long.");
+          } else if (errorBody.message) {
+            setError(errorBody.message);
+          }
+        } catch {
+          // If error is not in JSON format or parsing fails, set a generic error
+          if (error === "") {
+            setError("Invalid login credentials. Please try again.");
+          }
+        }
       }
     });
 
