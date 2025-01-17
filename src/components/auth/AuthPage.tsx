@@ -1,6 +1,6 @@
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { supabase } from "@client";
+import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -22,22 +22,6 @@ const AuthPage = () => {
 
     return () => subscription.unsubscribe();
   }, [navigate]);
-
-  const handleError = (error: AuthError) => {
-    let errorMessage = error.message;
-    
-    // Handle specific error cases
-    try {
-      const errorBody = JSON.parse(error.message);
-      if (errorBody.message) {
-        errorMessage = errorBody.message;
-      }
-    } catch {
-      // If parsing fails, use the original error message
-    }
-
-    setError(errorMessage);
-  };
 
   return (
     <div className="min-h-screen bg-offwhite dark:bg-charcoal flex items-center justify-center p-4">
@@ -100,7 +84,6 @@ const AuthPage = () => {
             }}
             theme="default"
             providers={['google']}
-            onError={handleError}
           />
         </div>
       </div>
