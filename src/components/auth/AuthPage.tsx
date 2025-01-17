@@ -23,19 +23,28 @@ const AuthPage = () => {
     // Set up error listener
     const authListener = supabase.auth.onAuthStateChange((event, session) => {
       if (!session) {
+        const errorData = {
+          message: error,
+          code: ""
+        };
+
         try {
           // Try to parse the error message if it's in JSON format
-          const errorBody = JSON.parse(error);
-          if (errorBody.code === "weak_password") {
-            setError("Password should be at least 6 characters long.");
-          } else if (errorBody.message) {
-            setError(errorBody.message);
-          }
+          const parsedError = JSON.parse(error);
+          errorData.message = parsedError.message;
+          errorData.code = parsedError.code;
         } catch {
-          // If error is not in JSON format or parsing fails, set a generic error
-          if (error === "") {
-            setError("Invalid login credentials. Please try again.");
-          }
+          // If parsing fails, use the error string as is
+          errorData.message = error;
+        }
+
+        // Handle specific error cases
+        if (errorData.code === "weak_password") {
+          setError("Password should be at least 6 characters long.");
+        } else if (errorData.code === "invalid_credentials") {
+          setError("Invalid email or password. Please try again.");
+        } else if (error && error !== "") {
+          setError(errorData.message || "An error occurred during authentication.");
         }
       }
     });
@@ -44,7 +53,7 @@ const AuthPage = () => {
       subscription.unsubscribe();
       authListener.data.subscription.unsubscribe();
     };
-  }, [navigate]);
+  }, [navigate, error]);
 
   return (
     <div className="min-h-screen bg-offwhite dark:bg-charcoal flex items-center justify-center p-4">
