@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
+import AuthPage from "@/components/auth/AuthPage";
 import Index from "./pages/Index";
 import PhotographyServices from "./pages/photography-services";
 import SoundServices from "./pages/sound-services";
@@ -35,6 +36,7 @@ const App = () => (
         <TooltipProvider>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<AuthPage />} />
             <Route path="/galleries" element={<GalleriesPage />} />
             <Route path="/galleries/:id" element={<GalleryView />} />
             <Route path="/about" element={<AboutPage />} />
