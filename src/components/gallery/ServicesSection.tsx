@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Speaker, Drone, School, Video, Wrench } from "lucide-react";
+import { Speaker, Plane, School, Video, Wrench } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 const services = [
@@ -17,7 +17,7 @@ const services = [
     description: "Professional aerial photography and videography",
     link: "/drone-services",
     action: "Learn More",
-    icon: <Drone className="w-8 h-8 text-gold" />
+    icon: <Plane className="w-8 h-8 text-gold" />
   },
   {
     title: "Photography School",
