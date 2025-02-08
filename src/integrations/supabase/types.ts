@@ -439,6 +439,12 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      booking_type:
+        | "photography"
+        | "video"
+        | "sound"
+        | "school"
+        | "equipment_rental"
       payment_method_type: "mpesa" | "card" | "bank_transfer"
     }
     CompositeTypes: {
