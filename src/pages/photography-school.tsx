@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -92,6 +93,13 @@ const PhotographySchool = () => {
     }
   };
 
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('en-KE', {
+      style: 'currency',
+      currency: 'KES',
+    }).format(price);
+  };
+
   return (
     <div className="min-h-screen bg-offwhite dark:bg-charcoal transition-colors duration-300">
       <div className="container mx-auto px-4 py-20">
@@ -116,10 +124,17 @@ const PhotographySchool = () => {
                 courses?.map((course) => (
                   <Card key={course.id} className="bg-white/80 dark:bg-charcoal/80 backdrop-blur-sm">
                     <CardHeader>
-                      <CardTitle className="text-xl font-playfair">{course.title}</CardTitle>
-                      <CardDescription>
-                        Duration: {course.duration} | Level: {course.skill_level}
-                      </CardDescription>
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <CardTitle className="text-xl font-playfair">{course.title}</CardTitle>
+                          <CardDescription>
+                            Duration: {course.duration} | Level: {course.skill_level}
+                          </CardDescription>
+                        </div>
+                        <span className="text-lg font-semibold text-gold">
+                          {formatPrice(course.price)}
+                        </span>
+                      </div>
                     </CardHeader>
                     <CardContent>
                       <p className="text-sm text-charcoal/80 dark:text-offwhite/80">

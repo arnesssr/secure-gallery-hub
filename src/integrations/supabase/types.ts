@@ -54,6 +54,7 @@ export type Database = {
           description: string | null
           duration: string | null
           id: string
+          price: number | null
           skill_level: string | null
           title: string
           updated_at: string | null
@@ -63,6 +64,7 @@ export type Database = {
           description?: string | null
           duration?: string | null
           id?: string
+          price?: number | null
           skill_level?: string | null
           title: string
           updated_at?: string | null
@@ -72,6 +74,7 @@ export type Database = {
           description?: string | null
           duration?: string | null
           id?: string
+          price?: number | null
           skill_level?: string | null
           title?: string
           updated_at?: string | null
