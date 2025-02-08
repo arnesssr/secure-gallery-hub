@@ -1,43 +1,44 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Camera, Music2, Video, School, Mic2 } from "lucide-react";
+import { Speaker, Drone, School, Video, Wrench } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 const services = [
   {
-    title: "Professional Photography",
-    description: "Events, portraits, and commercial photography",
-    link: "/photography-services",
+    title: "Equipment Rentals",
+    description: "P.A systems and professional camera equipment rentals",
+    link: "/equipment-rentals",
+    action: "View Equipment",
+    icon: <Speaker className="w-8 h-8 text-gold" />
+  },
+  {
+    title: "Drone Services",
+    description: "Professional aerial photography and videography",
+    link: "/drone-services",
     action: "Learn More",
-    icon: <Camera className="w-8 h-8 text-gold" />
-  },
-  {
-    title: "Sound Services",
-    description: "Professional sound engineering and stereo rentals",
-    link: "/sound-services",
-    action: "Get a Quote",
-    icon: <Music2 className="w-8 h-8 text-gold" />
-  },
-  {
-    title: "Podcast Studio",
-    description: "Professional podcast recording at affordable rates",
-    link: "/podcast-services",
-    action: "Get a Quote",
-    icon: <Mic2 className="w-8 h-8 text-gold" />
+    icon: <Drone className="w-8 h-8 text-gold" />
   },
   {
     title: "Photography School",
-    description: "Learn from professional photographers",
+    description: "8 weeks beginner (30k KES), 4 weeks intermediate (18k KES)",
     link: "/photography-school",
     action: "Join Now",
     icon: <School className="w-8 h-8 text-gold" />
   },
   {
-    title: "Video Editing",
-    description: "Professional video editing services",
-    link: "/services/video-services",
+    title: "Livestreaming & Videography",
+    description: "Professional video production and live streaming services",
+    link: "/video-services",
     action: "Get a Quote",
     icon: <Video className="w-8 h-8 text-gold" />
+  },
+  {
+    title: "Video Editing",
+    description: "4 weeks complete package (15k KES)",
+    link: "/services/video-editing",
+    action: "Get Started",
+    icon: <Wrench className="w-8 h-8 text-gold" />
   }
 ];
 
@@ -50,7 +51,7 @@ const ServicesSection = () => {
           to={service.link}
           className="block transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
         >
-          <Card className="h-full bg-white/95 dark:bg-charcoal/95 border-gold/20 backdrop-blur-sm">
+          <Card className="h-full bg-white/95 dark:bg-charcoal/95 border-gold/20 backdrop-blur-sm transition-all duration-300">
             <CardHeader className="flex items-center justify-center pt-8">
               {service.icon}
             </CardHeader>

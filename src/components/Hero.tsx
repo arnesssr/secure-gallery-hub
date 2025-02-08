@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
@@ -37,9 +38,8 @@ const Hero = () => {
 
   return (
     <div className="relative h-screen overflow-hidden">
-      {/* Gradient overlay with new colors */}
       <div 
-        className="absolute inset-0 bg-gradient-to-br from-[#1A1F2C]/80 via-[#9b87f5]/40 to-transparent z-10"
+        className="absolute inset-0 bg-gradient-to-br from-[#1A1F2C]/80 via-[#9b87f5]/40 to-transparent z-10 transition-all duration-500"
         style={{
           background: `
             linear-gradient(
@@ -52,38 +52,18 @@ const Hero = () => {
         }}
       />
       
-      {images.map((image, index) => (
-        <div
-          key={image}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentImageIndex ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <img
-            src={`${image}&w=1920`}
-            alt={`Hero ${index + 1}`}
-            className="w-full h-full object-cover"
-            loading={index === 0 ? "eager" : "lazy"}
-            onLoad={() => {
-              if (index === 0) setIsLoaded(true);
-            }}
-          />
-        </div>
-      ))}
-      
       <div 
-        className={`absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-20 transition-opacity duration-700 ${
-          isLoaded ? 'opacity-100' : 'opacity-0'
+        className={`absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-20 transition-all duration-700 ${
+          isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         }`}
       >
         <div className="max-w-4xl mx-auto space-y-8">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-playfair text-white mb-6 leading-tight">
-            Capturing Life's
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-playfair text-white mb-6 leading-tight transition-all duration-500">
             <span className="block bg-gradient-to-r from-[#D946EF] to-[#9b87f5] bg-clip-text text-transparent">
-              Precious Moments
+              ....click it or miss it....
             </span>
           </h1>
-          <p className="text-xl sm:text-2xl text-white/90 font-roboto max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl sm:text-2xl text-white/90 font-roboto max-w-2xl mx-auto leading-relaxed transition-all duration-500">
             Professional photography and multimedia services that bring your vision to life
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-8">
