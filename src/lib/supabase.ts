@@ -1,3 +1,4 @@
+
 import { createClient } from '@supabase/supabase-js';
 
 // Using the values from the connected Supabase project
@@ -14,7 +15,7 @@ if (!supabaseKey) {
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
-export type BookingType = 'photography' | 'video' | 'sound' | 'school';
+export type BookingType = 'photography' | 'video' | 'sound' | 'school' | 'equipment_rental';
 
 export interface Booking {
   id: string;
