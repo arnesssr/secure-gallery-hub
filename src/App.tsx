@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,6 +17,7 @@ import AboutPage from "./pages/about";
 import GalleryView from "./pages/galleries/[id]";
 import PaymentPage from "./pages/services/payment";
 import ExhibitionsPage from "./pages/exhibitions";
+import EquipmentRentals from "./pages/equipment-rentals";
 
 // Photography service pages
 import WeddingPhotography from "./pages/services/wedding-photography";
@@ -45,7 +47,8 @@ const App = () => (
             <Route path="/sound-services" element={<SoundServices />} />
             <Route path="/podcast-services" element={<PodcastServices />} />
             <Route path="/photography-school" element={<PhotographySchool />} />
-            <Route path="/services/video-services" element={<VideoServices />} />
+            <Route path="/video-services" element={<VideoServices />} />
+            <Route path="/equipment-rentals" element={<EquipmentRentals />} />
             
             {/* Photography service routes */}
             <Route path="/services/wedding-photography" element={<WeddingPhotography />} />
