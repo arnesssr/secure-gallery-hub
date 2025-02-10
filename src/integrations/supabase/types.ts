@@ -178,7 +178,6 @@ export type Database = {
       }
       galleries: {
         Row: {
-          collection_id: string | null
           created_at: string | null
           description: string | null
           id: string
@@ -187,10 +186,8 @@ export type Database = {
           owner_id: string | null
           password: string | null
           title: string
-          type: string | null
         }
         Insert: {
-          collection_id?: string | null
           created_at?: string | null
           description?: string | null
           id?: string
@@ -199,10 +196,8 @@ export type Database = {
           owner_id?: string | null
           password?: string | null
           title: string
-          type?: string | null
         }
         Update: {
-          collection_id?: string | null
           created_at?: string | null
           description?: string | null
           id?: string
@@ -211,17 +206,8 @@ export type Database = {
           owner_id?: string | null
           password?: string | null
           title?: string
-          type?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "galleries_collection_id_fkey"
-            columns: ["collection_id"]
-            isOneToOne: false
-            referencedRelation: "galleries"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       gallery_access: {
         Row: {
