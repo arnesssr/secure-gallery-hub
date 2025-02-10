@@ -1,4 +1,5 @@
-import { Menu, Sun, Moon } from "lucide-react";
+
+import { Menu, Sun, Moon, Home, Image, Calendar, Info, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useTheme } from "@/components/theme-provider";
@@ -9,11 +10,11 @@ const Navbar = () => {
   const location = useLocation();
   
   const navItems = [
-    { name: "Home", href: "/" },
-    { name: "Gallery", href: "/galleries" },
-    { name: "Exhibitions", href: "/exhibitions" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "#contact" },
+    { name: "Home", href: "/", icon: Home },
+    { name: "Gallery", href: "/galleries", icon: Image },
+    { name: "Exhibitions", href: "/exhibitions", icon: Calendar },
+    { name: "About", href: "/about", icon: Info },
+    { name: "Contact", href: "#contact", icon: Mail },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -41,16 +42,18 @@ const Navbar = () => {
                   key={item.name}
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto relative after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold after:left-0 after:-bottom-1 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
+                  className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto relative after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold after:left-0 after:-bottom-1 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 flex items-center gap-2"
                 >
+                  <item.icon className="w-4 h-4" />
                   {item.name}
                 </a>
               ) : (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto relative after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold after:left-0 after:-bottom-1 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
+                  className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto relative after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold after:left-0 after:-bottom-1 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 flex items-center gap-2"
                 >
+                  <item.icon className="w-4 h-4" />
                   {item.name}
                 </Link>
               )
@@ -79,16 +82,18 @@ const Navbar = () => {
                       key={item.name}
                       href={item.href}
                       onClick={(e) => handleNavClick(e, item.href)}
-                      className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto text-lg"
+                      className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto text-lg flex items-center gap-2"
                     >
+                      <item.icon className="w-4 h-4" />
                       {item.name}
                     </a>
                   ) : (
                     <Link
                       key={item.name}
                       to={item.href}
-                      className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto text-lg"
+                      className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto text-lg flex items-center gap-2"
                     >
+                      <item.icon className="w-4 h-4" />
                       {item.name}
                     </Link>
                   )

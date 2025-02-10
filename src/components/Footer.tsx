@@ -1,3 +1,4 @@
+
 import { Facebook, Instagram, Twitter, Mail, Phone } from "lucide-react";
 
 const Footer = () => {
@@ -10,7 +11,7 @@ const Footer = () => {
             <div className="space-y-2">
               <p className="flex items-center gap-2">
                 <Mail className="w-4 h-4" />
-                info@washikadau.com
+                philiprundu@gmail.com
               </p>
               <p className="flex items-center gap-2">
                 <Phone className="w-4 h-4" />
