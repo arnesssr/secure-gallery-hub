@@ -179,9 +179,11 @@ export type Database = {
       galleries: {
         Row: {
           collection_id: string | null
+          collection_order: number | null
           created_at: string | null
           description: string | null
           id: string
+          image_count: number | null
           image_url: string
           is_private: boolean | null
           owner_id: string | null
@@ -191,9 +193,11 @@ export type Database = {
         }
         Insert: {
           collection_id?: string | null
+          collection_order?: number | null
           created_at?: string | null
           description?: string | null
           id?: string
+          image_count?: number | null
           image_url: string
           is_private?: boolean | null
           owner_id?: string | null
@@ -203,9 +207,11 @@ export type Database = {
         }
         Update: {
           collection_id?: string | null
+          collection_order?: number | null
           created_at?: string | null
           description?: string | null
           id?: string
+          image_count?: number | null
           image_url?: string
           is_private?: boolean | null
           owner_id?: string | null
@@ -245,6 +251,44 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "gallery_access_gallery_id_fkey"
+            columns: ["gallery_id"]
+            isOneToOne: false
+            referencedRelation: "galleries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gallery_images: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          gallery_id: string | null
+          id: string
+          image_url: string
+          order_index: number | null
+          title: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          gallery_id?: string | null
+          id?: string
+          image_url: string
+          order_index?: number | null
+          title?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          gallery_id?: string | null
+          id?: string
+          image_url?: string
+          order_index?: number | null
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gallery_images_gallery_id_fkey"
             columns: ["gallery_id"]
             isOneToOne: false
             referencedRelation: "galleries"
