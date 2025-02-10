@@ -1,26 +1,34 @@
+
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { GalleryHorizontal, Lock, Camera, ChevronDown, LogOut } from "lucide-react";
+import { GalleryHorizontal, Lock, ChevronDown, LogOut, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import EncryptedGallery from "@/components/EncryptedGallery";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, Pagination, Navigation } from 'swiper/modules';
 import { supabase } from "@/integrations/supabase/client";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+interface Gallery {
+  id: string;
+  title: string;
+  description: string | null;
+  image_url: string;
+  is_private: boolean;
+}
 
 const GalleriesPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("general");
-  const [publicGalleries, setPublicGalleries] = useState([]);
+  const [galleries, setGalleries] = useState<Gallery[]>([]);
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchPublicGalleries();
+    fetchGalleries();
     checkUser();
   }, []);
 
@@ -29,39 +37,19 @@ const GalleriesPage = () => {
     setUser(user);
   };
 
-  const fetchPublicGalleries = async () => {
+  const fetchGalleries = async () => {
     const { data } = await supabase
       .from("galleries")
       .select("*")
       .eq("is_private", false);
-    setPublicGalleries(data || []);
+    setGalleries(data || []);
+    setLoading(false);
   };
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     navigate("/auth");
   };
-
-  const categories = [
-    {
-      id: "general",
-      title: "Public Galleries",
-      icon: <GalleryHorizontal className="w-6 h-6" />,
-      description: "Browse our collection of public galleries",
-    },
-    {
-      id: "encrypted",
-      title: "Private Galleries",
-      icon: <Lock className="w-6 h-6" />,
-      description: "Access password-protected private galleries",
-    },
-    {
-      id: "photography",
-      title: "Photography Types",
-      icon: <Camera className="w-6 h-6" />,
-      description: "Explore different photography styles and services",
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-offwhite dark:bg-charcoal">
@@ -83,84 +71,92 @@ const GalleriesPage = () => {
           )}
         </div>
 
-        <div className="md:hidden mb-8">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-full justify-between">
-                {categories.find(cat => cat.id === selectedCategory)?.title || "Select Gallery"}
-                <ChevronDown className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-full">
-              {categories.map((category) => (
-                <DropdownMenuItem
-                  key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className="flex items-center gap-2"
-                >
-                  {category.icon}
-                  <span>{category.title}</span>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="aspect-square bg-charcoal/10 animate-pulse rounded-lg" />
+            ))}
+          </div>
+        ) : (
+          <>
+            {/* Desktop View */}
+            <div className="hidden md:block">
+              <Swiper
+                effect="coverflow"
+                grabCursor={true}
+                centeredSlides={true}
+                slidesPerView={2}
+                coverflowEffect={{
+                  rotate: 50,
+                  stretch: 0,
+                  depth: 100,
+                  modifier: 1,
+                  slideShadows: true,
+                }}
+                pagination={{ clickable: true }}
+                navigation={true}
+                modules={[EffectCoverflow, Pagination, Navigation]}
+                className="w-full py-12"
+              >
+                {galleries.map((gallery) => (
+                  <SwiperSlide key={gallery.id} className="w-full aspect-[4/3]">
+                    <Link
+                      to={`/galleries/${gallery.id}`}
+                      className="block relative w-full h-full overflow-hidden rounded-lg transform transition-transform duration-500 hover:scale-[1.02]"
+                    >
+                      <img
+                        src={gallery.image_url}
+                        alt={gallery.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <div className="absolute bottom-0 left-0 right-0 p-6">
+                          <h3 className="text-2xl text-offwhite font-playfair mb-2">
+                            {gallery.title}
+                          </h3>
+                          {gallery.description && (
+                            <p className="text-offwhite/80 mb-4">{gallery.description}</p>
+                          )}
+                          <Button variant="outline" className="bg-gold hover:bg-gold/80 text-charcoal border-none">
+                            View Gallery
+                          </Button>
+                        </div>
+                      </div>
+                    </Link>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
 
-        <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              className={`p-6 rounded-lg transition-all duration-300 ${
-                selectedCategory === category.id
-                  ? "bg-gold text-charcoal"
-                  : "bg-white dark:bg-charcoal/50 text-charcoal dark:text-offwhite hover:bg-gold/10"
-              }`}
-            >
-              <div className="flex flex-col items-center text-center space-y-4">
-                {category.icon}
-                <h3 className="text-xl font-playfair">{category.title}</h3>
-                <p className="text-sm opacity-80">{category.description}</p>
-              </div>
-            </button>
-          ))}
-        </div>
-
-        <div className="mt-8">
-          {selectedCategory === "encrypted" && <EncryptedGallery />}
-
-          {selectedCategory === "general" && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {publicGalleries.map((gallery: any) => (
+            {/* Mobile View */}
+            <div className="grid grid-cols-1 gap-6 md:hidden">
+              {galleries.map((gallery) => (
                 <Link
                   key={gallery.id}
                   to={`/galleries/${gallery.id}`}
-                  className="group relative overflow-hidden rounded-lg aspect-square"
+                  className="block bg-white dark:bg-charcoal/50 rounded-lg overflow-hidden shadow-lg"
                 >
-                  <img
-                    src={gallery.image_url}
-                    alt={gallery.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-end p-6">
-                    <h3 className="text-xl text-offwhite font-playfair mb-4">
+                  <div className="aspect-[3/2] relative">
+                    <img
+                      src={gallery.image_url}
+                      alt={gallery.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-lg font-playfair text-charcoal dark:text-offwhite mb-2">
                       {gallery.title}
                     </h3>
-                    <Button variant="outline" className="bg-gold hover:bg-gold/80 text-charcoal border-none">
-                      View Gallery
+                    <Button className="w-full bg-gold hover:bg-gold/80 text-charcoal">
+                      View Album
+                      <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                   </div>
                 </Link>
               ))}
             </div>
-          )}
-
-          {selectedCategory === "photography" && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Photography types grid */}
-            </div>
-          )}
-        </div>
+          </>
+        )}
       </main>
       <Footer />
     </div>
