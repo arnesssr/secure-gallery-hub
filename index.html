@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,6 +8,18 @@
     <meta name="description" content="Professional Photography Services" />
     <meta name="author" content="Washikadau Entertainment" />
     <meta property="og:image" content="/og-image.png" />
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      img-src 'self' https://images.unsplash.com https://*.supabase.co data:;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      script-src 'self' https://cdn.gpteng.co;
+      connect-src 'self' https://*.supabase.co wss://*.supabase.co;
+      font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com data:;
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+      frame-ancestors 'none';
+    ">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
