@@ -38,6 +38,7 @@ const Hero = () => {
 
   return (
     <div className="relative h-screen overflow-hidden">
+      {/* Background gradient overlay */}
       <div 
         className="absolute inset-0 bg-gradient-to-br from-[#1A1F2C]/80 via-[#9b87f5]/40 to-transparent z-10 transition-all duration-500"
         style={{
@@ -52,18 +53,19 @@ const Hero = () => {
         }}
       />
       
+      {/* Content */}
       <div 
         className={`absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-20 transition-all duration-700 ${
           isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         }`}
       >
         <div className="max-w-4xl mx-auto space-y-8">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-playfair text-white mb-6 leading-tight transition-all duration-500">
-            <span className="block bg-gradient-to-r from-[#D946EF] to-[#9b87f5] bg-clip-text text-transparent">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-playfair mb-6 leading-tight">
+            <span className="typing-animation block bg-gradient-to-r from-[#D946EF] to-[#9b87f5] bg-clip-text text-transparent">
               ....click it or miss it....
             </span>
           </h1>
-          <p className="text-xl sm:text-2xl text-white/90 font-roboto max-w-2xl mx-auto leading-relaxed transition-all duration-500">
+          <p className="text-xl sm:text-2xl text-white/90 font-roboto max-w-2xl mx-auto leading-relaxed">
             Professional photography and multimedia services that bring your vision to life
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-8">
@@ -84,6 +86,25 @@ const Hero = () => {
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 -z-10" 
+        style={{
+          opacity: isLoaded ? 1 : 0,
+          transition: 'opacity 1s ease-in-out'
+        }}
+      >
+        <img
+          src={images[currentImageIndex]}
+          alt="Background"
+          className="w-full h-full object-cover"
+          style={{
+            transition: 'transform 0.5s ease-in-out',
+            transform: `scale(${isLoaded ? 1.05 : 1})`,
+          }}
+        />
       </div>
     </div>
   );
