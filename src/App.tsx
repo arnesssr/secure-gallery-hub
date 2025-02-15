@@ -16,6 +16,7 @@ import VideoServices from "./pages/video-services";
 import DroneServices from "./pages/drone-services";
 import VideoEditing from "./pages/services/video-editing";
 import AboutPage from "./pages/about";
+import ContactsPage from "./pages/contacts";
 import GalleryView from "./pages/galleries/[id]";
 import PaymentPage from "./pages/services/payment";
 import ExhibitionsPage from "./pages/exhibitions";
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/galleries" element={<GalleriesPage />} />
             <Route path="/galleries/:id" element={<GalleryView />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/contacts" element={<ContactsPage />} />
             <Route path="/exhibitions" element={<ExhibitionsPage />} />
             <Route path="/photography-services" element={<PhotographyServices />} />
             <Route path="/sound-services" element={<SoundServices />} />

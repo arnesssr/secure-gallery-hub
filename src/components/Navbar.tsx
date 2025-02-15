@@ -14,7 +14,7 @@ const Navbar = () => {
     { name: "Gallery", href: "/galleries", icon: Image },
     { name: "Exhibitions", href: "/exhibitions", icon: Calendar },
     { name: "About", href: "/about", icon: Info },
-    { name: "Contact", href: "#contact", icon: Mail },
+    { name: "Contact", href: "/contacts", icon: Mail },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -37,26 +37,14 @@ const Navbar = () => {
 
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              item.href.startsWith('#') && location.pathname === '/' ? (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
-                  className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto relative after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold after:left-0 after:-bottom-1 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 flex items-center gap-2"
-                >
-                  <item.icon className="w-4 h-4" />
-                  {item.name}
-                </a>
-              ) : (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto relative after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold after:left-0 after:-bottom-1 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 flex items-center gap-2"
-                >
-                  <item.icon className="w-4 h-4" />
-                  {item.name}
-                </Link>
-              )
+              <Link
+                key={item.name}
+                to={item.href}
+                className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto relative after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold after:left-0 after:-bottom-1 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 flex items-center gap-2"
+              >
+                <item.icon className="w-4 h-4" />
+                {item.name}
+              </Link>
             ))}
             <Button
               variant="ghost"
@@ -77,26 +65,14 @@ const Navbar = () => {
             <SheetContent className="bg-charcoal/95 backdrop-blur-md border-gold/10">
               <div className="flex flex-col space-y-6 mt-8">
                 {navItems.map((item) => (
-                  item.href.startsWith('#') && location.pathname === '/' ? (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      onClick={(e) => handleNavClick(e, item.href)}
-                      className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto text-lg flex items-center gap-2"
-                    >
-                      <item.icon className="w-4 h-4" />
-                      {item.name}
-                    </a>
-                  ) : (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto text-lg flex items-center gap-2"
-                    >
-                      <item.icon className="w-4 h-4" />
-                      {item.name}
-                    </Link>
-                  )
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className="text-offwhite hover:text-gold transition-colors duration-200 font-roboto text-lg flex items-center gap-2"
+                  >
+                    <item.icon className="w-4 h-4" />
+                    {item.name}
+                  </Link>
                 ))}
                 <Button
                   variant="ghost"
