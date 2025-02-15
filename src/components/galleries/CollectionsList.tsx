@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FolderOpen, Image } from "lucide-react";
+import { FolderOpen, Image, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
@@ -12,6 +12,7 @@ interface Collection {
   description: string | null;
   image_url: string;
   image_count: number;
+  is_private: boolean;
 }
 
 const CollectionsList = () => {
@@ -73,7 +74,7 @@ const CollectionsList = () => {
         <Link
           key={collection.id}
           to={`/galleries/${collection.id}`}
-          className="group bg-white dark:bg-charcoal/50 rounded-lg overflow-hidden shadow-lg"
+          className="group bg-white dark:bg-charcoal/50 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
         >
           <div className="aspect-[3/2] relative">
             <img
@@ -98,6 +99,11 @@ const CollectionsList = () => {
               <Image className="w-4 h-4" />
               <span className="text-sm">{collection.image_count}</span>
             </div>
+            {collection.is_private && (
+              <div className="absolute top-4 left-4">
+                <Lock className="w-5 h-5 text-gold" />
+              </div>
+            )}
           </div>
         </Link>
       ))}

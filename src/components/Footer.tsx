@@ -15,7 +15,7 @@ const Footer = () => {
               </p>
               <p className="flex items-center gap-2">
                 <Phone className="w-4 h-4" />
-                +254 700 000 000
+                +254 721 217 933
               </p>
             </div>
           </div>
@@ -23,13 +23,26 @@ const Footer = () => {
           <div>
             <h3 className="font-playfair text-xl mb-4">Follow Us</h3>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-gold transition-colors">
+              <a 
+                href="https://facebook.com/WashikadauPikchaz" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-gold transition-colors"
+              >
                 <Facebook className="w-6 h-6" />
               </a>
-              <a href="#" className="hover:text-gold transition-colors">
+              <a 
+                href="https://www.threads.net/@washikadaupikchaz" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-gold transition-colors"
+              >
                 <Instagram className="w-6 h-6" />
               </a>
-              <a href="#" className="hover:text-gold transition-colors">
+              <a 
+                href="#" 
+                className="hover:text-gold transition-colors"
+              >
                 <Twitter className="w-6 h-6" />
               </a>
             </div>
