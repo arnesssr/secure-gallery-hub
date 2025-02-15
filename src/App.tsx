@@ -13,6 +13,8 @@ import PodcastServices from "./pages/podcast-services";
 import GalleriesPage from "./pages/galleries";
 import PhotographySchool from "./pages/photography-school";
 import VideoServices from "./pages/video-services";
+import DroneServices from "./pages/drone-services";
+import VideoEditing from "./pages/services/video-editing";
 import AboutPage from "./pages/about";
 import GalleryView from "./pages/galleries/[id]";
 import PaymentPage from "./pages/services/payment";
@@ -49,8 +51,10 @@ const App = () => (
             <Route path="/photography-school" element={<PhotographySchool />} />
             <Route path="/video-services" element={<VideoServices />} />
             <Route path="/equipment-rentals" element={<EquipmentRentals />} />
+            <Route path="/drone-services" element={<DroneServices />} />
             
-            {/* Photography service routes */}
+            {/* Services routes */}
+            <Route path="/services/video-editing" element={<VideoEditing />} />
             <Route path="/services/wedding-photography" element={<WeddingPhotography />} />
             <Route path="/services/corporate-photography" element={<CorporatePhotography />} />
             <Route path="/services/portrait-photography" element={<PortraitPhotography />} />
