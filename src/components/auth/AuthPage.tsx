@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AuthError, AuthChangeEvent } from "@supabase/supabase-js";
+import type { AuthChangeEvent } from "@supabase/supabase-js";
 
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -13,20 +13,20 @@ const AuthPage = () => {
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event: AuthChangeEvent, session) => {
-      if (event === 'SIGNED_IN') {
+      if (event === "SIGNED_IN") {
         navigate("/galleries");
       }
-      if (event === 'SIGNED_OUT') {
+      if (event === "SIGNED_OUT") {
         setError(""); // Clear any errors on sign out
       }
     });
 
     // Set up error listener for auth events
     const authListener = supabase.auth.onAuthStateChange((event: AuthChangeEvent, session) => {
-      if (event === 'SIGNED_UP' && !session) {
+      if (event === "SIGNED_UP" && !session) {
         setError("Please check your email to confirm your account.");
       }
-      if (event === 'PASSWORD_RECOVERY') {
+      if (event === "PASSWORD_RECOVERY") {
         setError(""); // Clear errors on password recovery
       }
     });
