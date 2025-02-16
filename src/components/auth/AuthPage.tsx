@@ -1,3 +1,4 @@
+
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
@@ -116,6 +117,15 @@ const AuthPage = () => {
             }}
             theme="default"
             providers={['google']}
+            localization={{
+              variables: {
+                sign_up: {
+                  password_placeholder: "Password (minimum 6 characters)",
+                  email_label: "Email address",
+                  password_label: "Create a password",
+                }
+              }
+            }}
           />
         </div>
       </div>
