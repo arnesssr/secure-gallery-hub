@@ -5,14 +5,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AuthError } from "@supabase/supabase-js";
+import { AuthError, AuthChangeEvent } from "@supabase/supabase-js";
 
 const AuthPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event: AuthChangeEvent, session) => {
       if (event === 'SIGNED_IN') {
         navigate("/galleries");
       }
@@ -22,9 +22,9 @@ const AuthPage = () => {
     });
 
     // Set up error listener for auth events
-    const authListener = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'USER_DELETED') {
-        setError("Account not found. Please sign up first.");
+    const authListener = supabase.auth.onAuthStateChange((event: AuthChangeEvent, session) => {
+      if (event === 'SIGNED_UP' && !session) {
+        setError("Please check your email to confirm your account.");
       }
       if (event === 'PASSWORD_RECOVERY') {
         setError(""); // Clear errors on password recovery
@@ -36,26 +36,6 @@ const AuthPage = () => {
       authListener.data.subscription.unsubscribe();
     };
   }, [navigate]);
-
-  // Handle authentication errors
-  const handleAuthError = (error: Error | AuthError) => {
-    if ('message' in error) {
-      try {
-        const errorData = JSON.parse(error.message);
-        if (errorData.code === 'invalid_credentials') {
-          setError("Invalid email or password. Please check your credentials and try again.");
-        } else if (errorData.code === 'user_not_found') {
-          setError("Account not found. Please sign up first.");
-        } else {
-          setError(errorData.message || "An error occurred during authentication.");
-        }
-      } catch {
-        setError(error.message);
-      }
-    } else {
-      setError("An unexpected error occurred. Please try again.");
-    }
-  };
 
   return (
     <div className="min-h-screen bg-offwhite dark:bg-charcoal flex items-center justify-center p-4">
@@ -78,7 +58,6 @@ const AuthPage = () => {
         <div className="bg-white dark:bg-charcoal/50 p-8 rounded-lg shadow-sm">
           <Auth
             supabaseClient={supabase}
-            onError={handleAuthError}
             appearance={{
               theme: ThemeSupa,
               variables: {
