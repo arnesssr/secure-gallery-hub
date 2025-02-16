@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
+import type { AuthError, Session, User } from "@supabase/supabase-js";
 
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -13,42 +14,66 @@ const AuthPage = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check if user is already signed in
+    // Check initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
+      if (session?.user) {
         navigate("/galleries");
       }
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN") {
-        toast({
-          title: "Welcome back!",
-          description: "Successfully signed in",
-        });
-        navigate("/galleries");
-      }
-      if (event === "SIGNED_OUT") {
-        setError("");
-      }
-      if (event === "SIGNED_UP") {
-        toast({
-          title: "Account created",
-          description: "Please check your email to confirm your account",
-        });
-      }
-      if (event === "USER_UPDATED") {
-        toast({
-          title: "Success",
-          description: "Your account has been updated",
-        });
-      }
+    // Subscribe to auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      handleAuthChange(event, session);
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [navigate, toast]);
+  }, [navigate]);
+
+  const handleAuthChange = async (
+    event: string,
+    session: Session | null
+  ) => {
+    switch (event) {
+      case "SIGNED_IN":
+        toast({
+          title: "Welcome back!",
+          description: "Successfully signed in",
+        });
+        navigate("/galleries");
+        break;
+      case "SIGNED_OUT":
+        setError("");
+        break;
+      case "SIGNED_UP":
+        toast({
+          title: "Account created",
+          description: "Please check your email to confirm your account",
+        });
+        break;
+      case "USER_UPDATED":
+        toast({
+          title: "Success",
+          description: "Your account has been updated",
+        });
+        break;
+      case "USER_DELETED":
+        toast({
+          title: "Account deleted",
+          description: "Your account has been successfully deleted",
+        });
+        break;
+      case "PASSWORD_RECOVERY":
+        toast({
+          title: "Password recovery",
+          description: "Check your email for password reset instructions",
+        });
+        break;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-offwhite dark:bg-charcoal flex items-center justify-center p-4">
@@ -127,8 +152,8 @@ const AuthPage = () => {
                   email_label: "Email address",
                   password_label: "Create a password",
                   email_input_placeholder: "Your email address",
-                  password_input_placeholder: "Password (minimum 6 characters)",
-                  button_label: "Sign up",
+                  password_input_placeholder: "Create a password (min 6 chars)",
+                  button_label: "Create account",
                   loading_button_label: "Creating account..."
                 }
               }
