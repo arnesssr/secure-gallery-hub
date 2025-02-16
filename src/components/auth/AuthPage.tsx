@@ -21,32 +21,13 @@ const AuthPage = () => {
       }
     });
 
-    // Set up error listener
+    // Set up error listener for auth events
     const authListener = supabase.auth.onAuthStateChange((event, session) => {
-      if (!session) {
-        const errorData = {
-          message: error,
-          code: ""
-        };
-
-        try {
-          // Try to parse the error message if it's in JSON format
-          const parsedError = JSON.parse(error);
-          errorData.message = parsedError.message;
-          errorData.code = parsedError.code;
-        } catch {
-          // If parsing fails, use the error string as is
-          errorData.message = error;
-        }
-
-        // Handle specific error cases
-        if (errorData.code === "weak_password") {
-          setError("Password should be at least 6 characters long.");
-        } else if (errorData.code === "invalid_credentials") {
-          setError("Invalid email or password. Please try again.");
-        } else if (error && error !== "") {
-          setError(errorData.message || "An error occurred during authentication.");
-        }
+      if (event === 'USER_DELETED') {
+        setError("Account not found. Please sign up first.");
+      }
+      if (event === 'PASSWORD_RECOVERY') {
+        setError(""); // Clear errors on password recovery
       }
     });
 
@@ -54,7 +35,27 @@ const AuthPage = () => {
       subscription.unsubscribe();
       authListener.data.subscription.unsubscribe();
     };
-  }, [navigate, error]);
+  }, [navigate]);
+
+  // Handle authentication errors
+  const handleAuthError = (error: Error | AuthError) => {
+    if ('message' in error) {
+      try {
+        const errorData = JSON.parse(error.message);
+        if (errorData.code === 'invalid_credentials') {
+          setError("Invalid email or password. Please check your credentials and try again.");
+        } else if (errorData.code === 'user_not_found') {
+          setError("Account not found. Please sign up first.");
+        } else {
+          setError(errorData.message || "An error occurred during authentication.");
+        }
+      } catch {
+        setError(error.message);
+      }
+    } else {
+      setError("An unexpected error occurred. Please try again.");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-offwhite dark:bg-charcoal flex items-center justify-center p-4">
@@ -77,6 +78,7 @@ const AuthPage = () => {
         <div className="bg-white dark:bg-charcoal/50 p-8 rounded-lg shadow-sm">
           <Auth
             supabaseClient={supabase}
+            onError={handleAuthError}
             appearance={{
               theme: ThemeSupa,
               variables: {
@@ -120,9 +122,12 @@ const AuthPage = () => {
             localization={{
               variables: {
                 sign_up: {
-                  password_placeholder: "Password (minimum 6 characters)",
                   email_label: "Email address",
                   password_label: "Create a password",
+                  email_input_placeholder: "Your email address",
+                  password_input_placeholder: "Password (minimum 6 characters)",
+                  button_label: "Sign up",
+                  loading_button_label: "Creating account..."
                 }
               }
             }}
