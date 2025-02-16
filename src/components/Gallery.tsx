@@ -10,10 +10,10 @@ const ServicesSection = lazy(() => import("./gallery/ServicesSection"));
 const Gallery = () => {
   const miniGalleryItems = [
     {
-      image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc",
-      title: "Wedding Photography",
-      description: "Capturing your special moments",
-      price: "From KES 199,999"
+      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+      title: "Business Photography",
+      description: "Professional corporate imagery",
+      price: "From KES 89,999"
     },
     {
       image: "https://images.unsplash.com/photo-1604881988758-f76ad2f7aac1",
@@ -22,15 +22,15 @@ const Gallery = () => {
       price: "From KES 89,999"
     },
     {
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-      title: "Portrait Photography",
-      description: "Professional portraits and headshots",
+      image: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21",
+      title: "Landscape Photography",
+      description: "Capturing nature's beauty",
       price: "From KES 29,999"
     },
     {
-      image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
-      title: "Fashion Photography",
-      description: "Fashion and model photography",
+      image: "https://images.unsplash.com/photo-1487887235947-a955ef187fcc",
+      title: "Drone Photography",
+      description: "Aerial photography services",
       price: "From KES 59,999"
     }
   ];
@@ -56,7 +56,7 @@ const Gallery = () => {
                   <img 
                     src={item.image} 
                     alt={item.title}
-                    className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">

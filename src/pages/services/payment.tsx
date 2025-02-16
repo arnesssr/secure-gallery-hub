@@ -1,6 +1,7 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, CreditCard, Wallet } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,13 +12,11 @@ const PaymentPage = () => {
   const { service } = useParams();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'mpesa' | 'card' | 'bank_transfer'>('mpesa');
   
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     phone: '',
-    mpesaNumber: '',
   });
 
   const formatServiceName = (service: string) => {
@@ -53,45 +52,26 @@ const PaymentPage = () => {
 
       if (bookingError) throw bookingError;
 
-      if (paymentMethod === 'mpesa') {
-        const response = await supabase.functions.invoke('initiate-mpesa', {
-          body: {
-            amount: 1000,
-            phone: formData.mpesaNumber,
-            bookingId: booking.id,
-          },
+      const { error: paymentError } = await supabase
+        .from('payments')
+        .insert({
+          booking_id: booking.id,
+          amount: 1000,
+          payment_method: 'bank_transfer',
+          status: 'pending',
         });
 
-        if (!response.data.success) {
-          throw new Error(response.data.error);
-        }
+      if (paymentError) throw paymentError;
 
-        toast({
-          title: "Payment Initiated",
-          description: "Please check your phone for the M-Pesa prompt",
-        });
-      } else {
-        const { error: paymentError } = await supabase
-          .from('payments')
-          .insert({
-            booking_id: booking.id,
-            amount: 1000,
-            payment_method: paymentMethod,
-            status: 'pending',
-          });
-
-        if (paymentError) throw paymentError;
-
-        toast({
-          title: "Payment Initiated",
-          description: `Please complete your ${paymentMethod} payment`,
-        });
-      }
+      toast({
+        title: "Booking Successful",
+        description: "Please complete your bank transfer using the provided details",
+      });
     } catch (error) {
       console.error('Payment error:', error);
       toast({
-        title: "Payment Failed",
-        description: "There was an error processing your payment. Please try again.",
+        title: "Booking Failed",
+        description: "There was an error processing your booking. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -116,56 +96,8 @@ const PaymentPage = () => {
               Complete Your Booking
             </h1>
             <p className="text-gray-600 dark:text-gray-300 mb-8">
-              Choose your preferred payment method and enter your details below
+              Please fill in your details below to proceed with bank transfer payment
             </p>
-            
-            <div className="mb-8">
-              <h3 className="text-lg font-medium mb-4">Payment Method</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <button
-                  onClick={() => setPaymentMethod('mpesa')}
-                  className={`p-6 border rounded-xl text-center transition-all ${
-                    paymentMethod === 'mpesa' 
-                      ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20' 
-                      : 'border-gray-200 dark:border-gray-700 hover:border-purple-300'
-                  }`}
-                >
-                  <Wallet className="h-6 w-6 mx-auto mb-2" />
-                  M-Pesa
-                </button>
-                <button
-                  onClick={() => setPaymentMethod('card')}
-                  className={`p-6 border rounded-xl text-center transition-all ${
-                    paymentMethod === 'card' 
-                      ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20' 
-                      : 'border-gray-200 dark:border-gray-700 hover:border-purple-300'
-                  }`}
-                >
-                  <CreditCard className="h-6 w-6 mx-auto mb-2" />
-                  Card
-                </button>
-                <button
-                  onClick={() => setPaymentMethod('bank_transfer')}
-                  className={`p-6 border rounded-xl text-center transition-all ${
-                    paymentMethod === 'bank_transfer' 
-                      ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20' 
-                      : 'border-gray-200 dark:border-gray-700 hover:border-purple-300'
-                  }`}
-                >
-                  <svg 
-                    className="h-6 w-6 mx-auto mb-2" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    strokeWidth="2"
-                  >
-                    <rect x="2" y="5" width="20" height="14" rx="2" />
-                    <line x1="2" y1="10" x2="22" y2="10" />
-                  </svg>
-                  Bank Transfer
-                </button>
-              </div>
-            </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -195,33 +127,27 @@ const PaymentPage = () => {
                 </div>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Phone Number</label>
-                  <Input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full"
-                    placeholder="+254..."
-                  />
-                </div>
-                {paymentMethod === 'mpesa' && (
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">M-PESA Number</label>
-                    <Input
-                      type="tel"
-                      name="mpesaNumber"
-                      value={formData.mpesaNumber}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full"
-                      placeholder="254..."
-                    />
-                  </div>
-                )}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Phone Number</label>
+                <Input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full"
+                  placeholder="+254..."
+                />
+              </div>
+
+              <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                <h3 className="font-medium mb-2">Bank Transfer Details</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  Bank: Example Bank<br />
+                  Account Name: Washikadau Entertainment<br />
+                  Account Number: XXXX-XXXX-XXXX<br />
+                  Branch: Main Branch
+                </p>
               </div>
 
               <Button 
@@ -238,7 +164,7 @@ const PaymentPage = () => {
                     Processing...
                   </span>
                 ) : (
-                  `Pay with ${paymentMethod === 'bank_transfer' ? 'Bank Transfer' : paymentMethod.toUpperCase()}`
+                  'Proceed with Bank Transfer'
                 )}
               </Button>
             </form>
