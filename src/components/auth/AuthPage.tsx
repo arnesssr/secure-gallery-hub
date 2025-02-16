@@ -5,37 +5,50 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import type { AuthChangeEvent } from "@supabase/supabase-js";
+import { useToast } from "@/hooks/use-toast";
 
 const AuthPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<string>("");
+  const { toast } = useToast();
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event: AuthChangeEvent, session) => {
-      if (event === "SIGNED_IN") {
+    // Check if user is already signed in
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
         navigate("/galleries");
-      }
-      if (event === "SIGNED_OUT") {
-        setError(""); // Clear any errors on sign out
       }
     });
 
-    // Set up error listener for auth events
-    const authListener = supabase.auth.onAuthStateChange((event: AuthChangeEvent, session) => {
-      if (event === "SIGNED_UP" && !session) {
-        setError("Please check your email to confirm your account.");
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN") {
+        toast({
+          title: "Welcome back!",
+          description: "Successfully signed in",
+        });
+        navigate("/galleries");
       }
-      if (event === "PASSWORD_RECOVERY") {
-        setError(""); // Clear errors on password recovery
+      if (event === "SIGNED_OUT") {
+        setError("");
+      }
+      if (event === "SIGNED_UP") {
+        toast({
+          title: "Account created",
+          description: "Please check your email to confirm your account",
+        });
+      }
+      if (event === "USER_UPDATED") {
+        toast({
+          title: "Success",
+          description: "Your account has been updated",
+        });
       }
     });
 
     return () => {
       subscription.unsubscribe();
-      authListener.data.subscription.unsubscribe();
     };
-  }, [navigate]);
+  }, [navigate, toast]);
 
   return (
     <div className="min-h-screen bg-offwhite dark:bg-charcoal flex items-center justify-center p-4">
@@ -98,8 +111,18 @@ const AuthPage = () => {
             }}
             theme="default"
             providers={['google']}
+            view="sign_in"
+            showLinks={false}
             localization={{
               variables: {
+                sign_in: {
+                  email_label: "Email address",
+                  password_label: "Password",
+                  email_input_placeholder: "Your email address",
+                  password_input_placeholder: "Your password",
+                  button_label: "Sign in",
+                  loading_button_label: "Signing in...",
+                },
                 sign_up: {
                   email_label: "Email address",
                   password_label: "Create a password",
