@@ -1,162 +1,53 @@
 
-import { useEffect, useRef, useState } from 'react';
-import * as THREE from 'three';
+import { useEffect, useRef } from 'react';
 
 const ThreeDBackground = () => {
-  const mountRef = useRef<HTMLDivElement>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!mountRef.current) return;
-
-    // Check WebGL support
-    const checkWebGLSupport = () => {
-      try {
-        const canvas = document.createElement('canvas');
-        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-        return !!gl;
-      } catch (e) {
-        return false;
-      }
-    };
-
-    if (!checkWebGLSupport()) {
-      setError('WebGL is not supported in your browser');
-      console.error('WebGL is not supported');
-      return;
-    }
-
-    let renderer: THREE.WebGLRenderer;
-    try {
-      // Scene setup with error handling
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  return (
+    <div className="absolute inset-0 -z-20 overflow-hidden">
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-blue-900/20 to-transparent animate-gradient"></div>
       
-      renderer = new THREE.WebGLRenderer({ 
-        alpha: true,
-        antialias: true,
-        powerPreference: 'default',
-        failIfMajorPerformanceCaveat: false
-      });
-      
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setClearColor(0x000000, 0);
-      mountRef.current.appendChild(renderer.domElement);
-
-      // Create inflated objects
-      const objects: THREE.Mesh[] = [];
-      const geometries = [
-        new THREE.TorusGeometry(1, 0.4, 16, 100),
-        new THREE.SphereGeometry(0.8, 32, 32),
-        new THREE.IcosahedronGeometry(0.9, 0),
-      ];
-
-      // Create multiple objects with different positions and rotations
-      for (let i = 0; i < 5; i++) {
-        const geometry = geometries[Math.floor(Math.random() * geometries.length)];
-        const material = new THREE.MeshPhongMaterial({
-          color: new THREE.Color(Math.random() * 0.2 + 0.8, Math.random() * 0.2 + 0.8, 1),
-          transparent: true,
-          opacity: 0.6,
-          shininess: 100,
-        });
+      {/* Floating shapes */}
+      <div className="absolute inset-0">
+        {[...Array(6)].map((_, i) => (
+          <div
+            key={i}
+            className={`absolute rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 
+                       backdrop-blur-3xl animate-float-${i + 1}`}
+            style={{
+              width: `${Math.random() * 200 + 100}px`,
+              height: `${Math.random() * 200 + 100}px`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 2}s`,
+              transform: `scale(${Math.random() * 0.5 + 0.5})`,
+            }}
+          />
+        ))}
         
-        const object = new THREE.Mesh(geometry, material);
-        object.position.set(
-          Math.random() * 10 - 5,
-          Math.random() * 10 - 5,
-          Math.random() * 5 - 10
-        );
-        object.rotation.set(
-          Math.random() * Math.PI,
-          Math.random() * Math.PI,
-          Math.random() * Math.PI
-        );
-        objects.push(object);
-        scene.add(object);
-      }
+        {/* Additional geometric shapes */}
+        {[...Array(4)].map((_, i) => (
+          <div
+            key={`shape-${i}`}
+            className={`absolute bg-gradient-to-br from-purple-400/10 to-blue-400/10 
+                       backdrop-blur-3xl animate-float-reverse-${i + 1}`}
+            style={{
+              width: `${Math.random() * 150 + 50}px`,
+              height: `${Math.random() * 150 + 50}px`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 2}s`,
+              transform: `rotate(${Math.random() * 360}deg) scale(${Math.random() * 0.5 + 0.5})`,
+              clipPath: i % 2 === 0 ? 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' : 'polygon(25% 0%, 100% 25%, 75% 100%, 0% 75%)',
+            }}
+          />
+        ))}
+      </div>
 
-      // Add lights
-      const ambientLight = new THREE.AmbientLight(0x404040);
-      scene.add(ambientLight);
-
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-      directionalLight.position.set(1, 1, 1);
-      scene.add(directionalLight);
-
-      const pointLight = new THREE.PointLight(0x9b87f5, 1);
-      pointLight.position.set(2, 3, 4);
-      scene.add(pointLight);
-
-      camera.position.z = 5;
-
-      // Handle window resize
-      const handleResize = () => {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        renderer.setSize(width, height);
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-      };
-
-      window.addEventListener('resize', handleResize);
-
-      // Animation
-      let frame = 0;
-      const animate = () => {
-        frame = requestAnimationFrame(animate);
-
-        objects.forEach((obj, index) => {
-          obj.rotation.x += 0.002 * (index + 1);
-          obj.rotation.y += 0.003 * (index + 1);
-          
-          // Add floating motion
-          obj.position.y += Math.sin(Date.now() * 0.001 + index) * 0.002;
-        });
-
-        renderer.render(scene, camera);
-      };
-
-      animate();
-
-      // Cleanup
-      return () => {
-        if (mountRef.current && renderer.domElement) {
-          mountRef.current.removeChild(renderer.domElement);
-        }
-        window.removeEventListener('resize', handleResize);
-        cancelAnimationFrame(frame);
-        
-        // Dispose of resources
-        objects.forEach(obj => {
-          obj.geometry.dispose();
-          if (obj.material instanceof THREE.Material) {
-            obj.material.dispose();
-          }
-        });
-        
-        // Dispose of renderer
-        renderer.dispose();
-        scene.clear();
-      };
-    } catch (err) {
-      console.error('Error initializing WebGL:', err);
-      setError('Failed to initialize 3D background');
-      return () => {
-        // Cleanup in case of error
-        if (renderer) {
-          renderer.dispose();
-        }
-      };
-    }
-  }, []);
-
-  if (error) {
-    // Return empty div if there's an error, the background image will still show
-    return null;
-  }
-
-  return <div ref={mountRef} className="absolute inset-0 -z-20" />;
+      {/* Subtle light effects */}
+      <div className="absolute inset-0 bg-gradient-to-t from-transparent via-purple-500/5 to-transparent animate-pulse"></div>
+    </div>
+  );
 };
 
 export default ThreeDBackground;
