@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
+import ThreeDBackground from "./ThreeDBackground";
 
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -39,9 +40,9 @@ const Hero = () => {
         setDisplayText(fullText.slice(0, currentIndex));
         currentIndex++;
       } else {
-        currentIndex = 0; // Reset to start typing again
+        currentIndex = 0;
       }
-    }, 200); // Adjust typing speed here
+    }, 200);
 
     return () => clearInterval(typingInterval);
   }, []);
@@ -55,6 +56,9 @@ const Hero = () => {
 
   return (
     <div className="relative h-screen overflow-hidden">
+      {/* 3D Background */}
+      <ThreeDBackground />
+      
       {/* Background gradient overlay */}
       <div 
         className="absolute inset-0 bg-gradient-to-br from-[#1A1F2C]/80 via-[#9b87f5]/40 to-transparent z-10 transition-all duration-500"
