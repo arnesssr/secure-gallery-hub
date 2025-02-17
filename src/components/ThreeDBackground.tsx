@@ -10,7 +10,17 @@ const ThreeDBackground = () => {
     if (!mountRef.current) return;
 
     // Check WebGL support
-    if (!THREE.WEBGL.isWebGLAvailable()) {
+    const checkWebGLSupport = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        return !!gl;
+      } catch (e) {
+        return false;
+      }
+    };
+
+    if (!checkWebGLSupport()) {
       setError('WebGL is not supported in your browser');
       console.error('WebGL is not supported');
       return;
