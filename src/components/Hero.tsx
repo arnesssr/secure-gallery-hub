@@ -5,6 +5,9 @@ import { ChevronDown } from "lucide-react";
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [displayText, setDisplayText] = useState("");
+  const fullText = "....click it or miss it....";
+  
   const images = [
     "https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&q=80",
     "https://images.unsplash.com/photo-1500673922987-e212871fec22?auto=format&fit=crop&q=80",
@@ -27,6 +30,20 @@ const Hero = () => {
     }, 5000);
 
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    let currentIndex = 0;
+    const typingInterval = setInterval(() => {
+      if (currentIndex <= fullText.length) {
+        setDisplayText(fullText.slice(0, currentIndex));
+        currentIndex++;
+      } else {
+        currentIndex = 0; // Reset to start typing again
+      }
+    }, 200); // Adjust typing speed here
+
+    return () => clearInterval(typingInterval);
   }, []);
 
   const scrollToGallery = () => {
@@ -61,8 +78,8 @@ const Hero = () => {
       >
         <div className="max-w-4xl mx-auto space-y-8">
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-playfair mb-6 leading-tight">
-            <span className="typing-animation block bg-gradient-to-r from-[#D946EF] to-[#9b87f5] bg-clip-text text-transparent">
-              ....click it or miss it....
+            <span className="block bg-gradient-to-r from-[#D946EF] to-[#9b87f5] bg-clip-text text-transparent">
+              {displayText}
             </span>
           </h1>
           <p className="text-xl sm:text-2xl text-white/90 font-roboto max-w-2xl mx-auto leading-relaxed">
