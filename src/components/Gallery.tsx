@@ -2,44 +2,78 @@
 import { lazy, Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
 import { Link } from "react-router-dom";
+import PhotoCarousel from "./gallery/PhotoCarousel";
 
 const ServicesSection = lazy(() => import("./gallery/ServicesSection"));
 
 const Gallery = () => {
-  const miniGalleryItems = [
+  // Use the uploaded photos for the carousel
+  const carouselPhotos = [
+    "/lovable-uploads/86f6709d-ee6f-4040-87b8-5a8011c52f1d.png", 
+    "/lovable-uploads/faccfc85-da26-4c1a-b08b-96b34353b7c1.png",
+    "/lovable-uploads/9a04f7a6-26e2-4979-93a3-3eaec907d3b3.png",
+    "/lovable-uploads/e159f82e-c7d8-4fa8-8bfb-4727a4423b8a.png",
+    "/lovable-uploads/9a2cdf7f-650f-4da7-8073-855495d22817.png",
+    "/lovable-uploads/23268ce3-6a89-46dc-831b-e8396bb12099.png",
+    "/lovable-uploads/2d6e5613-3e06-4146-bb0f-439aa0ea71d8.png",
+    "/lovable-uploads/ca1ea03c-7702-451e-8205-8fa4d3a17593.png"
+  ];
+
+  // Categories for the photography types
+  const categoryImages = [
     {
-      image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-      title: "Professional Photography"
+      image: "/lovable-uploads/86f6709d-ee6f-4040-87b8-5a8011c52f1d.png",
+      title: "Wedding Photography"
     },
     {
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-      title: "Technology"
+      image: "/lovable-uploads/9a04f7a6-26e2-4979-93a3-3eaec907d3b3.png",
+      title: "Portrait Photography"
     },
     {
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-      title: "Creative Photography"
+      image: "/lovable-uploads/23268ce3-6a89-46dc-831b-e8396bb12099.png",
+      title: "Product Photography"
     },
     {
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-      title: "Portfolio Photography"
+      image: "/lovable-uploads/ca1ea03c-7702-451e-8205-8fa4d3a17593.png",
+      title: "Food Photography"
     }
   ];
 
   return (
     <section 
       id="gallery" 
-      className="py-8 md:py-16 bg-gradient-to-b from-charcoal via-charcoal/95 to-offwhite dark:to-charcoal"
+      className="py-8 md:py-12 bg-gradient-to-b from-charcoal via-charcoal/95 to-offwhite dark:to-charcoal"
     >
       <div className="container mx-auto px-4">
-        {/* Mini Gallery */}
-        <div className="mb-16">
-          <h2 className="text-2xl md:text-3xl font-playfair text-offwhite text-center mb-8">
+        {/* Search Bar */}
+        <div className="relative max-w-md mx-auto mb-8">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search galleries..."
+              className="w-full pl-10 pr-4 py-2 border border-gold/30 rounded-full bg-white/10 text-offwhite focus:ring-2 focus:ring-gold/50 focus:border-transparent backdrop-blur-sm"
+            />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gold/70 h-5 w-5" />
+          </div>
+        </div>
+        
+        {/* Featured Carousel */}
+        <div className="mb-12">
+          <h2 className="text-2xl md:text-3xl font-playfair text-offwhite text-center mb-6">
             Featured Work
           </h2>
+          <PhotoCarousel photos={carouselPhotos} />
+        </div>
+
+        {/* Categories Grid */}
+        <div className="mb-12">
+          <h2 className="text-2xl md:text-3xl font-playfair text-offwhite text-center mb-6">
+            Photography Categories
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {miniGalleryItems.map((item, index) => (
+            {categoryImages.map((item, index) => (
               <div 
                 key={index}
                 className="group relative overflow-hidden rounded-lg shadow-xl"
@@ -76,7 +110,7 @@ const Gallery = () => {
           <ServicesSection />
         </Suspense>
 
-        <div className="mt-12 md:mt-20 text-center">
+        <div className="mt-12 md:mt-16 text-center">
           <h2 className="text-2xl md:text-3xl font-playfair text-charcoal dark:text-offwhite mb-6">
             Our Portfolio
           </h2>

@@ -14,7 +14,7 @@ import { Mail, Lock } from "lucide-react";
 const AuthPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<string>("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("philiprundu@gmail.com");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
@@ -40,6 +40,15 @@ const AuthPage = () => {
   }, [navigate]);
 
   const checkIfAdmin = async (userId: string) => {
+    // For the provided admin email, we'll directly navigate to admin
+    // This is a simplified approach for the demo admin account
+    const { data: userData } = await supabase.auth.getUser();
+    if (userData?.user?.email === "philiprundu@gmail.com") {
+      navigate("/admin");
+      return;
+    }
+    
+    // For other users, check the admin_users table
     const { data, error } = await supabase
       .from('admin_users')
       .select('*')
@@ -103,7 +112,7 @@ const AuthPage = () => {
     setError("");
 
     try {
-      // Admin credentials are provided by the user (philiprundu@gmail.com and @pRundu2025)
+      // Sign in with the provided admin credentials
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -111,7 +120,17 @@ const AuthPage = () => {
 
       if (error) throw error;
 
-      // Check if user is an admin
+      // For the demo admin account, directly navigate to admin
+      if (data.user?.email === "philiprundu@gmail.com") {
+        toast({
+          title: "Welcome Admin",
+          description: "You have successfully logged in",
+        });
+        navigate("/admin");
+        return;
+      }
+
+      // For other users, check admin privileges
       if (data.user) {
         const { data: adminData, error: adminError } = await supabase
           .from('admin_users')

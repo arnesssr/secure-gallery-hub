@@ -1,0 +1,84 @@
+
+import { useState, useEffect } from "react";
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious 
+} from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
+
+type PhotoCarouselProps = {
+  photos: string[];
+  autoplayInterval?: number;
+  className?: string;
+}
+
+const PhotoCarousel = ({
+  photos,
+  autoplayInterval = 5000,
+  className
+}: PhotoCarouselProps) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (!isHovering && autoplayInterval > 0) {
+      interval = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % photos.length);
+      }, autoplayInterval);
+    }
+    
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isHovering, photos.length, autoplayInterval]);
+
+  return (
+    <div 
+      className={cn("relative w-full", className)}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      <Carousel className="w-full">
+        <CarouselContent>
+          {photos.map((photo, index) => (
+            <CarouselItem key={index}>
+              <div className="relative overflow-hidden rounded-xl group">
+                <img 
+                  src={photo}
+                  alt={`Gallery image ${index + 1}`}
+                  className="w-full h-[50vh] md:h-[60vh] object-cover transition-transform duration-700 ease-in-out transform group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        
+        <CarouselPrevious className="left-4 bg-white/10 hover:bg-white/30 border-none text-white backdrop-blur-sm" />
+        <CarouselNext className="right-4 bg-white/10 hover:bg-white/30 border-none text-white backdrop-blur-sm" />
+      </Carousel>
+      
+      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
+        {photos.map((_, index) => (
+          <button
+            key={index}
+            className={`w-2 h-2 rounded-full transition-all ${
+              currentIndex === index 
+                ? "bg-white w-6" 
+                : "bg-white/50 hover:bg-white/80"
+            }`}
+            onClick={() => setCurrentIndex(index)}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default PhotoCarousel;
