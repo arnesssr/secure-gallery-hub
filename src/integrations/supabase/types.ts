@@ -102,7 +102,6 @@ export type Database = {
       exhibition_posts: {
         Row: {
           author_id: string | null
-          comments: number | null
           content: string
           created_at: string | null
           exhibition_id: string | null
@@ -110,10 +109,10 @@ export type Database = {
           likes: number | null
           shares: number | null
           updated_at: string | null
+          views: number | null
         }
         Insert: {
           author_id?: string | null
-          comments?: number | null
           content: string
           created_at?: string | null
           exhibition_id?: string | null
@@ -121,10 +120,10 @@ export type Database = {
           likes?: number | null
           shares?: number | null
           updated_at?: string | null
+          views?: number | null
         }
         Update: {
           author_id?: string | null
-          comments?: number | null
           content?: string
           created_at?: string | null
           exhibition_id?: string | null
@@ -132,6 +131,7 @@ export type Database = {
           likes?: number | null
           shares?: number | null
           updated_at?: string | null
+          views?: number | null
         }
         Relationships: [
           {

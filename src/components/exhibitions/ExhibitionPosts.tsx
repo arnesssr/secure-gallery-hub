@@ -1,8 +1,9 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Heart, MessageCircle, Share2 } from "lucide-react";
+import { Heart, Share2, Eye } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -91,7 +92,7 @@ const ExhibitionPosts = ({ user, exhibitions }: ExhibitionPostsProps) => {
     createPostMutation.mutate(newPost);
   };
 
-  const handleInteraction = (type: "like" | "comment" | "share", postId: string) => {
+  const handleInteraction = (type: "like" | "share", postId: string) => {
     if (!user) {
       toast({
         title: "Authentication Required",
@@ -101,7 +102,6 @@ const ExhibitionPosts = ({ user, exhibitions }: ExhibitionPostsProps) => {
       return;
     }
 
-    // Implement interactions here
     toast({
       title: "Success",
       description: `Post ${type}d successfully!`,
@@ -162,16 +162,15 @@ const ExhibitionPosts = ({ user, exhibitions }: ExhibitionPostsProps) => {
                 className="flex gap-2"
               >
                 <Heart className="h-4 w-4" />
-                <span>{post.likes}</span>
+                <span>{post.likes || 0}</span>
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => handleInteraction("comment", post.id)}
                 className="flex gap-2"
               >
-                <MessageCircle className="h-4 w-4" />
-                <span>{post.comments}</span>
+                <Eye className="h-4 w-4" />
+                <span>{post.views || 0}</span>
               </Button>
               <Button
                 variant="ghost"
@@ -180,7 +179,7 @@ const ExhibitionPosts = ({ user, exhibitions }: ExhibitionPostsProps) => {
                 className="flex gap-2"
               >
                 <Share2 className="h-4 w-4" />
-                <span>{post.shares}</span>
+                <span>{post.shares || 0}</span>
               </Button>
             </CardFooter>
           </Card>

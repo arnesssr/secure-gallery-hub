@@ -97,7 +97,7 @@ const CollectionsList = () => {
             </div>
             <div className="absolute top-4 right-4 flex items-center gap-2 bg-charcoal/80 text-offwhite px-3 py-1 rounded-full">
               <Image className="w-4 h-4" />
-              <span className="text-sm">{collection.image_count}</span>
+              <span className="text-sm">{collection.image_count || 0}</span>
             </div>
             {collection.is_private && (
               <div className="absolute top-4 left-4">

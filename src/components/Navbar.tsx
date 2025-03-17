@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useTheme } from "@/components/theme-provider";
 import { Link, useLocation } from "react-router-dom";
+import logo from '../assets/logo.png'; // Import the logo
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
@@ -31,8 +32,9 @@ const Navbar = () => {
     <nav className="fixed w-full bg-charcoal/90 dark:bg-charcoal/95 backdrop-blur-md z-50 transition-all duration-300 border-b border-gold/10">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-2xl font-playfair text-offwhite hover:text-gold transition-colors duration-200">
-            Washikadau
+          <Link to="/" className="flex items-center text-2xl font-playfair text-offwhite hover:text-gold transition-colors duration-200">
+            <img src={logo} alt="Washikadau" className="h-8 mr-2" />
+            <span>Washikadau</span>
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">
