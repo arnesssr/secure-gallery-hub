@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade } from "swiper/modules";
@@ -6,6 +7,7 @@ import "swiper/css/effect-fade";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Exhibition {
   id: string;
@@ -16,9 +18,22 @@ interface Exhibition {
 
 interface ExhibitionHeaderProps {
   exhibitions: Exhibition[];
+  loading?: boolean;
 }
 
-const ExhibitionHeader = ({ exhibitions }: ExhibitionHeaderProps) => {
+const ExhibitionHeader = ({ exhibitions, loading = false }: ExhibitionHeaderProps) => {
+  if (loading) {
+    return (
+      <div className="w-full h-[600px] relative bg-charcoal/20">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="container mx-auto px-4">
+            <Skeleton className="h-[600px] w-full rounded-md" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-[600px] relative">
       <Swiper
