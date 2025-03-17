@@ -55,7 +55,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative h-screen overflow-hidden">
+    <div className="relative h-[70vh] overflow-hidden">
       {/* 3D Background */}
       <ThreeDBackground />
       
@@ -80,19 +80,19 @@ const Hero = () => {
           isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         }`}
       >
-        <div className="max-w-4xl mx-auto space-y-8">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-playfair mb-6 leading-tight">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-playfair mb-4 leading-tight">
             <span className="block bg-gradient-to-r from-[#D946EF] to-[#9b87f5] bg-clip-text text-transparent">
               {displayText}
             </span>
           </h1>
-          <p className="text-xl sm:text-2xl text-white/90 font-roboto max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-white/90 font-roboto max-w-2xl mx-auto leading-relaxed">
             Professional photography and multimedia services that bring your vision to life
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-8">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-6">
             <button
               onClick={scrollToGallery}
-              className="px-8 py-3 bg-gradient-to-r from-[#9b87f5] to-[#D946EF] text-white rounded-full 
+              className="px-6 py-2 bg-gradient-to-r from-[#9b87f5] to-[#D946EF] text-white rounded-full 
                        hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 
                        transform hover:-translate-y-1"
             >

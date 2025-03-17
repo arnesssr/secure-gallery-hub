@@ -6,18 +6,24 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
-import type { AuthError, Session, User } from "@supabase/supabase-js";
+import type { AuthError, Session } from "@supabase/supabase-js";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Mail, Lock } from "lucide-react";
 
 const AuthPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<string>("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
     // Check initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
-        navigate("/galleries");
+        checkIfAdmin(session.user.id);
       }
     });
 
@@ -33,6 +39,20 @@ const AuthPage = () => {
     };
   }, [navigate]);
 
+  const checkIfAdmin = async (userId: string) => {
+    const { data, error } = await supabase
+      .from('admin_users')
+      .select('*')
+      .eq('id', userId)
+      .single();
+    
+    if (data) {
+      navigate("/admin");
+    } else {
+      navigate("/galleries");
+    }
+  };
+
   const handleAuthChange = async (
     event: string,
     session: Session | null
@@ -43,7 +63,9 @@ const AuthPage = () => {
           title: "Welcome back!",
           description: "Successfully signed in",
         });
-        navigate("/galleries");
+        if (session?.user) {
+          checkIfAdmin(session.user.id);
+        }
         break;
       case "SIGNED_OUT":
         setError("");
@@ -75,6 +97,51 @@ const AuthPage = () => {
     }
   };
 
+  const handleAdminLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      // Admin credentials are provided by the user (philiprundu@gmail.com and @pRundu2025)
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      // Check if user is an admin
+      if (data.user) {
+        const { data: adminData, error: adminError } = await supabase
+          .from('admin_users')
+          .select('*')
+          .eq('email', data.user.email)
+          .single();
+        
+        if (adminError) {
+          toast({
+            title: "Access Denied",
+            description: "You don't have admin privileges",
+            variant: "destructive",
+          });
+          await supabase.auth.signOut();
+        } else {
+          toast({
+            title: "Welcome Admin",
+            description: "You have successfully logged in",
+          });
+          navigate("/admin");
+        }
+      }
+    } catch (error) {
+      const authError = error as AuthError;
+      setError(authError.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-offwhite dark:bg-charcoal flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
@@ -94,6 +161,54 @@ const AuthPage = () => {
         )}
 
         <div className="bg-white dark:bg-charcoal/50 p-8 rounded-lg shadow-sm">
+          <div className="mb-6">
+            <h2 className="text-xl font-medium mb-4 text-charcoal dark:text-offwhite">Admin Login</h2>
+            <form onSubmit={handleAdminLogin} className="space-y-4">
+              <div className="space-y-2">
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+                  <Input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Admin Email"
+                    required
+                    className="pl-10"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+                  <Input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Admin Password"
+                    required
+                    className="pl-10"
+                  />
+                </div>
+              </div>
+              <Button 
+                type="submit" 
+                className="w-full bg-gold hover:bg-gold/80 text-charcoal"
+                disabled={loading}
+              >
+                {loading ? "Signing in..." : "Sign in as Admin"}
+              </Button>
+            </form>
+          </div>
+
+          <div className="relative py-4">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300 dark:border-gray-700"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white dark:bg-charcoal/50 text-gray-500">Or continue with</span>
+            </div>
+          </div>
+
           <Auth
             supabaseClient={supabase}
             appearance={{

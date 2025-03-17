@@ -10,32 +10,32 @@ const ServicesSection = lazy(() => import("./gallery/ServicesSection"));
 const Gallery = () => {
   const miniGalleryItems = [
     {
+      image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
+      title: "Professional Photography"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      title: "Technology"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475",
+      title: "Creative Photography"
+    },
+    {
       image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-      title: "Business Photography"
-    },
-    {
-      image: "https://images.unsplash.com/photo-1604881988758-f76ad2f7aac1",
-      title: "Corporate Events"
-    },
-    {
-      image: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21",
-      title: "Landscape Photography"
-    },
-    {
-      image: "https://images.unsplash.com/photo-1487887235947-a955ef187fcc",
-      title: "Drone Photography"
+      title: "Portfolio Photography"
     }
   ];
 
   return (
     <section 
       id="gallery" 
-      className="py-12 md:py-20 bg-gradient-to-b from-charcoal via-charcoal/95 to-offwhite dark:to-charcoal"
+      className="py-8 md:py-16 bg-gradient-to-b from-charcoal via-charcoal/95 to-offwhite dark:to-charcoal"
     >
       <div className="container mx-auto px-4">
         {/* Mini Gallery */}
-        <div className="mb-20">
-          <h2 className="text-2xl md:text-3xl font-playfair text-offwhite text-center mb-12">
+        <div className="mb-16">
+          <h2 className="text-2xl md:text-3xl font-playfair text-offwhite text-center mb-8">
             Featured Work
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -62,7 +62,7 @@ const Gallery = () => {
         </div>
 
         {/* Services Section */}
-        <h2 className="text-2xl md:text-3xl font-playfair text-offwhite text-center mb-8 md:mb-12">
+        <h2 className="text-2xl md:text-3xl font-playfair text-offwhite text-center mb-8">
           Our Services
         </h2>
         
@@ -76,7 +76,7 @@ const Gallery = () => {
           <ServicesSection />
         </Suspense>
 
-        <div className="mt-16 md:mt-24 text-center">
+        <div className="mt-12 md:mt-20 text-center">
           <h2 className="text-2xl md:text-3xl font-playfair text-charcoal dark:text-offwhite mb-6">
             Our Portfolio
           </h2>
