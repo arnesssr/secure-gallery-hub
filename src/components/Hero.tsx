@@ -6,8 +6,6 @@ import ThreeDBackground from "./ThreeDBackground";
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [displayText, setDisplayText] = useState("");
-  const fullText = "....click it or miss it....";
   
   const images = [
     "https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&q=80",
@@ -31,20 +29,6 @@ const Hero = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    let currentIndex = 0;
-    const typingInterval = setInterval(() => {
-      if (currentIndex <= fullText.length) {
-        setDisplayText(fullText.slice(0, currentIndex));
-        currentIndex++;
-      } else {
-        currentIndex = 0;
-      }
-    }, 200);
-
-    return () => clearInterval(typingInterval);
   }, []);
 
   const scrollToGallery = () => {
@@ -83,14 +67,14 @@ const Hero = () => {
         <div className="max-w-4xl mx-auto space-y-4">
           <div className="flex items-center justify-center mb-2">
             <img 
-              src="/src/assets/logo.png" 
+              src="/public/lovable-uploads/914d8476-67eb-4b27-ab79-ec12fb60e2b5.png" 
               alt="Washikadau Entertainment" 
               className="h-16 md:h-20"
             />
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-playfair mb-3 leading-tight">
             <span className="block bg-gradient-to-r from-[#D946EF] to-[#9b87f5] bg-clip-text text-transparent">
-              {displayText}
+              click it or miss it
             </span>
           </h1>
           <p className="text-base sm:text-lg text-white/90 font-roboto max-w-2xl mx-auto leading-relaxed">

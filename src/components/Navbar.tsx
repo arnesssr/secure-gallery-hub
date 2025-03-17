@@ -1,17 +1,14 @@
 
-import { Menu, Sun, Moon, Home, Image, Calendar, Info, Mail, Search } from "lucide-react";
+import { Menu, Sun, Moon, Home, Image, Calendar, Info, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useTheme } from "@/components/theme-provider";
 import { Link, useLocation } from "react-router-dom";
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import logo from '../assets/logo.png';
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const location = useLocation();
-  const [searchQuery, setSearchQuery] = useState("");
   
   const navItems = [
     { name: "Home", href: "/", icon: Home },
@@ -21,42 +18,13 @@ const Navbar = () => {
     { name: "Contact", href: "/contacts", icon: Mail },
   ];
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Searching for:", searchQuery);
-    // Add search functionality here
-    setSearchQuery("");
-  };
-
   return (
     <nav className="fixed w-full bg-charcoal/90 dark:bg-charcoal/95 backdrop-blur-md z-50 transition-all duration-300 border-b border-gold/10 py-2">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center hover:text-gold transition-colors duration-200">
-            <img src={logo} alt="Logo" className="h-8 mr-2" />
+            <img src="/public/lovable-uploads/914d8476-67eb-4b27-ab79-ec12fb60e2b5.png" alt="Logo" className="h-8 mr-2" />
           </Link>
-
-          {/* Search Bar for Desktop */}
-          <form 
-            onSubmit={handleSearch} 
-            className="hidden md:flex items-center relative max-w-md w-full mx-4"
-          >
-            <Input
-              type="search"
-              placeholder="Search galleries..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pr-10 rounded-full border-gold/30 focus-visible:ring-gold/50"
-            />
-            <Button 
-              type="submit" 
-              variant="ghost" 
-              size="icon" 
-              className="absolute right-1 text-offwhite"
-            >
-              <Search className="h-4 w-4" />
-            </Button>
-          </form>
 
           <div className="hidden md:flex items-center space-x-6">
             {navItems.map((item) => (
@@ -87,27 +55,6 @@ const Navbar = () => {
             </SheetTrigger>
             <SheetContent className="bg-charcoal/95 backdrop-blur-md border-gold/10">
               <div className="flex flex-col space-y-6 mt-8">
-                {/* Mobile Search */}
-                <form onSubmit={handleSearch} className="mb-4">
-                  <div className="relative">
-                    <Input
-                      type="search"
-                      placeholder="Search galleries..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="pr-10 rounded-full border-gold/30 focus-visible:ring-gold/50"
-                    />
-                    <Button 
-                      type="submit" 
-                      variant="ghost" 
-                      size="icon" 
-                      className="absolute right-1 top-1/2 -translate-y-1/2 text-offwhite"
-                    >
-                      <Search className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </form>
-                
                 {navItems.map((item) => (
                   <Link
                     key={item.name}

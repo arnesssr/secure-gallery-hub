@@ -1,18 +1,15 @@
 
 import { Link } from "react-router-dom";
 import { useTheme } from "@/components/theme-provider";
-import { Sun, Moon, Menu, X, Search } from "lucide-react";
+import { Sun, Moon, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Input } from "@/components/ui/input";
-import logo from "@/assets/logo.png";
 
 const Header = () => {
   const { theme, setTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     setIsMounted(true);
@@ -22,14 +19,6 @@ const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle search functionality here
-    console.log("Searching for:", searchQuery);
-    // Reset search field
-    setSearchQuery("");
-  };
 
   if (!isMounted) return null;
 
@@ -43,30 +32,8 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center">
-          <img src={logo} alt="Logo" className="h-8 w-auto" />
+          <img src="/public/lovable-uploads/914d8476-67eb-4b27-ab79-ec12fb60e2b5.png" alt="Logo" className="h-8 w-auto" />
         </Link>
-
-        {/* Desktop Search Bar */}
-        <form 
-          onSubmit={handleSearch} 
-          className="hidden md:flex items-center relative max-w-md w-full mx-4"
-        >
-          <Input
-            type="search"
-            placeholder="Search galleries..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pr-10 rounded-full border-gold/30 focus-visible:ring-gold/50"
-          />
-          <Button 
-            type="submit" 
-            variant="ghost" 
-            size="icon" 
-            className="absolute right-1 text-charcoal dark:text-offwhite"
-          >
-            <Search className="h-4 w-4" />
-          </Button>
-        </form>
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex space-x-6 text-charcoal dark:text-offwhite">
@@ -119,7 +86,7 @@ const Header = () => {
               <div className="flex flex-col h-full">
                 <div className="flex justify-between items-center pb-4 border-b">
                   <Link to="/" className="flex items-center">
-                    <img src={logo} alt="Logo" className="h-8 w-auto" />
+                    <img src="/public/lovable-uploads/914d8476-67eb-4b27-ab79-ec12fb60e2b5.png" alt="Logo" className="h-8 w-auto" />
                   </Link>
                   <SheetTrigger asChild>
                     <Button variant="ghost" size="icon">
@@ -128,26 +95,6 @@ const Header = () => {
                     </Button>
                   </SheetTrigger>
                 </div>
-                {/* Mobile Search Bar */}
-                <form onSubmit={handleSearch} className="pt-4 pb-2">
-                  <div className="relative">
-                    <Input
-                      type="search"
-                      placeholder="Search galleries..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="pr-10 rounded-full border-gold/30 focus-visible:ring-gold/50"
-                    />
-                    <Button 
-                      type="submit" 
-                      variant="ghost" 
-                      size="icon" 
-                      className="absolute right-1 top-1/2 -translate-y-1/2 text-charcoal dark:text-offwhite"
-                    >
-                      <Search className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </form>
                 <nav className="flex flex-col space-y-4 pt-4">
                   <Link to="/" className="hover:text-gold transition-colors py-2">
                     Home

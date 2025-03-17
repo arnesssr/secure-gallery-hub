@@ -21,26 +21,6 @@ const Gallery = () => {
     "/lovable-uploads/ca1ea03c-7702-451e-8205-8fa4d3a17593.png"
   ];
 
-  // Categories for the photography types
-  const categoryImages = [
-    {
-      image: "/lovable-uploads/86f6709d-ee6f-4040-87b8-5a8011c52f1d.png",
-      title: "Wedding Photography"
-    },
-    {
-      image: "/lovable-uploads/9a04f7a6-26e2-4979-93a3-3eaec907d3b3.png",
-      title: "Portrait Photography"
-    },
-    {
-      image: "/lovable-uploads/23268ce3-6a89-46dc-831b-e8396bb12099.png",
-      title: "Product Photography"
-    },
-    {
-      image: "/lovable-uploads/ca1ea03c-7702-451e-8205-8fa4d3a17593.png",
-      title: "Food Photography"
-    }
-  ];
-
   return (
     <section 
       id="gallery" 
@@ -65,34 +45,6 @@ const Gallery = () => {
             Featured Work
           </h2>
           <PhotoCarousel photos={carouselPhotos} />
-        </div>
-
-        {/* Categories Grid */}
-        <div className="mb-12">
-          <h2 className="text-2xl md:text-3xl font-playfair text-offwhite text-center mb-6">
-            Photography Categories
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {categoryImages.map((item, index) => (
-              <div 
-                key={index}
-                className="group relative overflow-hidden rounded-lg shadow-xl"
-              >
-                <div className="aspect-square overflow-hidden">
-                  <img 
-                    src={item.image} 
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-100">
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                    <h3 className="text-lg font-playfair">{item.title}</h3>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
 
         {/* Services Section */}
