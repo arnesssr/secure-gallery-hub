@@ -32,6 +32,11 @@ import FoodPhotography from "./pages/services/food-photography";
 import SportsPhotography from "./pages/services/sports-photography";
 import LandscapePhotography from "./pages/services/landscape-photography";
 
+// Admin pages
+import AdminDashboard from "./pages/admin";
+import NewGallery from "./pages/admin/galleries/new";
+import UploadToGallery from "./pages/admin/upload/gallery";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -68,6 +73,11 @@ const App = () => (
             
             {/* Payment routes */}
             <Route path="/services/:service/payment" element={<PaymentPage />} />
+            
+            {/* Admin routes */}
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/galleries/new" element={<NewGallery />} />
+            <Route path="/admin/upload/gallery" element={<UploadToGallery />} />
           </Routes>
           <Toaster />
           <Sonner />
