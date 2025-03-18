@@ -17,12 +17,13 @@ type PhotoCarouselProps = {
 
 const PhotoCarousel = ({
   photos,
-  autoplayInterval = 1500, // Changed from 5000 to 1500 (1.5 seconds)
+  autoplayInterval = 4000, // Changed from 1500 to 4000 (4 seconds)
   className
 }: PhotoCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const carouselRef = useRef<any>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   // Ensure autoplay works correctly
   useEffect(() => {
@@ -30,14 +31,18 @@ const PhotoCarousel = ({
     
     if (!isHovering && autoplayInterval > 0) {
       interval = setInterval(() => {
-        setCurrentIndex((prev) => {
-          const newIndex = (prev + 1) % photos.length;
-          // Programmatically move the carousel
-          if (carouselRef.current && carouselRef.current.scrollNext) {
-            carouselRef.current.scrollNext();
-          }
-          return newIndex;
-        });
+        setIsAnimating(true);
+        setTimeout(() => {
+          setCurrentIndex((prev) => {
+            const newIndex = (prev + 1) % photos.length;
+            // Programmatically move the carousel
+            if (carouselRef.current && carouselRef.current.scrollNext) {
+              carouselRef.current.scrollNext();
+            }
+            return newIndex;
+          });
+          setIsAnimating(false);
+        }, 400); // Short delay for fade effect
       }, autoplayInterval);
     }
     
@@ -64,7 +69,11 @@ const PhotoCarousel = ({
                 <img 
                   src={photo}
                   alt={`Gallery image ${index + 1}`}
-                  className="w-full h-full object-cover transition-transform duration-700 ease-in-out"
+                  className={`w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
+                    currentIndex === index 
+                      ? isAnimating ? 'opacity-70' : 'opacity-100' 
+                      : 'opacity-0'
+                  }`}
                   style={{ objectPosition: "center" }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-70"></div>

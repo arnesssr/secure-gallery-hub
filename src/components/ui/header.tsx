@@ -32,7 +32,7 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center">
-          <img src="/public/lovable-uploads/914d8476-67eb-4b27-ab79-ec12fb60e2b5.png" alt="Logo" className="h-8 w-auto" />
+          {/* Logo removed as requested */}
         </Link>
 
         {/* Desktop Navigation */}
@@ -86,7 +86,7 @@ const Header = () => {
               <div className="flex flex-col h-full">
                 <div className="flex justify-between items-center pb-4 border-b">
                   <Link to="/" className="flex items-center">
-                    <img src="/public/lovable-uploads/914d8476-67eb-4b27-ab79-ec12fb60e2b5.png" alt="Logo" className="h-8 w-auto" />
+                    {/* Logo removed as requested */}
                   </Link>
                   <SheetTrigger asChild>
                     <Button variant="ghost" size="icon">
