@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { 
   Carousel,
   CarouselContent,
@@ -17,18 +17,27 @@ type PhotoCarouselProps = {
 
 const PhotoCarousel = ({
   photos,
-  autoplayInterval = 5000,
+  autoplayInterval = 1500, // Changed from 5000 to 1500 (1.5 seconds)
   className
 }: PhotoCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const carouselRef = useRef<any>(null);
 
+  // Ensure autoplay works correctly
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
     if (!isHovering && autoplayInterval > 0) {
       interval = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % photos.length);
+        setCurrentIndex((prev) => {
+          const newIndex = (prev + 1) % photos.length;
+          // Programmatically move the carousel
+          if (carouselRef.current && carouselRef.current.scrollNext) {
+            carouselRef.current.scrollNext();
+          }
+          return newIndex;
+        });
       }, autoplayInterval);
     }
     
@@ -37,13 +46,17 @@ const PhotoCarousel = ({
     };
   }, [isHovering, photos.length, autoplayInterval]);
 
+  const handleSetApi = (api: any) => {
+    carouselRef.current = api;
+  };
+
   return (
     <div 
       className={cn("relative w-full", className)}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <Carousel className="w-full h-full">
+      <Carousel className="w-full h-full" setApi={handleSetApi}>
         <CarouselContent className="h-full">
           {photos.map((photo, index) => (
             <CarouselItem key={index} className="h-full">
@@ -73,7 +86,19 @@ const PhotoCarousel = ({
                 ? "bg-white w-6" 
                 : "bg-white/50 hover:bg-white/80"
             }`}
-            onClick={() => setCurrentIndex(index)}
+            onClick={() => {
+              setCurrentIndex(index);
+              // Move to the clicked slide
+              if (carouselRef.current && index > currentIndex) {
+                for (let i = currentIndex; i < index; i++) {
+                  carouselRef.current.scrollNext();
+                }
+              } else if (carouselRef.current && index < currentIndex) {
+                for (let i = index; i < currentIndex; i++) {
+                  carouselRef.current.scrollPrev();
+                }
+              }
+            }}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
