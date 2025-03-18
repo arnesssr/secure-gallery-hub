@@ -19,16 +19,9 @@ const Gallery = () => {
 
   return (
     <>
-      {/* Featured Carousel as Header - Further reduced height from 65vh to 50vh */}
-      <section className="w-full h-[50vh] relative">
+      {/* Featured Carousel as Header - Half height */}
+      <section className="w-full h-[35vh] relative">
         <PhotoCarousel photos={carouselPhotos} autoplayInterval={4000} className="h-full" />
-        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-          <div className="bg-black/50 px-8 py-6 rounded-lg backdrop-blur-sm">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-playfair text-white text-center">
-              <span className="text-gold">click it or miss it</span>
-            </h1>
-          </div>
-        </div>
       </section>
       
       {/* Main Content */}

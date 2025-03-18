@@ -17,7 +17,7 @@ type PhotoCarouselProps = {
 
 const PhotoCarousel = ({
   photos,
-  autoplayInterval = 4000, // Changed from 1500 to 4000 (4 seconds)
+  autoplayInterval = 4000,
   className
 }: PhotoCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
