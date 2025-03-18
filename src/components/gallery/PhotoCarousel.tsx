@@ -43,17 +43,18 @@ const PhotoCarousel = ({
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <Carousel className="w-full">
-        <CarouselContent>
+      <Carousel className="w-full h-full">
+        <CarouselContent className="h-full">
           {photos.map((photo, index) => (
-            <CarouselItem key={index}>
-              <div className="relative overflow-hidden rounded-xl group">
+            <CarouselItem key={index} className="h-full">
+              <div className="relative overflow-hidden w-full h-full">
                 <img 
                   src={photo}
                   alt={`Gallery image ${index + 1}`}
-                  className="w-full h-[50vh] md:h-[60vh] object-cover transition-transform duration-700 ease-in-out transform group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 ease-in-out"
+                  style={{ objectPosition: "center" }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-70"></div>
               </div>
             </CarouselItem>
           ))}
