@@ -79,16 +79,37 @@ const PaymentPage = () => {
     }
   };
 
+  // Determine the correct back link - handle both services/service-name and specific service pages
+  const getBackLink = () => {
+    if (service === 'drone-services') {
+      return '/drone-services';
+    } else if (service?.includes('photography')) {
+      return `/services/${service}`;
+    } else {
+      return `/services/${service}`;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
       <div className="container mx-auto px-4 py-12">
-        <Link 
-          to={`/services/${service}`} 
-          className="inline-flex items-center text-gray-600 dark:text-gray-300 mb-8 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to {formatServiceName(service)}
-        </Link>
+        <div className="flex flex-col sm:flex-row gap-4 mb-8">
+          <Link 
+            to={getBackLink()} 
+            className="inline-flex items-center text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to {formatServiceName(service)}
+          </Link>
+          
+          <Link 
+            to="/" 
+            className="inline-flex items-center text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Home
+          </Link>
+        </div>
         
         <div className="max-w-3xl mx-auto space-y-12">
           <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl p-8">

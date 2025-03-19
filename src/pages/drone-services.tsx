@@ -4,26 +4,30 @@ import { ArrowLeft, Plane, Camera, Mountain, Building2, Film, MapPin } from "luc
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ShapeLandingHero from "@/components/ShapeLandingHero";
 
 const DroneServices = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-charcoal to-[#1A1F2C]">
       <Navbar />
-      <main className="container mx-auto px-4 py-20">
+      
+      {/* Shape Landing Hero */}
+      <ShapeLandingHero 
+        height="20vh" 
+        customContent={
+          <div className="text-center">
+            <h1 className="text-4xl md:text-6xl font-playfair text-offwhite mb-6 bg-gradient-to-r from-gold via-coral to-gold bg-clip-text text-transparent">
+              Aerial Photography & Videography
+            </h1>
+          </div>
+        }
+      />
+      
+      <main className="container mx-auto px-4 py-12">
         <Link to="/" className="inline-flex items-center text-offwhite/80 mb-8 hover:text-gold transition-colors group">
           <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
           Back to Home
         </Link>
-
-        {/* Hero Section */}
-        <div className="text-center mb-16 animate-fadeIn">
-          <h1 className="text-4xl md:text-6xl font-playfair text-offwhite mb-6 bg-gradient-to-r from-gold via-coral to-gold bg-clip-text text-transparent">
-            Aerial Photography & Videography
-          </h1>
-          <p className="text-lg md:text-xl text-offwhite/80 max-w-2xl mx-auto">
-            Capture breathtaking aerial shots with our professional drone services
-          </p>
-        </div>
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">

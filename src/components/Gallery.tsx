@@ -2,12 +2,10 @@
 import { lazy, Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import PhotoCarousel from "./gallery/PhotoCarousel";
 import PhotoTiles from "./gallery/PhotoTiles";
 import { getFeaturedPhotos } from "@/utils/imageCategories";
-import { Input } from "./ui/input";
 
 const ServicesSection = lazy(() => import("./gallery/ServicesSection"));
 
@@ -20,27 +18,6 @@ const Gallery = () => {
 
   return (
     <div className="flex flex-col">
-      {/* Featured Carousel as Header - Very compact height */}
-      <div className="w-full bg-charcoal">
-        <section className="w-full h-[20vh] relative container mx-auto">
-          <PhotoCarousel photos={carouselPhotos} autoplayInterval={4000} className="h-full" />
-          
-          {/* Search Bar */}
-          <div className="absolute inset-0 flex items-center justify-center z-10">
-            <div className="max-w-lg w-full px-4">
-              <div className="relative">
-                <Input 
-                  type="text" 
-                  placeholder="Search our gallery..." 
-                  className="pl-10 pr-4 py-2 w-full bg-black/50 text-white border-gold/30 focus:border-gold transition-colors backdrop-blur-sm"
-                />
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gold/70 h-4 w-4" />
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-      
       {/* Main Content */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-charcoal via-charcoal/95 to-offwhite dark:to-charcoal">
         <div className="container mx-auto px-4">
