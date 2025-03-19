@@ -34,6 +34,7 @@ const PublicGalleries = () => {
         .from("galleries")
         .select("*")
         .eq("is_private", false)
+        .in("title", ['Sports', 'Product Photography', 'Portraits', 'Performances'])
         .is("collection_id", null);
 
       if (error) throw error;

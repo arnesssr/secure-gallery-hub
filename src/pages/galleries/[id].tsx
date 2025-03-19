@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -5,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useToast } from "@/components/ui/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getPhotosByCategory, photoCategories } from "@/utils/imageCategories";
 
 interface Gallery {
   id: string;
@@ -18,6 +20,7 @@ const GalleryView = () => {
   const { id } = useParams();
   const [gallery, setGallery] = useState<Gallery | null>(null);
   const [loading, setLoading] = useState(true);
+  const [galleryPhotos, setGalleryPhotos] = useState<string[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -34,6 +37,28 @@ const GalleryView = () => {
 
       if (error) throw error;
       setGallery(data);
+      
+      // Get photos based on gallery title
+      if (data) {
+        const normalizedTitle = data.title.toLowerCase().replace(/\s+/g, '-');
+        const category = photoCategories.find(cat => 
+          cat.id.toLowerCase() === normalizedTitle || 
+          cat.name.toLowerCase() === data.title.toLowerCase()
+        );
+        
+        if (category) {
+          setGalleryPhotos(category.photos);
+        } else {
+          // If no direct match, try to find by gallery title
+          const matchingCategory = photoCategories.find(cat => 
+            cat.name.toLowerCase() === data.title.toLowerCase()
+          );
+          
+          if (matchingCategory) {
+            setGalleryPhotos(matchingCategory.photos);
+          }
+        }
+      }
     } catch (error) {
       toast({
         title: "Error",
@@ -83,12 +108,18 @@ const GalleryView = () => {
         <p className="text-lg text-charcoal/80 dark:text-offwhite/80 mb-8">
           {gallery.description}
         </p>
-        <div className="aspect-video relative rounded-lg overflow-hidden">
-          <img
-            src={gallery.image_url}
-            alt={gallery.title}
-            className="w-full h-full object-cover"
-          />
+        
+        {/* Gallery Images Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {galleryPhotos.map((photo, index) => (
+            <div key={index} className="aspect-square rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+              <img 
+                src={photo} 
+                alt={`${gallery.title} photo ${index + 1}`} 
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
+              />
+            </div>
+          ))}
         </div>
       </main>
       <Footer />

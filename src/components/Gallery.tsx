@@ -21,12 +21,15 @@ const Gallery = () => {
       {/* Main Content */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-charcoal via-charcoal/95 to-offwhite dark:to-charcoal">
         <div className="container mx-auto px-4">
-          {/* Photo Tiles */}
-          <div className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-playfair text-offwhite text-center mb-8">
-              Our Work
-            </h2>
-            <PhotoTiles photos={tilePhotos} />
+          {/* Added extra padding to move "Our Work" section down */}
+          <div className="pt-8 md:pt-12">
+            {/* Photo Tiles */}
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-playfair text-offwhite text-center mb-8">
+                Our Work
+              </h2>
+              <PhotoTiles photos={tilePhotos} />
+            </div>
           </div>
 
           {/* Services Section */}

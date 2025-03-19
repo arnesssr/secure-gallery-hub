@@ -2,7 +2,6 @@
 import Navbar from "@/components/Navbar";
 import Gallery from "@/components/Gallery";
 import Footer from "@/components/Footer";
-import Hero from "@/components/Hero";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import ShapeLandingHero from "@/components/ShapeLandingHero";
@@ -12,11 +11,11 @@ const Index = () => {
     <div className="min-h-screen bg-charcoal">
       <Navbar />
       
-      {/* Use the new ShapeLandingHero component */}
+      {/* Adjusted hero height and improved centering of search bar */}
       <ShapeLandingHero 
-        height="20vh" 
+        height="25vh" 
         customContent={
-          <div className="max-w-lg w-full px-4">
+          <div className="max-w-lg w-full px-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div className="relative">
               <Input 
                 type="text" 
