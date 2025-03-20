@@ -77,7 +77,11 @@ const GalleryView = () => {
         <div className="container mx-auto px-4 py-24">
           <Skeleton className="h-8 w-64 mb-4" />
           <Skeleton className="h-4 w-full max-w-2xl mb-8" />
-          <Skeleton className="h-96 w-full rounded-lg" />
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {[...Array(9)].map((_, i) => (
+              <Skeleton key={i} className="aspect-square rounded-lg" />
+            ))}
+          </div>
         </div>
         <Footer />
       </div>
@@ -109,15 +113,23 @@ const GalleryView = () => {
           {gallery.description}
         </p>
         
-        {/* Gallery Images Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {/* Gallery Images - Masonry Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-12">
           {galleryPhotos.map((photo, index) => (
-            <div key={index} className="aspect-square rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
-              <img 
-                src={photo} 
-                alt={`${gallery.title} photo ${index + 1}`} 
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
-              />
+            <div 
+              key={index} 
+              className={`rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 ${
+                index % 3 === 0 ? 'sm:col-span-2 lg:col-span-1' : ''
+              }`}
+            >
+              <div className="group relative aspect-square sm:aspect-auto overflow-hidden">
+                <img 
+                  src={photo} 
+                  alt={`${gallery.title} photo ${index + 1}`} 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
             </div>
           ))}
         </div>

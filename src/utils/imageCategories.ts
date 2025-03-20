@@ -35,11 +35,13 @@ export const photoCategories: PhotoCategory[] = [
     name: "Sports",
     path: "/sports",
     photos: [
-      "/lovable-uploads/914d8476-67eb-4b27-ab79-ec12fb60e2b5.png",
-      "/lovable-uploads/e159f82e-c7d8-4fa8-8bfb-4727a4423b8a.png",
-      "/lovable-uploads/86f6709d-ee6f-4040-87b8-5a8011c52f1d.png",
-      "/lovable-uploads/2d6e5613-3e06-4146-bb0f-439aa0ea71d8.png",
-      "/lovable-uploads/ca1ea03c-7702-451e-8205-8fa4d3a17593.png"
+      "/lovable-uploads/52f8bdc9-6dcf-4f73-81f0-123dfaab6136.png",
+      "/lovable-uploads/93fd18bb-44f2-4715-bd89-c80437f6bc58.png",
+      "/lovable-uploads/8d8e087d-5d61-4a22-a84d-0aed4cda3296.png",
+      "/lovable-uploads/b0061573-8527-4b10-b0cd-eb871112872e.png",
+      "/lovable-uploads/319ce534-0ff4-4eec-bd3c-a8f171296877.png",
+      "/lovable-uploads/98b54ec0-cfd1-4df6-8165-6603f5614eca.png",
+      "/lovable-uploads/6155973c-1604-403f-a5b1-f2750b72fc7c.png"
     ]
   },
   {
