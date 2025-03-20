@@ -26,8 +26,8 @@ const Header = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-white/90 dark:bg-charcoal/90 backdrop-blur-sm py-6 shadow-sm" // Increased padding from py-4 to py-6
-          : "bg-transparent py-8" // Increased padding from py-6 to py-8
+          ? "bg-gradient-to-r from-charcoal/95 to-charcoal/90 backdrop-blur-sm py-6 shadow-md" 
+          : "bg-gradient-to-r from-charcoal/80 to-charcoal/70 backdrop-blur-sm py-8"
       }`}
     >
       <div className="container mx-auto px-4">
@@ -38,14 +38,14 @@ const Header = () => {
 
           {/* Tagline - Click it or miss it */}
           <div className="absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2 hidden md:flex items-center">
-            <span className="font-playfair text-lg text-charcoal dark:text-gold italic flex items-center gap-2">
+            <span className="font-playfair text-lg text-gold italic flex items-center gap-2">
               <Camera className="h-5 w-5 text-gold" /> 
               Click it or miss it
             </span>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex space-x-6 text-charcoal dark:text-offwhite">
+          <nav className="hidden lg:flex space-x-6 text-offwhite">
             <Link to="/" className="hover:text-gold transition-colors">
               Home
             </Link>
@@ -75,6 +75,7 @@ const Header = () => {
               size="icon"
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               aria-label="Toggle theme"
+              className="text-offwhite hover:text-gold"
             >
               {theme === "dark" ? (
                 <Sun className="h-5 w-5" />
@@ -86,7 +87,7 @@ const Header = () => {
             {/* Mobile Menu */}
             <Sheet>
               <SheetTrigger asChild className="lg:hidden">
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className="text-offwhite hover:text-gold">
                   <Menu className="h-5 w-5" />
                   <span className="sr-only">Toggle menu</span>
                 </Button>
