@@ -22,18 +22,18 @@ const Gallery = () => {
       <section className="py-12 md:py-16 bg-gradient-to-b from-charcoal via-charcoal/95 to-offwhite dark:to-charcoal">
         <div className="container mx-auto px-4">
           {/* Increased padding at the top to accommodate larger header and push content down */}
-          <div className="pt-28 md:pt-36">
-            {/* Photo Tiles */}
+          <div className="pt-36 md:pt-48">
+            {/* Photo Tiles with enhanced styling */}
             <div className="mb-16">
-              <h2 className="text-2xl md:text-3xl font-playfair text-offwhite text-center mb-10">
+              <h2 className="text-3xl md:text-4xl font-playfair text-offwhite text-center mb-12">
                 Our Work
               </h2>
-              <PhotoTiles photos={tilePhotos} />
+              <PhotoTiles photos={tilePhotos} className="animate-fade-in" />
             </div>
           </div>
 
           {/* Services Section */}
-          <h2 className="text-2xl md:text-3xl font-playfair text-offwhite text-center mb-8">
+          <h2 className="text-3xl md:text-4xl font-playfair text-offwhite text-center mb-12">
             Our Services
           </h2>
           
@@ -47,11 +47,11 @@ const Gallery = () => {
             <ServicesSection />
           </Suspense>
 
-          <div className="mt-12 md:mt-16 text-center">
-            <h2 className="text-2xl md:text-3xl font-playfair text-charcoal dark:text-offwhite mb-6">
+          <div className="mt-16 md:mt-24 text-center">
+            <h2 className="text-3xl md:text-4xl font-playfair text-charcoal dark:text-offwhite mb-8">
               Our Portfolio
             </h2>
-            <p className="text-charcoal/80 dark:text-offwhite/80 mb-8 max-w-2xl mx-auto">
+            <p className="text-charcoal/80 dark:text-offwhite/80 mb-10 max-w-2xl mx-auto text-lg">
               Explore our extensive collection of professional photography work across various genres and styles.
             </p>
             <Link 
@@ -59,7 +59,8 @@ const Gallery = () => {
               className="inline-flex items-center gap-2 transform transition-all duration-300 hover:-translate-y-1"
             >
               <Button 
-                className="bg-gold hover:bg-gold/80 text-charcoal px-6 py-3 text-lg"
+                className="bg-gold hover:bg-gold/80 text-charcoal px-8 py-6 text-lg"
+                size="lg"
               >
                 View Full Gallery
                 <ArrowRight className="ml-2 w-5 h-5" />

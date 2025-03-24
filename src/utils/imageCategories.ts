@@ -85,7 +85,22 @@ export const photoCategories: PhotoCategory[] = [
     id: "baby-photography",
     name: "Baby Photography",
     path: "/baby-photography",
-    photos: []
+    photos: [
+      "/lovable-uploads/1ff6de7f-bc2c-49fd-a5ba-3e83c262c13b.png",
+      "/lovable-uploads/e3a3f9ab-a555-45ab-8a51-c4f716cebd3a.png",
+      "/lovable-uploads/f36b9aa0-d2f7-4195-92fd-3a358959f1f7.png",
+      "/lovable-uploads/8bfd4647-4eb2-43ee-9f11-585d0bd25164.png",
+      "/lovable-uploads/c685ca2d-26c3-4c3b-8601-70d135137df3.png",
+      "/lovable-uploads/b18a6857-ff08-4289-a937-90e0f9d2bbb7.png",
+      "/lovable-uploads/a6efe3cd-9f46-4176-8104-bdec42a6b4cb.png",
+      "/lovable-uploads/c681b5b7-78eb-4f70-9f34-edb3b4858e61.png",
+      "/lovable-uploads/0b75fc49-e981-457f-9423-e7357e134c07.png",
+      "/lovable-uploads/6069df1c-7815-47d4-a3cb-d05d15140b6f.png",
+      "/lovable-uploads/78b11490-f844-4d56-b95d-8f7924dc43cc.png",
+      "/lovable-uploads/8d8261c2-619a-48ce-8b92-643b786b97fb.png",
+      "/lovable-uploads/d7f54c52-6d94-412e-944f-08c6834ee36e.png",
+      "/lovable-uploads/0c6a42b8-06a5-4214-aafe-d2d5ff3f22bb.png"
+    ]
   },
   {
     id: "portfolio",

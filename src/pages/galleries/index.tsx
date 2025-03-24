@@ -36,14 +36,14 @@ const GalleriesPage = () => {
       <main className="container mx-auto px-4 py-24">
         <div className="flex justify-between items-center mb-12">
           <h1 className="text-4xl font-playfair text-charcoal dark:text-offwhite">
-            Our Galleries
+            Photography Collections
           </h1>
           <div className="flex gap-4">
             {user && (
               <Button asChild variant="outline" className="flex items-center gap-2">
                 <Link to="/galleries/new">
                   <Plus className="w-4 h-4" />
-                  New Gallery
+                  New Collection
                 </Link>
               </Button>
             )}
@@ -60,26 +60,31 @@ const GalleriesPage = () => {
           </div>
         </div>
 
-        <Tabs defaultValue="collections" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
-            <TabsTrigger value="collections" className="flex items-center gap-2">
-              <FolderOpen className="w-4 h-4" />
-              Collections
-            </TabsTrigger>
-            <TabsTrigger value="private" className="flex items-center gap-2">
-              <Lock className="w-4 h-4" />
-              Private
-            </TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="collections">
-            <CollectionsList />
-          </TabsContent>
-          
-          <TabsContent value="private">
+        <div className="mb-12">
+          <p className="text-charcoal/80 dark:text-offwhite/80 text-lg max-w-3xl">
+            Explore our curated collections of professional photography across various genres. Each collection showcases our best work and artistic vision.
+          </p>
+        </div>
+
+        {/* Single tab for Collections only */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-playfair flex items-center text-charcoal dark:text-offwhite mb-8">
+            <FolderOpen className="w-6 h-6 mr-2 text-gold" />
+            Featured Collections
+          </h2>
+          <CollectionsList />
+        </div>
+        
+        {/* Private section only if logged in */}
+        {user && (
+          <div className="mt-16">
+            <h2 className="text-2xl font-playfair flex items-center text-charcoal dark:text-offwhite mb-8">
+              <Lock className="w-6 h-6 mr-2 text-gold" />
+              Private Galleries
+            </h2>
             <PrivateGalleries user={user} />
-          </TabsContent>
-        </Tabs>
+          </div>
+        )}
       </main>
       <Footer />
     </div>

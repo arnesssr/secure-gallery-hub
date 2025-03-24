@@ -87,39 +87,55 @@ const PrivateGalleries = ({ user }: PrivateGalleriesProps) => {
     );
   }
 
+  // Get randomly selected frame styles for each gallery
+  const getRandomFrameStyle = () => {
+    const styles = ["classic", "modern", "vintage", "polaroid"];
+    return styles[Math.floor(Math.random() * styles.length)];
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {galleries.map((gallery) => (
-        <Link
-          key={gallery.id}
-          to={`/galleries/${gallery.id}`}
-          className="group relative bg-white dark:bg-charcoal/50 rounded-lg overflow-hidden shadow-lg"
-        >
-          <div className="aspect-square relative">
-            <img
-              src={gallery.image_url}
-              alt={gallery.title}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h3 className="text-xl text-offwhite font-playfair mb-2">
-                  {gallery.title}
-                </h3>
-                {gallery.description && (
-                  <p className="text-offwhite/80 text-sm mb-4">{gallery.description}</p>
-                )}
-                <Button variant="outline" className="w-full bg-gold hover:bg-gold/80 text-charcoal border-none">
-                  View Gallery
-                </Button>
+      {galleries.map((gallery, index) => {
+        // Assign a random frame style to each gallery
+        const frameStyle = getRandomFrameStyle();
+        
+        return (
+          <Link
+            key={gallery.id}
+            to={`/galleries/${gallery.id}`}
+            className={`group relative bg-white dark:bg-charcoal/50 rounded-lg overflow-hidden shadow-lg transform transition-all duration-500 hover:-translate-y-1 ${index % 3 === 0 ? 'rotate-1' : index % 3 === 1 ? '-rotate-1' : 'rotate-0'}`}
+          >
+            <div className="aspect-square relative">
+              <div className={`absolute inset-0 ${frameStyle === 'classic' ? 'border-8 border-white' : 
+                frameStyle === 'modern' ? 'border-4 border-charcoal/90' : 
+                frameStyle === 'vintage' ? 'border-8 border-gold/60' : 
+                'border-8 border-b-[40px] border-white'} z-10 pointer-events-none`}></div>
+              
+              <img
+                src={gallery.image_url}
+                alt={gallery.title}
+                className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <h3 className="text-xl text-offwhite font-playfair mb-2">
+                    {gallery.title}
+                  </h3>
+                  {gallery.description && (
+                    <p className="text-offwhite/80 text-sm mb-4">{gallery.description}</p>
+                  )}
+                  <Button variant="outline" className="w-full bg-gold hover:bg-gold/80 text-charcoal border-none">
+                    View Gallery
+                  </Button>
+                </div>
+              </div>
+              <div className="absolute top-4 right-4 z-30">
+                <Lock className="w-5 h-5 text-gold" />
               </div>
             </div>
-            <div className="absolute top-4 right-4">
-              <Lock className="w-5 h-5 text-gold" />
-            </div>
-          </div>
-        </Link>
-      ))}
+          </Link>
+        );
+      })}
     </div>
   );
 };
