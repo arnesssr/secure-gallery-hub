@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FolderOpen, Lock, Plus, LogOut } from "lucide-react";
+import { FolderOpen, Lock, Plus, LogOut, Image } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -33,7 +33,7 @@ const GalleriesPage = () => {
   return (
     <div className="min-h-screen bg-offwhite dark:bg-charcoal">
       <Navbar />
-      <main className="container mx-auto px-4 py-24">
+      <main className="container mx-auto px-4 py-32">
         <div className="flex justify-between items-center mb-12">
           <h1 className="text-4xl font-playfair text-charcoal dark:text-offwhite">
             Photography Collections
@@ -66,25 +66,40 @@ const GalleriesPage = () => {
           </p>
         </div>
 
-        {/* Single tab for Collections only */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-playfair flex items-center text-charcoal dark:text-offwhite mb-8">
-            <FolderOpen className="w-6 h-6 mr-2 text-gold" />
-            Featured Collections
-          </h2>
-          <CollectionsList />
-        </div>
-        
-        {/* Private section only if logged in */}
-        {user && (
-          <div className="mt-16">
-            <h2 className="text-2xl font-playfair flex items-center text-charcoal dark:text-offwhite mb-8">
-              <Lock className="w-6 h-6 mr-2 text-gold" />
+        {/* Using Tabs for better navigation between Collections and Private */}
+        <Tabs defaultValue="collections" className="mt-12">
+          <TabsList className="mb-8 w-full max-w-md mx-auto grid grid-cols-2">
+            <TabsTrigger value="collections" className="text-lg flex items-center gap-2">
+              <FolderOpen className="w-5 h-5 text-gold" />
+              Collections
+            </TabsTrigger>
+            <TabsTrigger value="private" className="text-lg flex items-center gap-2">
+              <Lock className="w-5 h-5 text-gold" />
               Private Galleries
-            </h2>
-            <PrivateGalleries user={user} />
-          </div>
-        )}
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="collections" className="mt-6">
+            <CollectionsList />
+          </TabsContent>
+          
+          <TabsContent value="private" className="mt-6">
+            {user ? (
+              <PrivateGalleries user={user} />
+            ) : (
+              <div className="text-center py-16 bg-charcoal/5 dark:bg-charcoal/30 rounded-lg">
+                <Lock className="w-12 h-12 mx-auto mb-4 text-gold/50" />
+                <h3 className="text-xl font-playfair mb-4">Private Galleries</h3>
+                <p className="text-charcoal/70 dark:text-offwhite/70 mb-6 max-w-md mx-auto">
+                  Please sign in to access your private galleries and exclusive content.
+                </p>
+                <Button asChild>
+                  <Link to="/auth">Sign In</Link>
+                </Button>
+              </div>
+            )}
+          </TabsContent>
+        </Tabs>
       </main>
       <Footer />
     </div>

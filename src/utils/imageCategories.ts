@@ -66,7 +66,11 @@ export const photoCategories: PhotoCategory[] = [
       "/lovable-uploads/ba435b40-e58d-4056-941b-b678d94161b2.png", 
       "/lovable-uploads/ac897cb9-aed5-49a1-b7d4-30683af25521.png",
       "/lovable-uploads/425b89e7-4e02-4b46-be24-3b31564fe22d.png",
-      "/lovable-uploads/b8d1a9ee-bb1c-464b-ad90-06476ae1c855.png"
+      "/lovable-uploads/b8d1a9ee-bb1c-464b-ad90-06476ae1c855.png",
+      "/lovable-uploads/2d6e5613-3e06-4146-bb0f-439aa0ea71d8.png",
+      "/lovable-uploads/e159f82e-c7d8-4fa8-8bfb-4727a4423b8a.png",
+      "/lovable-uploads/ca1ea03c-7702-451e-8205-8fa4d3a17593.png",
+      "/lovable-uploads/86f6709d-ee6f-4040-87b8-5a8011c52f1d.png"
     ]
   },
   {

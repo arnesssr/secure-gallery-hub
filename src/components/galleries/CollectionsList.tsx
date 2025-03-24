@@ -5,6 +5,7 @@ import { FolderOpen, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
+import { getPhotosByCategory } from "@/utils/imageCategories";
 
 interface Collection {
   id: string;
@@ -46,24 +47,78 @@ const CollectionsList = () => {
     }
   };
 
+  // Get cover images for each category
+  const getCoverImage = (categoryName: string) => {
+    const normalizedName = categoryName.toLowerCase().replace(/\s+/g, "-");
+    const photos = getPhotosByCategory(normalizedName);
+    return photos.length > 0 ? photos[0] : "/lovable-uploads/b771e612-6000-4c2d-b932-84540b6408b2.png";
+  };
+
+  // Get a default set of categories to display
+  const defaultCollections = [
+    { 
+      id: "portraits", 
+      title: "Portraits", 
+      description: "Professional portrait photography capturing personality and emotion",
+      image_url: getCoverImage("portraits"),
+      image_count: getPhotosByCategory("portraits").length,
+      is_private: false
+    },
+    { 
+      id: "wedding-portfolio", 
+      title: "Wedding Portfolio", 
+      description: "Beautiful moments from wedding ceremonies and celebrations",
+      image_url: getCoverImage("wedding-portfolio"),
+      image_count: getPhotosByCategory("wedding-portfolio").length,
+      is_private: false
+    },
+    { 
+      id: "baby-photography", 
+      title: "Baby Photography", 
+      description: "Adorable moments captured with our baby photography sessions",
+      image_url: getCoverImage("baby-photography"),
+      image_count: getPhotosByCategory("baby-photography").length,
+      is_private: false
+    },
+    { 
+      id: "product-photography", 
+      title: "Product Photography", 
+      description: "Stunning product images that highlight details and features",
+      image_url: getCoverImage("product-photography"),
+      image_count: getPhotosByCategory("product-photography").length,
+      is_private: false
+    },
+    { 
+      id: "sports", 
+      title: "Sports Photography", 
+      description: "Dynamic sports photography capturing action and emotion",
+      image_url: getCoverImage("sports"),
+      image_count: getPhotosByCategory("sports").length,
+      is_private: false
+    },
+    { 
+      id: "performances", 
+      title: "Performances", 
+      description: "Live performances captured with professional photography",
+      image_url: getCoverImage("performances"),
+      image_count: getPhotosByCategory("performances").length,
+      is_private: false
+    }
+  ];
+
+  // Combine database collections with default ones
+  const displayCollections = loading 
+    ? defaultCollections 
+    : collections.length > 0 
+      ? collections 
+      : defaultCollections;
+
   if (loading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {[...Array(6)].map((_, i) => (
           <div key={i} className="aspect-[3/2] bg-charcoal/10 animate-pulse rounded-lg" />
         ))}
-      </div>
-    );
-  }
-
-  if (collections.length === 0) {
-    return (
-      <div className="text-center py-12">
-        <FolderOpen className="w-12 h-12 mx-auto mb-4 text-charcoal/50 dark:text-offwhite/50" />
-        <h3 className="text-xl font-playfair mb-4">No Collections</h3>
-        <p className="text-charcoal/70 dark:text-offwhite/70">
-          There are no collections available yet
-        </p>
       </div>
     );
   }
@@ -76,7 +131,7 @@ const CollectionsList = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {collections.map((collection, index) => {
+      {displayCollections.map((collection, index) => {
         // Assign a random frame style to each collection
         const frameStyle = getRandomFrameStyle();
         

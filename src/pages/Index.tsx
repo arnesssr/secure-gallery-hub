@@ -11,12 +11,19 @@ const Index = () => {
     <div className="min-h-screen bg-charcoal">
       <Navbar />
       
-      {/* Adjusted hero height and improved centering of search bar */}
+      {/* Increased hero height for better spacing */}
       <ShapeLandingHero 
-        height="25vh" 
+        height="40vh" 
         customContent={
           <div className="max-w-lg w-full px-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="relative">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-playfair text-offwhite text-center mb-6">
+              Capture the Moment
+            </h1>
+            <p className="text-offwhite/80 text-center mb-10 text-lg">
+              Professional photography that tells your story
+            </p>
+            {/* Mobile search bar only, desktop is in the navbar */}
+            <div className="relative md:hidden">
               <Input 
                 type="text" 
                 placeholder="Search our gallery..." 
