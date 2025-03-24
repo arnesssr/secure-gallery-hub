@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { GalleryHorizontal, Lock, FolderOpen, Plus, LogOut } from "lucide-react";
+import { FolderOpen, Lock, Plus, LogOut } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import PrivateGalleries from "@/components/galleries/PrivateGalleries";
-import PublicGalleries from "@/components/galleries/PublicGalleries";
 import CollectionsList from "@/components/galleries/CollectionsList";
 
 const GalleriesPage = () => {
@@ -61,12 +60,8 @@ const GalleriesPage = () => {
           </div>
         </div>
 
-        <Tabs defaultValue="public" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 lg:w-[400px]">
-            <TabsTrigger value="public" className="flex items-center gap-2">
-              <GalleryHorizontal className="w-4 h-4" />
-              Public
-            </TabsTrigger>
+        <Tabs defaultValue="collections" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
             <TabsTrigger value="collections" className="flex items-center gap-2">
               <FolderOpen className="w-4 h-4" />
               Collections
@@ -76,10 +71,6 @@ const GalleriesPage = () => {
               Private
             </TabsTrigger>
           </TabsList>
-          
-          <TabsContent value="public">
-            <PublicGalleries />
-          </TabsContent>
           
           <TabsContent value="collections">
             <CollectionsList />

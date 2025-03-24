@@ -1,3 +1,4 @@
+
 // This file provides a structured way to organize images by category
 // It acts as a central registry for all photo categories in the application
 
@@ -132,7 +133,24 @@ export const photoCategories: PhotoCategory[] = [
     id: "wedding-portfolio",
     name: "Wedding Portfolio",
     path: "/wedding-portfolio",
-    photos: []
+    photos: [
+      "/lovable-uploads/b97563f8-4566-45b1-b47f-826535f8338a.png",
+      "/lovable-uploads/6412cd47-3539-4a22-b536-5e6eeae80a06.png",
+      "/lovable-uploads/3e15ab66-91f3-4ab9-82a9-d45aa45b9571.png",
+      "/lovable-uploads/057c9ecf-292c-4bf4-9e40-7eb38691d0c7.png",
+      "/lovable-uploads/08cbe168-794c-4df5-a9cb-1301d8e2bd22.png",
+      "/lovable-uploads/93d52c37-16ab-4293-800e-46991c46ef51.png",
+      "/lovable-uploads/6dc85684-6597-4720-be59-522274c1e47d.png",
+      "/lovable-uploads/3a2ffd42-64c9-4178-b025-95c03a290b57.png",
+      "/lovable-uploads/b9803e0d-e609-4232-9d5b-1ddaf610d117.png",
+      "/lovable-uploads/1cede87c-c79d-46d9-8444-76a0481b72a3.png",
+      "/lovable-uploads/3cf1b680-5998-47bd-8cf7-96f999419c09.png",
+      "/lovable-uploads/c7c06212-b968-4457-b27a-b296f604e16c.png",
+      "/lovable-uploads/97623169-6368-4fba-86d3-a5fdd9ea7954.png",
+      "/lovable-uploads/35c34f65-d6f8-493f-94b1-053db09daa11.png",
+      "/lovable-uploads/2db6ecfd-a3c1-472a-9676-914a8b6981bd.png",
+      "/lovable-uploads/7f253d6f-f849-4623-ac55-a0e1664bc04e.png"
+    ]
   }
 ];
 

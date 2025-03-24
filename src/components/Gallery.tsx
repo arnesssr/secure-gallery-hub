@@ -21,8 +21,8 @@ const Gallery = () => {
       {/* Main Content */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-charcoal via-charcoal/95 to-offwhite dark:to-charcoal">
         <div className="container mx-auto px-4">
-          {/* Added extra padding to move "Our Work" section down further */}
-          <div className="pt-16 md:pt-24">
+          {/* Increased padding at the top to accommodate larger header and push content down */}
+          <div className="pt-28 md:pt-36">
             {/* Photo Tiles */}
             <div className="mb-16">
               <h2 className="text-2xl md:text-3xl font-playfair text-offwhite text-center mb-10">
