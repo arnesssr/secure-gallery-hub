@@ -1,11 +1,10 @@
 
-import { Menu, Sun, Moon, Home, Image, Calendar, Info, Mail, Search } from "lucide-react";
+import { Menu, Sun, Moon, Home, Image, Calendar, Info, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useTheme } from "@/components/theme-provider";
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
@@ -42,18 +41,6 @@ const Navbar = () => {
             </span>
           </Link>
 
-          {/* Center search bar on larger screens */}
-          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1/3">
-            <div className="relative">
-              <Input 
-                type="text" 
-                placeholder="Search our gallery..." 
-                className="pl-10 pr-4 py-6 w-full bg-black/30 text-white border-gold/30 focus:border-gold transition-colors backdrop-blur-sm rounded-full"
-              />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gold/70 h-4 w-4" />
-            </div>
-          </div>
-
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
               <Link
@@ -84,16 +71,6 @@ const Navbar = () => {
             </SheetTrigger>
             <SheetContent className="bg-charcoal/95 backdrop-blur-md border-gold/10">
               <div className="flex flex-col space-y-6 mt-8">
-                {/* Mobile search */}
-                <div className="relative mb-6">
-                  <Input 
-                    type="text" 
-                    placeholder="Search our gallery..." 
-                    className="pl-10 pr-4 py-4 w-full bg-black/30 text-white border-gold/30 focus:border-gold transition-colors backdrop-blur-sm rounded-full"
-                  />
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gold/70 h-4 w-4" />
-                </div>
-                
                 {navItems.map((item) => (
                   <Link
                     key={item.name}

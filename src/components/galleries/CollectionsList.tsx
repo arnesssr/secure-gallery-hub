@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { getPhotosByCategory } from "@/utils/imageCategories";
+import GalleryDisplayStyles from "@/components/gallery/GalleryDisplayStyles";
 
 interface Collection {
   id: string;
@@ -19,6 +20,7 @@ interface Collection {
 const CollectionsList = () => {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeView, setActiveView] = useState<"grid" | "full">("grid");
   const { toast } = useToast();
 
   useEffect(() => {
@@ -54,7 +56,7 @@ const CollectionsList = () => {
     
     // Use first uploaded portrait image for portrait category
     if (normalizedName === "portraits") {
-      return "/lovable-uploads/687160df-47d4-4976-be26-ac1bd2652d9a.png"; // Use one of the new portrait images
+      return "/lovable-uploads/85bc1a59-4427-4850-950a-5887ab28c9a3.png"; // Use one of the new portrait images
     }
     
     // For baby photography, ensure it has a cover
@@ -71,7 +73,7 @@ const CollectionsList = () => {
       id: "portraits", 
       title: "Portraits", 
       description: "Professional portrait photography capturing personality and emotion",
-      image_url: "/lovable-uploads/687160df-47d4-4976-be26-ac1bd2652d9a.png", // Using one of the new uploads
+      image_url: "/lovable-uploads/85bc1a59-4427-4850-950a-5887ab28c9a3.png", // Using one of the new uploads
       image_count: getPhotosByCategory("portraits").length,
       is_private: false
     },
@@ -134,52 +136,91 @@ const CollectionsList = () => {
     );
   }
 
-  // Get randomly selected frame styles for each collection
+  // Full view shows individual collections with different display styles
+  if (activeView === "full") {
+    return (
+      <div className="space-y-16">
+        <div className="mb-12">
+          <Button 
+            variant="outline" 
+            onClick={() => setActiveView("grid")}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Collections Grid
+          </Button>
+        </div>
+        
+        {displayCollections.map((collection) => (
+          <GalleryDisplayStyles 
+            key={collection.id}
+            categoryId={collection.id}
+            title={collection.title}
+            description={collection.description || undefined}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  // Get randomly selected frame styles for each collection in grid view
   const getRandomFrameStyle = () => {
     const styles = ["classic", "modern", "vintage", "polaroid"];
     return styles[Math.floor(Math.random() * styles.length)];
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {displayCollections.map((collection, index) => {
-        // Assign a random frame style to each collection
-        const frameStyle = getRandomFrameStyle();
-        
-        return (
-          <Link
-            key={collection.id}
-            to={`/galleries/${collection.id}`}
-            className={`group relative bg-white dark:bg-charcoal/50 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'}`}
-          >
-            <div className="aspect-[4/3] relative">
-              <div className={`absolute inset-0 ${frameStyle === 'classic' ? 'border-8 border-white' : 
-                frameStyle === 'modern' ? 'border-4 border-charcoal/90' : 
-                frameStyle === 'vintage' ? 'border-8 border-gold/60' : 
-                'border-8 border-b-[40px] border-white'} z-10 pointer-events-none`}></div>
-              
-              <img
-                src={collection.image_url}
-                alt={collection.title}
-                className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-xl text-offwhite font-playfair mb-2">
-                    {collection.title}
-                  </h3>
-                  {collection.description && (
-                    <p className="text-offwhite/80 text-sm mb-4">{collection.description}</p>
-                  )}
-                  <Button variant="outline" className="w-full bg-gold hover:bg-gold/80 text-charcoal border-none">
-                    View Collection
-                  </Button>
+    <div>
+      <div className="mb-8 text-right">
+        <Button 
+          variant="outline" 
+          onClick={() => setActiveView("full")}
+          className="text-gold border-gold hover:bg-gold/10"
+        >
+          View Interactive Galleries
+        </Button>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {displayCollections.map((collection, index) => {
+          // Assign a random frame style to each collection
+          const frameStyle = getRandomFrameStyle();
+          
+          return (
+            <Link
+              key={collection.id}
+              to={`/galleries/${collection.id}`}
+              className={`group relative bg-white dark:bg-charcoal/50 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'}`}
+            >
+              <div className="aspect-[4/3] relative">
+                <div className={`absolute inset-0 ${frameStyle === 'classic' ? 'border-8 border-white' : 
+                  frameStyle === 'modern' ? 'border-4 border-charcoal/90' : 
+                  frameStyle === 'vintage' ? 'border-8 border-gold/60' : 
+                  'border-8 border-b-[40px] border-white'} z-10 pointer-events-none`}></div>
+                
+                <img
+                  src={collection.image_url}
+                  alt={collection.title}
+                  className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <h3 className="text-xl text-offwhite font-playfair mb-2">
+                      {collection.title}
+                    </h3>
+                    {collection.description && (
+                      <p className="text-offwhite/80 text-sm mb-4">{collection.description}</p>
+                    )}
+                    <Button variant="outline" className="w-full bg-gold hover:bg-gold/80 text-charcoal border-none">
+                      View Collection
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Link>
-        );
-      })}
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 };

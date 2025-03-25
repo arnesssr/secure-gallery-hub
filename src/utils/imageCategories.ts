@@ -1,3 +1,4 @@
+
 // This file provides a structured way to organize images by category
 // It acts as a central registry for all photo categories in the application
 
@@ -61,14 +62,28 @@ export const photoCategories: PhotoCategory[] = [
     name: "Portraits",
     path: "/portraits",
     photos: [
-      // New portrait photos added as requested
+      // Previously added portrait photos
       "/lovable-uploads/35165458-d377-482d-984c-51b84dd1ba1a.png",
       "/lovable-uploads/075abbdf-316c-46eb-b8fd-cf98142e5562.png",
       "/lovable-uploads/687160df-47d4-4976-be26-ac1bd2652d9a.png",
       "/lovable-uploads/cb484b48-219c-480c-9eb0-0a1aa7b7f24e.png",
       "/lovable-uploads/b9a3bee9-c1c9-4a37-8675-634e7757baef.png",
       "/lovable-uploads/964ace57-df31-47ad-a6d1-926625067159.png",
-      // Keeping some of the existing portrait photos
+      // New portrait photos
+      "/lovable-uploads/85bc1a59-4427-4850-950a-5887ab28c9a3.png",
+      "/lovable-uploads/6e92c8bb-51c2-4292-98dc-bf9d448f8ac8.png",
+      "/lovable-uploads/07368c7c-ae35-4a2d-8c62-905772f6a7ba.png",
+      "/lovable-uploads/6c7105b9-51b8-4e4f-8e2d-9f88e97d8327.png",
+      "/lovable-uploads/4eae1c8a-952d-4afe-a6e6-ed82baeaf317.png",
+      "/lovable-uploads/934e8dcf-1bca-42c1-a5a0-28b90431f34d.png",
+      "/lovable-uploads/29f7bd98-298c-4d35-8101-1cdb84a4f148.png",
+      "/lovable-uploads/d4e645e2-276d-4493-bbec-53466b3d8925.png",
+      "/lovable-uploads/384d2374-65da-42cf-bc29-a7b867f91b96.png",
+      "/lovable-uploads/2d680aa2-805b-41ae-b178-27272bc77f61.png",
+      "/lovable-uploads/fdd79c7f-5f83-4da5-ac22-5a6b693f4639.png",
+      "/lovable-uploads/1306a221-90e7-4131-a951-519f1e5138ce.png",
+      "/lovable-uploads/47cd0df5-0900-4b44-9cb2-0761e3632d50.png",
+      // Original portrait photos
       "/lovable-uploads/0f6cb452-fc0c-4b59-9602-8e319085b405.png",
       "/lovable-uploads/ba435b40-e58d-4056-941b-b678d94161b2.png", 
       "/lovable-uploads/ac897cb9-aed5-49a1-b7d4-30683af25521.png",
