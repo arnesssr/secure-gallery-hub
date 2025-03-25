@@ -129,6 +129,22 @@ export const photoCategories: PhotoCategory[] = [
     ]
   },
   {
+    id: "food-photography",
+    name: "Food Photography",
+    path: "/food-photography",
+    photos: [
+      // Adding the new food photography images
+      "/lovable-uploads/14a5f3c1-026f-4ac0-a64f-f8f31d7fd34e.png", // Cocktail in blue/green
+      "/lovable-uploads/53406d2d-4489-475f-8346-d88edcc2a763.png", // French toast with fruits
+      "/lovable-uploads/44d50fab-6407-4a18-b790-a37acc09b58c.png", // Three cocktails
+      "/lovable-uploads/65939f60-3eec-4176-82fb-15fc8fb19435.png", // Breakfast plates with French toast
+      "/lovable-uploads/b41bdb0b-c2a0-4d32-a9db-aa564133fc42.png", // Coffee with latte art and croissant
+      "/lovable-uploads/0a0a95bc-868a-4643-9450-291fb6c0f46d.png", // Various plates with French toast and sandwich
+      "/lovable-uploads/b76a92b6-c460-4738-b32a-e74f211dc6d5.png", // Coffee with latte art and croissant close-up
+      "/lovable-uploads/fd4f6e75-0004-413f-91be-411b6df4138d.png"  // Coffee with croissant sandwich and tomatoes
+    ]
+  },
+  {
     id: "portfolio",
     name: "Portfolio",
     path: "/portfolio",
@@ -156,12 +172,6 @@ export const photoCategories: PhotoCategory[] = [
     id: "events",
     name: "Events",
     path: "/events",
-    photos: []
-  },
-  {
-    id: "food-photography",
-    name: "Food Photography",
-    path: "/food-photography",
     photos: []
   },
   {

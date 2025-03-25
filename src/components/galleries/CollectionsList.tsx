@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { FolderOpen, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -60,6 +59,11 @@ const CollectionsList = () => {
       return "/lovable-uploads/85bc1a59-4427-4850-950a-5887ab28c9a3.png"; // Use one of the new portrait images
     }
     
+    // For food photography category, use one of the new images
+    if (normalizedName === "food-photography" && photos.length > 0) {
+      return "/lovable-uploads/b41bdb0b-c2a0-4d32-a9db-aa564133fc42.png"; // Coffee with latte art
+    }
+    
     // For baby photography, ensure it has a cover
     if (normalizedName === "baby-photography" && photos.length > 0) {
       return photos[0];
@@ -92,6 +96,14 @@ const CollectionsList = () => {
       description: "Adorable moments captured with our baby photography sessions",
       image_url: getCoverImage("baby-photography"),
       image_count: getPhotosByCategory("baby-photography").length,
+      is_private: false
+    },
+    { 
+      id: "food-photography", 
+      title: "Food Photography", 
+      description: "Delicious cuisine and beverages photographed with exquisite detail",
+      image_url: "/lovable-uploads/b41bdb0b-c2a0-4d32-a9db-aa564133fc42.png",
+      image_count: getPhotosByCategory("food-photography").length,
       is_private: false
     },
     { 

@@ -1,6 +1,5 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
@@ -125,14 +124,6 @@ const GalleryDisplayStyles = ({ categoryId, title, description }: GalleryDisplay
           </div>
         </TabsContent>
       </Tabs>
-
-      <div className="text-center">
-        <Link to={`/galleries/${categoryId}`}>
-          <Button variant="outline" className="border-gold text-gold hover:bg-gold/10">
-            View Full Collection
-          </Button>
-        </Link>
-      </div>
     </div>
   );
 };
