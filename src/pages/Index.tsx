@@ -19,11 +19,11 @@ const Index = () => {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-playfair text-offwhite text-center mb-6">
               Capture the Moment
             </h1>
-            <p className="text-offwhite/80 text-center mb-10 text-lg">
+            <p className="text-offwhite/80 text-center mb-6 text-lg">
               Professional photography that tells your story
             </p>
-            {/* Mobile search bar only, desktop is in the navbar */}
-            <div className="relative md:hidden">
+            {/* Search bar moved below the tagline as requested */}
+            <div className="relative">
               <Input 
                 type="text" 
                 placeholder="Search our gallery..." 

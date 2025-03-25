@@ -47,10 +47,21 @@ const CollectionsList = () => {
     }
   };
 
-  // Get cover images for each category
+  // Get cover images for each category, using newly uploaded images for portraits
   const getCoverImage = (categoryName: string) => {
     const normalizedName = categoryName.toLowerCase().replace(/\s+/g, "-");
     const photos = getPhotosByCategory(normalizedName);
+    
+    // Use first uploaded portrait image for portrait category
+    if (normalizedName === "portraits") {
+      return "/lovable-uploads/687160df-47d4-4976-be26-ac1bd2652d9a.png"; // Use one of the new portrait images
+    }
+    
+    // For baby photography, ensure it has a cover
+    if (normalizedName === "baby-photography" && photos.length > 0) {
+      return photos[0];
+    }
+    
     return photos.length > 0 ? photos[0] : "/lovable-uploads/b771e612-6000-4c2d-b932-84540b6408b2.png";
   };
 
@@ -60,7 +71,7 @@ const CollectionsList = () => {
       id: "portraits", 
       title: "Portraits", 
       description: "Professional portrait photography capturing personality and emotion",
-      image_url: getCoverImage("portraits"),
+      image_url: "/lovable-uploads/687160df-47d4-4976-be26-ac1bd2652d9a.png", // Using one of the new uploads
       image_count: getPhotosByCategory("portraits").length,
       is_private: false
     },
