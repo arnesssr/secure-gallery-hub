@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { getPhotosByCategory } from "@/utils/imageCategories";
-import GalleryDisplayStyles from "@/components/gallery/GalleryDisplayStyles";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Collection {
   id: string;
@@ -20,7 +20,7 @@ interface Collection {
 const CollectionsList = () => {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeView, setActiveView] = useState<"grid" | "full">("grid");
+  const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -136,29 +136,28 @@ const CollectionsList = () => {
     );
   }
 
-  // Full view shows individual collections with different display styles
-  if (activeView === "full") {
+  // Collection detail view with interactive display styles
+  if (selectedCollection) {
+    const collection = displayCollections.find(c => c.id === selectedCollection);
+    if (!collection) return null;
+    
     return (
-      <div className="space-y-16">
-        <div className="mb-12">
-          <Button 
-            variant="outline" 
-            onClick={() => setActiveView("grid")}
-            className="flex items-center gap-2"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Collections Grid
-          </Button>
-        </div>
+      <div className="mb-12">
+        <Button 
+          variant="outline" 
+          onClick={() => setSelectedCollection(null)}
+          className="flex items-center gap-2 mb-8"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Collections
+        </Button>
         
-        {displayCollections.map((collection) => (
-          <GalleryDisplayStyles 
-            key={collection.id}
-            categoryId={collection.id}
-            title={collection.title}
-            description={collection.description || undefined}
-          />
-        ))}
+        <h2 className="text-3xl font-playfair mb-4 text-charcoal dark:text-offwhite">{collection.title}</h2>
+        {collection.description && (
+          <p className="text-charcoal/80 dark:text-offwhite/80 max-w-3xl mb-8">{collection.description}</p>
+        )}
+        
+        <CollectionGalleryDisplay categoryId={collection.id} />
       </div>
     );
   }
@@ -171,26 +170,16 @@ const CollectionsList = () => {
 
   return (
     <div>
-      <div className="mb-8 text-right">
-        <Button 
-          variant="outline" 
-          onClick={() => setActiveView("full")}
-          className="text-gold border-gold hover:bg-gold/10"
-        >
-          View Interactive Galleries
-        </Button>
-      </div>
-      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {displayCollections.map((collection, index) => {
           // Assign a random frame style to each collection
           const frameStyle = getRandomFrameStyle();
           
           return (
-            <Link
+            <div
               key={collection.id}
-              to={`/galleries/${collection.id}`}
-              className={`group relative bg-white dark:bg-charcoal/50 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'}`}
+              className={`group relative bg-white dark:bg-charcoal/50 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'} cursor-pointer`}
+              onClick={() => setSelectedCollection(collection.id)}
             >
               <div className="aspect-[4/3] relative">
                 <div className={`absolute inset-0 ${frameStyle === 'classic' ? 'border-8 border-white' : 
@@ -212,15 +201,169 @@ const CollectionsList = () => {
                       <p className="text-offwhite/80 text-sm mb-4">{collection.description}</p>
                     )}
                     <Button variant="outline" className="w-full bg-gold hover:bg-gold/80 text-charcoal border-none">
-                      View Collection
+                      View Interactive Gallery
                     </Button>
                   </div>
                 </div>
               </div>
-            </Link>
+            </div>
           );
         })}
       </div>
+    </div>
+  );
+};
+
+// Component for displaying interactive gallery styles within a collection
+const CollectionGalleryDisplay = ({ categoryId }: { categoryId: string }) => {
+  const photos = getPhotosByCategory(categoryId);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
+  // Different frame styles for masonry display
+  const frameStyles = ["classic", "modern", "vintage", "polaroid", "none"];
+
+  // Generate random rotations
+  const getRandomRotation = () => {
+    const rotations = ["rotate-1", "-rotate-1", "rotate-2", "-rotate-2", "rotate-0"];
+    return rotations[Math.floor(Math.random() * rotations.length)];
+  };
+
+  return (
+    <div>
+      <Tabs defaultValue="carousel" className="mb-10">
+        <TabsList className="mb-8">
+          <TabsTrigger value="carousel">Carousel</TabsTrigger>
+          <TabsTrigger value="tiles">Photo Tiles</TabsTrigger>
+          <TabsTrigger value="masonry">Masonry</TabsTrigger>
+          <TabsTrigger value="grid">Grid</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="carousel" className="py-4">
+          <div className="relative aspect-[16/9] max-h-[70vh] w-full overflow-hidden rounded-xl">
+            <Carousel photos={photos.slice(0, Math.min(10, photos.length))} />
+          </div>
+        </TabsContent>
+
+        <TabsContent value="tiles" className="py-4">
+          <PhotoTiles photos={photos.slice(0, Math.min(6, photos.length))} />
+        </TabsContent>
+
+        <TabsContent value="masonry" className="py-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {photos.slice(0, Math.min(9, photos.length)).map((photo, idx) => {
+              const frameStyle = frameStyles[idx % frameStyles.length];
+              const rotation = getRandomRotation();
+              
+              return (
+                <div 
+                  key={idx}
+                  className={`group relative overflow-hidden rounded-lg transition-all duration-500 ${rotation} ${
+                    idx % 3 === 0 ? "aspect-[3/4]" : idx % 3 === 1 ? "aspect-square" : "aspect-[4/3]"
+                  } ${hoveredId === `masonry-${idx}` ? "scale-[1.02] z-10" : "z-0"}`}
+                  onMouseEnter={() => setHoveredId(`masonry-${idx}`)}
+                  onMouseLeave={() => setHoveredId(null)}
+                >
+                  <div className={`absolute inset-0 z-10 pointer-events-none ${
+                    frameStyle === 'classic' ? 'border-8 border-white' : 
+                    frameStyle === 'modern' ? 'border-4 border-charcoal/90' : 
+                    frameStyle === 'vintage' ? 'border-8 border-gold/60' : 
+                    frameStyle === 'polaroid' ? 'border-8 border-b-[40px] border-white' : ''
+                  }`}></div>
+                  
+                  <img
+                    src={photo}
+                    alt={`Photo ${idx + 1}`}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0">
+                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                      <span className="font-playfair text-lg">Washikadau Photography</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="grid" className="py-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {photos.slice(0, Math.min(12, photos.length)).map((photo, idx) => (
+              <div 
+                key={idx}
+                className="group relative overflow-hidden rounded-lg aspect-square shadow-md hover:shadow-xl transition-all duration-300"
+              >
+                <img
+                  src={photo}
+                  alt={`Photo ${idx + 1}`}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
+                    <span className="text-sm font-medium">Photo {idx + 1}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </TabsContent>
+      </Tabs>
+      
+      <div className="text-center mt-8">
+        <Link to={`/galleries/${categoryId}`}>
+          <Button variant="outline" className="border-gold text-gold hover:bg-gold/10">
+            View Full Collection
+          </Button>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+// Simple Carousel component
+const Carousel = ({ photos }: { photos: string[] }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex(prev => (prev + 1) % photos.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [photos.length]);
+
+  return (
+    <div className="relative w-full h-full overflow-hidden rounded-lg">
+      {photos.map((photo, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-1000 ${
+            index === currentIndex ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <img
+            src={photo}
+            alt={`Carousel photo ${index + 1}`}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// Simple PhotoTiles component
+const PhotoTiles = ({ photos }: { photos: string[] }) => {
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      {photos.map((photo, idx) => (
+        <div key={idx} className="relative aspect-square overflow-hidden rounded-lg shadow-md">
+          <img
+            src={photo}
+            alt={`Tile photo ${idx + 1}`}
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+          />
+        </div>
+      ))}
     </div>
   );
 };

@@ -16,13 +16,7 @@ const Index = () => {
         height="40vh" 
         customContent={
           <div className="max-w-lg w-full px-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-playfair text-offwhite text-center mb-6">
-              Capture the Moment
-            </h1>
-            <p className="text-offwhite/80 text-center mb-6 text-lg">
-              Professional photography that tells your story
-            </p>
-            {/* Search bar moved below the tagline as requested */}
+            {/* Search bar alone without the headers */}
             <div className="relative">
               <Input 
                 type="text" 
