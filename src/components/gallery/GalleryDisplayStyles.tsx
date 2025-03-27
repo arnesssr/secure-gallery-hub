@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
@@ -14,8 +14,17 @@ type GalleryDisplayStylesProps = {
 }
 
 const GalleryDisplayStyles = ({ categoryId, title, description }: GalleryDisplayStylesProps) => {
-  const photos = getPhotosByCategory(categoryId);
+  const [photos, setPhotos] = useState<string[]>([]);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Load photos on component mount
+  useEffect(() => {
+    const categoryPhotos = getPhotosByCategory(categoryId);
+    console.log(`Loading photos for category ${categoryId}:`, categoryPhotos.length);
+    setPhotos(categoryPhotos);
+    setLoading(false);
+  }, [categoryId]);
 
   // Different frame styles for masonry display
   const frameStyles = ["classic", "modern", "vintage", "polaroid", "none"];
@@ -25,6 +34,14 @@ const GalleryDisplayStyles = ({ categoryId, title, description }: GalleryDisplay
     const rotations = ["rotate-1", "-rotate-1", "rotate-2", "-rotate-2", "rotate-0"];
     return rotations[Math.floor(Math.random() * rotations.length)];
   };
+
+  if (loading) {
+    return <div className="animate-pulse h-64 bg-charcoal/10 rounded-lg"></div>;
+  }
+
+  if (photos.length === 0) {
+    return <div className="text-center py-8">No photos available for this category</div>;
+  }
 
   return (
     <div className="mb-20">
@@ -90,6 +107,10 @@ const GalleryDisplayStyles = ({ categoryId, title, description }: GalleryDisplay
                     src={photo}
                     alt={`${title} ${idx + 1}`}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    onError={(e) => {
+                      console.error(`Failed to load photo at index ${idx}`);
+                      e.currentTarget.src = "/placeholder.svg";
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0">
                     <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
@@ -113,6 +134,10 @@ const GalleryDisplayStyles = ({ categoryId, title, description }: GalleryDisplay
                   src={photo}
                   alt={`${title} ${idx + 1}`}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  onError={(e) => {
+                    console.error(`Failed to load photo at index ${idx}`);
+                    e.currentTarget.src = "/placeholder.svg";
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-0 left-0 right-0 p-3 text-white">

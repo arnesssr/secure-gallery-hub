@@ -25,6 +25,7 @@ const CollectionsList = () => {
 
   useEffect(() => {
     fetchCollections();
+    console.log("Fetching collections");
   }, []);
 
   const fetchCollections = async () => {
@@ -36,9 +37,15 @@ const CollectionsList = () => {
         .eq("type", "collection")
         .eq("is_private", false);
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error fetching collections:", error);
+        throw error;
+      }
+      
+      console.log("Collections from database:", data);
       setCollections(data || []);
     } catch (error) {
+      console.error("Collection fetch error:", error);
       toast({
         title: "Error",
         description: "Failed to load collections",
@@ -49,22 +56,22 @@ const CollectionsList = () => {
     }
   };
 
-  // Get cover images for each category, using newly uploaded images for portraits
+  // Get cover images for each category
   const getCoverImage = (categoryName: string) => {
+    console.log(`Getting cover image for ${categoryName}`);
     const normalizedName = categoryName.toLowerCase().replace(/\s+/g, "-");
     const photos = getPhotosByCategory(normalizedName);
+    console.log(`Photos for ${normalizedName}:`, photos.length > 0 ? "Found" : "Not found");
     
-    // Use first uploaded portrait image for portrait category
+    // Use fixed images for specific categories
     if (normalizedName === "portraits") {
-      return "/lovable-uploads/85bc1a59-4427-4850-950a-5887ab28c9a3.png"; // Use one of the new portrait images
+      return "/lovable-uploads/85bc1a59-4427-4850-950a-5887ab28c9a3.png";
     }
     
-    // For food photography category, use one of the new images
-    if (normalizedName === "food-photography" && photos.length > 0) {
-      return "/lovable-uploads/b41bdb0b-c2a0-4d32-a9db-aa564133fc42.png"; // Coffee with latte art
+    if (normalizedName === "food-photography") {
+      return "/lovable-uploads/b41bdb0b-c2a0-4d32-a9db-aa564133fc42.png";
     }
     
-    // For baby photography, ensure it has a cover
     if (normalizedName === "baby-photography" && photos.length > 0) {
       return photos[0];
     }
@@ -72,13 +79,13 @@ const CollectionsList = () => {
     return photos.length > 0 ? photos[0] : "/lovable-uploads/b771e612-6000-4c2d-b932-84540b6408b2.png";
   };
 
-  // Get a default set of categories to display - Ensuring Portrait is included
+  // Define default collections with complete data
   const defaultCollections = [
     { 
       id: "portraits", 
       title: "Portraits", 
       description: "Professional portrait photography capturing personality and emotion",
-      image_url: "/lovable-uploads/85bc1a59-4427-4850-950a-5887ab28c9a3.png", // Using one of the new uploads
+      image_url: "/lovable-uploads/85bc1a59-4427-4850-950a-5887ab28c9a3.png",
       image_count: getPhotosByCategory("portraits").length,
       is_private: false
     },
@@ -132,7 +139,7 @@ const CollectionsList = () => {
     }
   ];
 
-  // Combine database collections with default ones, ensuring we have portraits even if it doesn't exist in the database
+  // Combine database collections with default ones
   const displayCollections = loading 
     ? defaultCollections 
     : collections.length > 0 
@@ -140,6 +147,8 @@ const CollectionsList = () => {
           !collections.some(c => c.id === dc.id || c.title.toLowerCase() === dc.title.toLowerCase())
         )]
       : defaultCollections;
+
+  console.log("Display collections:", displayCollections.map(c => c.title));
 
   if (loading) {
     return (
@@ -151,10 +160,15 @@ const CollectionsList = () => {
     );
   }
 
-  // Collection detail view with GalleryDisplayStyles component
+  // Collection detail view with direct photo display
   if (selectedCollection) {
     const collection = displayCollections.find(c => c.id === selectedCollection);
-    if (!collection) return null;
+    if (!collection) {
+      console.error("Selected collection not found:", selectedCollection);
+      return null;
+    }
+    
+    console.log("Displaying collection:", collection.title);
     
     return (
       <div className="mb-12">
@@ -186,8 +200,8 @@ const CollectionsList = () => {
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {displayCollections.map((collection, index) => {
-          // Assign a random frame style to each collection
           const frameStyle = getRandomFrameStyle();
+          console.log(`Rendering collection ${collection.title} with frame ${frameStyle}`);
           
           return (
             <div
@@ -205,6 +219,11 @@ const CollectionsList = () => {
                   src={collection.image_url}
                   alt={collection.title}
                   className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                  onError={(e) => {
+                    console.error(`Error loading image for ${collection.title}`);
+                    // Fallback image
+                    e.currentTarget.src = "/lovable-uploads/b771e612-6000-4c2d-b932-84540b6408b2.png";
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
                   <div className="absolute bottom-0 left-0 right-0 p-6">
@@ -215,7 +234,7 @@ const CollectionsList = () => {
                       <p className="text-offwhite/80 text-sm mb-4">{collection.description}</p>
                     )}
                     <Button variant="outline" className="w-full bg-gold hover:bg-gold/80 text-charcoal border-none">
-                      View Interactive Gallery
+                      View Gallery
                     </Button>
                   </div>
                 </div>
