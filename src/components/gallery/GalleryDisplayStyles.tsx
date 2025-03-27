@@ -17,14 +17,27 @@ const GalleryDisplayStyles = ({ categoryId, title, description }: GalleryDisplay
   const [photos, setPhotos] = useState<string[]>([]);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   // Load photos on component mount
   useEffect(() => {
-    const categoryPhotos = getPhotosByCategory(categoryId);
-    console.log(`Loading photos for category ${categoryId}:`, categoryPhotos.length);
-    setPhotos(categoryPhotos);
-    setLoading(false);
-  }, [categoryId]);
+    try {
+      const categoryPhotos = getPhotosByCategory(categoryId);
+      console.log(`Loading photos for category ${categoryId}:`, categoryPhotos.length);
+      
+      if (categoryPhotos.length === 0) {
+        console.warn(`No photos found for category ${categoryId}`);
+      }
+      
+      setPhotos(categoryPhotos);
+      setErrorMsg(null);
+    } catch (error) {
+      console.error(`Error loading photos for ${categoryId}:`, error);
+      setErrorMsg(`Failed to load photos for ${title}`);
+    } finally {
+      setLoading(false);
+    }
+  }, [categoryId, title]);
 
   // Different frame styles for masonry display
   const frameStyles = ["classic", "modern", "vintage", "polaroid", "none"];
@@ -37,6 +50,10 @@ const GalleryDisplayStyles = ({ categoryId, title, description }: GalleryDisplay
 
   if (loading) {
     return <div className="animate-pulse h-64 bg-charcoal/10 rounded-lg"></div>;
+  }
+
+  if (errorMsg) {
+    return <div className="text-center py-8 text-red-500">{errorMsg}</div>;
   }
 
   if (photos.length === 0) {
@@ -79,7 +96,7 @@ const GalleryDisplayStyles = ({ categoryId, title, description }: GalleryDisplay
 
         <TabsContent value="masonry" className="py-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {photos.slice(0, Math.min(9, photos.length)).map((photo, idx) => {
+            {photos.slice(0, Math.min(12, photos.length)).map((photo, idx) => {
               const frameStyle = frameStyles[idx % frameStyles.length];
               const rotation = getRandomRotation();
               
@@ -108,7 +125,7 @@ const GalleryDisplayStyles = ({ categoryId, title, description }: GalleryDisplay
                     alt={`${title} ${idx + 1}`}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     onError={(e) => {
-                      console.error(`Failed to load photo at index ${idx}`);
+                      console.error(`Failed to load photo at index ${idx}: ${photo}`);
                       e.currentTarget.src = "/placeholder.svg";
                     }}
                   />
@@ -125,7 +142,7 @@ const GalleryDisplayStyles = ({ categoryId, title, description }: GalleryDisplay
 
         <TabsContent value="grid" className="py-4">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {photos.slice(0, Math.min(12, photos.length)).map((photo, idx) => (
+            {photos.slice(0, Math.min(16, photos.length)).map((photo, idx) => (
               <div 
                 key={idx}
                 className="group relative overflow-hidden rounded-lg aspect-square shadow-md hover:shadow-xl transition-all duration-300"
@@ -135,7 +152,7 @@ const GalleryDisplayStyles = ({ categoryId, title, description }: GalleryDisplay
                   alt={`${title} ${idx + 1}`}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   onError={(e) => {
-                    console.error(`Failed to load photo at index ${idx}`);
+                    console.error(`Failed to load photo at index ${idx}: ${photo}`);
                     e.currentTarget.src = "/placeholder.svg";
                   }}
                 />

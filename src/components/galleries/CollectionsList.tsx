@@ -56,27 +56,17 @@ const CollectionsList = () => {
     }
   };
 
-  // Get cover images for each category
-  const getCoverImage = (categoryName: string) => {
-    console.log(`Getting cover image for ${categoryName}`);
-    const normalizedName = categoryName.toLowerCase().replace(/\s+/g, "-");
-    const photos = getPhotosByCategory(normalizedName);
-    console.log(`Photos for ${normalizedName}:`, photos.length > 0 ? "Found" : "Not found");
+  // Get image from the category photos array
+  const getCategoryImage = (categoryId: string): string => {
+    console.log(`Getting image for category ${categoryId}`);
+    const photos = getPhotosByCategory(categoryId);
+    console.log(`Found ${photos.length} photos for ${categoryId}`);
     
-    // Use fixed images for specific categories
-    if (normalizedName === "portraits") {
-      return "/lovable-uploads/85bc1a59-4427-4850-950a-5887ab28c9a3.png";
+    if (photos.length === 0) {
+      return "/placeholder.svg";
     }
     
-    if (normalizedName === "food-photography") {
-      return "/lovable-uploads/b41bdb0b-c2a0-4d32-a9db-aa564133fc42.png";
-    }
-    
-    if (normalizedName === "baby-photography" && photos.length > 0) {
-      return photos[0];
-    }
-    
-    return photos.length > 0 ? photos[0] : "/lovable-uploads/b771e612-6000-4c2d-b932-84540b6408b2.png";
+    return photos[0]; // Use the first photo in the category
   };
 
   // Define default collections with complete data
@@ -85,7 +75,7 @@ const CollectionsList = () => {
       id: "portraits", 
       title: "Portraits", 
       description: "Professional portrait photography capturing personality and emotion",
-      image_url: "/lovable-uploads/85bc1a59-4427-4850-950a-5887ab28c9a3.png",
+      image_url: getCategoryImage("portraits"),
       image_count: getPhotosByCategory("portraits").length,
       is_private: false
     },
@@ -93,7 +83,7 @@ const CollectionsList = () => {
       id: "wedding-portfolio", 
       title: "Wedding Portfolio", 
       description: "Beautiful moments from wedding ceremonies and celebrations",
-      image_url: getCoverImage("wedding-portfolio"),
+      image_url: getCategoryImage("wedding-portfolio"),
       image_count: getPhotosByCategory("wedding-portfolio").length,
       is_private: false
     },
@@ -101,7 +91,7 @@ const CollectionsList = () => {
       id: "baby-photography", 
       title: "Baby Photography", 
       description: "Adorable moments captured with our baby photography sessions",
-      image_url: getCoverImage("baby-photography"),
+      image_url: getCategoryImage("baby-photography"),
       image_count: getPhotosByCategory("baby-photography").length,
       is_private: false
     },
@@ -109,7 +99,7 @@ const CollectionsList = () => {
       id: "food-photography", 
       title: "Food Photography", 
       description: "Delicious cuisine and beverages photographed with exquisite detail",
-      image_url: "/lovable-uploads/b41bdb0b-c2a0-4d32-a9db-aa564133fc42.png",
+      image_url: getCategoryImage("food-photography"),
       image_count: getPhotosByCategory("food-photography").length,
       is_private: false
     },
@@ -117,7 +107,7 @@ const CollectionsList = () => {
       id: "product-photography", 
       title: "Product Photography", 
       description: "Stunning product images that highlight details and features",
-      image_url: getCoverImage("product-photography"),
+      image_url: getCategoryImage("product-photography"),
       image_count: getPhotosByCategory("product-photography").length,
       is_private: false
     },
@@ -125,7 +115,7 @@ const CollectionsList = () => {
       id: "sports", 
       title: "Sports Photography", 
       description: "Dynamic sports photography capturing action and emotion",
-      image_url: getCoverImage("sports"),
+      image_url: getCategoryImage("sports"),
       image_count: getPhotosByCategory("sports").length,
       is_private: false
     },
@@ -133,7 +123,7 @@ const CollectionsList = () => {
       id: "performances", 
       title: "Performances", 
       description: "Live performances captured with professional photography",
-      image_url: getCoverImage("performances"),
+      image_url: getCategoryImage("performances"),
       image_count: getPhotosByCategory("performances").length,
       is_private: false
     }
@@ -202,6 +192,7 @@ const CollectionsList = () => {
         {displayCollections.map((collection, index) => {
           const frameStyle = getRandomFrameStyle();
           console.log(`Rendering collection ${collection.title} with frame ${frameStyle}`);
+          const imageUrl = collection.image_url || getCategoryImage(collection.id);
           
           return (
             <div
@@ -216,13 +207,12 @@ const CollectionsList = () => {
                   'border-8 border-b-[40px] border-white'} z-10 pointer-events-none`}></div>
                 
                 <img
-                  src={collection.image_url}
+                  src={imageUrl}
                   alt={collection.title}
                   className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
                   onError={(e) => {
                     console.error(`Error loading image for ${collection.title}`);
-                    // Fallback image
-                    e.currentTarget.src = "/lovable-uploads/b771e612-6000-4c2d-b932-84540b6408b2.png";
+                    e.currentTarget.src = "/placeholder.svg";
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">

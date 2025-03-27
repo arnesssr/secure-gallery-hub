@@ -1,4 +1,3 @@
-
 // This file provides a structured way to organize images by category
 // It acts as a central registry for all photo categories in the application
 
@@ -112,6 +111,7 @@ export const photoCategories: PhotoCategory[] = [
     name: "Baby Photography",
     path: "/baby-photography",
     photos: [
+      // Existing baby photography images
       "/lovable-uploads/1ff6de7f-bc2c-49fd-a5ba-3e83c262c13b.png",
       "/lovable-uploads/e3a3f9ab-a555-45ab-8a51-c4f716cebd3a.png",
       "/lovable-uploads/f36b9aa0-d2f7-4195-92fd-3a358959f1f7.png",
@@ -125,7 +125,22 @@ export const photoCategories: PhotoCategory[] = [
       "/lovable-uploads/78b11490-f844-4d56-b95d-8f7924dc43cc.png",
       "/lovable-uploads/8d8261c2-619a-48ce-8b92-643b786b97fb.png",
       "/lovable-uploads/d7f54c52-6d94-412e-944f-08c6834ee36e.png",
-      "/lovable-uploads/0c6a42b8-06a5-4214-aafe-d2d5ff3f22bb.png"
+      "/lovable-uploads/0c6a42b8-06a5-4214-aafe-d2d5ff3f22bb.png",
+      // New baby photography images
+      "/lovable-uploads/cd2a4e7f-d3ff-4758-a6a5-4789ac244e90.png", // Mother with baby in blue party hat
+      "/lovable-uploads/5670f574-7642-4849-b96d-b153465dec2c.png", // Baby with birthday cake
+      "/lovable-uploads/739c892e-a3f1-47f6-80b8-1be8edc9288a.png", // Girl in pink hat
+      "/lovable-uploads/6a1eb94b-38b5-4013-90e0-591ca63f0942.png", // Baby with graduation cap
+      "/lovable-uploads/8344c612-cc2a-4e08-adfb-85cf751ea59d.png", // Baby in hanging basket
+      "/lovable-uploads/d4d8d04a-2e41-4da5-893b-d7afc77a395d.png", // Baby with art supplies
+      "/lovable-uploads/19c99965-3588-4fbe-89b6-58800ae69a67.png", // Baby feet in hands
+      "/lovable-uploads/ef2d0557-ee97-473e-b31b-7728607a772a.png", // Baby with bow
+      "/lovable-uploads/9ddf09d8-6a06-48db-a225-548fed6196b8.png", // Boy in suit
+      "/lovable-uploads/16fddf72-c661-4bd4-9697-02dd6caa8d9d.png", // Vintage boy photo
+      "/lovable-uploads/e1a255ef-0039-455f-9871-3ae149edc69c.png", // Girl in dress
+      "/lovable-uploads/8d1386ed-fc74-4fe9-8c33-f5f9d84bd372.png", // Girl in orange dress
+      "/lovable-uploads/e3a4dcf6-e7c2-4c86-af0a-f0f127854d48.png", // Father with baby
+      "/lovable-uploads/e82c22ae-b915-4bde-af8c-b12c6ac9404b.png"  // Baby hand holding finger
     ]
   },
   {
