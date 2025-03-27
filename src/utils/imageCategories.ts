@@ -111,6 +111,22 @@ export const photoCategories: PhotoCategory[] = [
     name: "Baby Photography",
     path: "/baby-photography",
     photos: [
+      // First image as cover photo (mother with baby in party hat)
+      "/lovable-uploads/738d99f3-f340-46e1-9f2d-235b72b2ac56.png",
+      // Rest of newly uploaded baby images
+      "/lovable-uploads/f92135c5-5c2b-4661-8a97-0ee42fdc6a3d.png", // Baby with cake
+      "/lovable-uploads/aa34865b-ba04-418d-a671-1ec012138d64.png", // Girl in pink hat
+      "/lovable-uploads/675350a6-37c2-4917-895f-187b4447b594.png", // Baby with graduation cap
+      "/lovable-uploads/0d63df17-31e1-4760-af6a-b3b755d3c0a3.png", // Baby in hanging basket
+      "/lovable-uploads/da65edcd-5749-4510-975d-4f91c7a1b8e5.png", // Baby with art supplies
+      "/lovable-uploads/4ec5d407-c221-4409-8c72-a97e35548c0a.png", // Baby feet in hands
+      "/lovable-uploads/828a7f19-7676-44dc-b5e5-c61d7f70d838.png", // Baby with bow
+      "/lovable-uploads/4af83747-8fc5-4770-bb96-c7c5f666599a.png", // Boy in suit
+      "/lovable-uploads/8f7700cc-a3d1-4d88-858d-4dff4f149aee.png", // Vintage boy photo
+      "/lovable-uploads/c2969694-d1c2-4de2-a9d9-df92f715d0d3.png", // Girl in dress
+      "/lovable-uploads/1182dafa-f1f9-4714-9820-87d314133bfc.png", // Girl in orange dress
+      "/lovable-uploads/e4e9bc63-76bb-4aa5-a7ae-6a38a8a992dc.png", // Father with baby
+      "/lovable-uploads/974df090-4427-4786-bd4d-25464ad99873.png", // Baby hand holding finger
       // Existing baby photography images
       "/lovable-uploads/1ff6de7f-bc2c-49fd-a5ba-3e83c262c13b.png",
       "/lovable-uploads/e3a3f9ab-a555-45ab-8a51-c4f716cebd3a.png",
@@ -126,21 +142,21 @@ export const photoCategories: PhotoCategory[] = [
       "/lovable-uploads/8d8261c2-619a-48ce-8b92-643b786b97fb.png",
       "/lovable-uploads/d7f54c52-6d94-412e-944f-08c6834ee36e.png",
       "/lovable-uploads/0c6a42b8-06a5-4214-aafe-d2d5ff3f22bb.png",
-      // New baby photography images
-      "/lovable-uploads/cd2a4e7f-d3ff-4758-a6a5-4789ac244e90.png", // Mother with baby in blue party hat
-      "/lovable-uploads/5670f574-7642-4849-b96d-b153465dec2c.png", // Baby with birthday cake
-      "/lovable-uploads/739c892e-a3f1-47f6-80b8-1be8edc9288a.png", // Girl in pink hat
-      "/lovable-uploads/6a1eb94b-38b5-4013-90e0-591ca63f0942.png", // Baby with graduation cap
-      "/lovable-uploads/8344c612-cc2a-4e08-adfb-85cf751ea59d.png", // Baby in hanging basket
-      "/lovable-uploads/d4d8d04a-2e41-4da5-893b-d7afc77a395d.png", // Baby with art supplies
-      "/lovable-uploads/19c99965-3588-4fbe-89b6-58800ae69a67.png", // Baby feet in hands
-      "/lovable-uploads/ef2d0557-ee97-473e-b31b-7728607a772a.png", // Baby with bow
-      "/lovable-uploads/9ddf09d8-6a06-48db-a225-548fed6196b8.png", // Boy in suit
-      "/lovable-uploads/16fddf72-c661-4bd4-9697-02dd6caa8d9d.png", // Vintage boy photo
-      "/lovable-uploads/e1a255ef-0039-455f-9871-3ae149edc69c.png", // Girl in dress
-      "/lovable-uploads/8d1386ed-fc74-4fe9-8c33-f5f9d84bd372.png", // Girl in orange dress
-      "/lovable-uploads/e3a4dcf6-e7c2-4c86-af0a-f0f127854d48.png", // Father with baby
-      "/lovable-uploads/e82c22ae-b915-4bde-af8c-b12c6ac9404b.png"  // Baby hand holding finger
+      // Previous new baby photography images
+      "/lovable-uploads/cd2a4e7f-d3ff-4758-a6a5-4789ac244e90.png", 
+      "/lovable-uploads/5670f574-7642-4849-b96d-b153465dec2c.png", 
+      "/lovable-uploads/739c892e-a3f1-47f6-80b8-1be8edc9288a.png", 
+      "/lovable-uploads/6a1eb94b-38b5-4013-90e0-591ca63f0942.png", 
+      "/lovable-uploads/8344c612-cc2a-4e08-adfb-85cf751ea59d.png", 
+      "/lovable-uploads/d4d8d04a-2e41-4da5-893b-d7afc77a395d.png", 
+      "/lovable-uploads/19c99965-3588-4fbe-89b6-58800ae69a67.png", 
+      "/lovable-uploads/ef2d0557-ee97-473e-b31b-7728607a772a.png", 
+      "/lovable-uploads/9ddf09d8-6a06-48db-a225-548fed6196b8.png", 
+      "/lovable-uploads/16fddf72-c661-4bd4-9697-02dd6caa8d9d.png", 
+      "/lovable-uploads/e1a255ef-0039-455f-9871-3ae149edc69c.png", 
+      "/lovable-uploads/8d1386ed-fc74-4fe9-8c33-f5f9d84bd372.png", 
+      "/lovable-uploads/e3a4dcf6-e7c2-4c86-af0a-f0f127854d48.png", 
+      "/lovable-uploads/e82c22ae-b915-4bde-af8c-b12c6ac9404b.png"  
     ]
   },
   {

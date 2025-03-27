@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import PhotoTiles from "./PhotoTiles";
 import PhotoCarousel from "./PhotoCarousel";
 import { getPhotosByCategory } from "@/utils/imageCategories";
+import { useToast } from "@/components/ui/use-toast";
 
 type GalleryDisplayStylesProps = {
   categoryId: string;
@@ -18,6 +19,7 @@ const GalleryDisplayStyles = ({ categoryId, title, description }: GalleryDisplay
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const { toast } = useToast();
 
   // Load photos on component mount
   useEffect(() => {
@@ -27,6 +29,11 @@ const GalleryDisplayStyles = ({ categoryId, title, description }: GalleryDisplay
       
       if (categoryPhotos.length === 0) {
         console.warn(`No photos found for category ${categoryId}`);
+        toast({
+          title: "No photos found",
+          description: `No photos available for ${title}`,
+          variant: "destructive",
+        });
       }
       
       setPhotos(categoryPhotos);
@@ -34,6 +41,11 @@ const GalleryDisplayStyles = ({ categoryId, title, description }: GalleryDisplay
     } catch (error) {
       console.error(`Error loading photos for ${categoryId}:`, error);
       setErrorMsg(`Failed to load photos for ${title}`);
+      toast({
+        title: "Error",
+        description: `Failed to load photos for ${title}`,
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }

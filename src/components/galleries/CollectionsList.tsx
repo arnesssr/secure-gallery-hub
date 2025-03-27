@@ -56,7 +56,7 @@ const CollectionsList = () => {
     }
   };
 
-  // Get image from the category photos array
+  // Get image from the category photos array - using the first photo as the cover
   const getCategoryImage = (categoryId: string): string => {
     console.log(`Getting image for category ${categoryId}`);
     const photos = getPhotosByCategory(categoryId);
@@ -69,7 +69,7 @@ const CollectionsList = () => {
     return photos[0]; // Use the first photo in the category
   };
 
-  // Define default collections with complete data
+  // Define default collections with complete data - using actual photos as covers
   const defaultCollections = [
     { 
       id: "portraits", 
