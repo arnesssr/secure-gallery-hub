@@ -18,11 +18,11 @@ const Gallery = () => {
 
   return (
     <div className="flex flex-col">
-      {/* Main Content */}
+      {/* Main Content - Reduced top padding to match where header ends */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-charcoal via-charcoal/95 to-offwhite dark:to-charcoal">
         <div className="container mx-auto px-4">
-          {/* Increased padding at the top to accommodate larger header and push content down */}
-          <div className="pt-24 md:pt-36">
+          {/* Reduced padding to move "Our Work" section up */}
+          <div className="pt-8 md:pt-16">
             {/* Photo Tiles with enhanced styling */}
             <div className="mb-16">
               <h2 className="text-3xl md:text-4xl font-playfair text-offwhite text-center mb-12">
